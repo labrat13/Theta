@@ -1,0 +1,81 @@
+функции € уже переименовал			
+
+старое им€ функции и прототип	новое им€ функции придумать	возвращаемое значение дл€ NoDB	«амечани€ по переделке
+"Mary.MDatabaseType DatabaseType { get; }"	нет	по концепции	
+"string ConnectionString { get; set; }"	нет	пуста€ строка	
+"int Timeout { get; set; }"	нет	100	
+"bool isConnectionOpened { get; }"	isConnectionOpen	true	
+
+"void ClearCellAndLinkTables();"	ClearCellTableAndLinkTable	нет	Ёто очищает структуру сущностей но не контейнер с его значени€ми.
+
+"void ClearTable(string table);"	нет	нет	
+"bool ClearDb();"	DatabaseClear	труе	?
+"void Open(Mary.MProjectInfo info);"	нет	нет	
+"void Close();"	нет	нет	
+"void Connect();"	нет	нет	
+"void Disconnect();"	нет	нет	
+"void CreateDatabase(Mary.MDatabaseType dbtype, string serverPath, string dbName, int dbPort, string userName, string userPassword, bool useIntegratedSecurity);"	DatabaseCreate	нет	заменить аргументы на строку соединени€
+"void CreateTablesIndexes(Mary.MDatabaseType dbtype, string serverPath, string dbName, int dbPort, string userName, string userPassword, bool useIntegratedSecurity);"		нет	заменить аргументы на строку соединени€
+"void DeleteDatabase(Mary.MDatabaseType dbtype, string serverPath, string dbName, int dbPort, string userName, string userPassword, bool useIntegratedSecurity);"	DatabaseDelete	нет	заменить аргументы на строку соединени€
+
+"bool CellContainsName(string cellName);"	isCellExists	false	
+
+"int deleteLink(int linkId);"	LinkDelete	0	
+
+"System.Collections.Generic.List<Mary.MCell> getBandOfCellById(int rowFrom, int rowTo);"	getBlockOfCells	пустой список	?
+"Mary.MLinkCollection getBandOfLinkById(int rowFrom, int rowTo);"	getBlockOfLinks	пустой список	?
+"bool getCellActive(int cellid);"	нет	true	
+"DateTime getCellCreaTime(int cellid);"	getCellCreationTime	datetime.now	
+"string getCellDescription(int cellid);"	нет	пуста€ строка	
+"Mary.MLinkCollection getCellLinks(int cellid, Mary.MAxisDirection axisDir);"	нет	пуста€ коллекци€	
+"DateTime getCellModiTime(int cellid);"	getCellModificationTime	datetime.now	
+"string getCellName(int cellid);"	нет	пуста€ строка	
+"bool getCellRonly(int cellid);"	getCellReadOnly	false	
+"Mary.MCellCollection getCellsByTemplate(Mary.MCellTemplate tmp, bool largeCells);"	нет	пуста€ коллекци€	
+"int getCellSFlag(int cellid);"	getCellServiceFlag	0	
+"Mary.MID getCellState(int cellid);"	нет	null	
+"Mary.MID getCellTypeId(int cellid);"	нет	null	
+"byte[] getCellValue(int cellid);"	нет	пуста€ коллекци€	
+"Mary.MID getCellValueTypeId(int cellid);"	нет	0	
+"int getLastIdentityLinksTable();"	?	0	"не в каждой бд можно реализовать; упразднить, если введены ид св€зей"
+"int getLinkID(Mary.MID dnCellId, Mary.MID upCellId, Mary.MID axis);"	нет	0	
+"int getLinkID(Mary.MLink link);"	нет	0	
+"Mary.MLinkCollection getLinks(Mary.MLinkTemplate tmp);"	нет	пуста€ коллекци€	
+"int getMaxLinkId();"	нет	0	
+"int getMinCellId();"	нет	0	
+"int getMinLinkId();"	нет	0	
+"int getNumberOfCells();"	нет	0	
+"int getNumberOfLinks();"	нет	0	
+"int GetRowCount(string table);"	getRowCount	0
+"int getTableMaxId(string table);"	нет	0
+"int getTableMinId(string table);"	нет	0
+"int insertCell(Mary.MCellB cell);"	CellInsert	0
+"int insertLink(Mary.MLink link);"	LinkInsert	0
+"int insertLinkGetId(Mary.MLink link);"	LinkInsertGetId	0
+"bool isCellExists(Mary.MID cellid);"	нет	false
+
+"void LoadContainer(Mary.MEngine cont);"	ContainerLoad	нет
+
+"int S1_getMaxCellId();"	getMaxCellId	0
+"void SaveCell(Mary.MCellB cell);"	CellSave	нет
+"void SaveContainer(Mary.MEngine container);"	ContainerSave	нет
+"Mary.MCell selectCell(Mary.MID cellId, bool largeCell);"	CellSelect	null
+"Mary.MCell selectCell(string title, bool largeCell);"	CellSelect	null
+"void setCellActive(int cellid, bool val);"	нет	нет
+"void setCellCreaTime(int cellid, DateTime val);"	нет	нет
+"void setCellDescription(int cellid, string val);"	нет	нет
+"void setCellModiTime(int cellid, DateTime val);"	нет	нет
+"void setCellName(int cellid, string val);"	нет	нет
+"void setCellRonly(int cellid, bool val);"	нет	нет
+"void setCellSFlag(int cellid, int val);"	нет	нет
+"void setCellState(int cellid, Mary.MID val);"	нет	нет
+"void setCellTypeId(int cellid, Mary.MID val);"	нет	нет
+"void setCellValue(int cellid, byte[] val);"	нет	нет
+"void setCellValueTypeId(int cellid, Mary.MID val);"	нет	нет
+
+"string ToString();"	нет	
+"void TransactionBegin();"	нет	нет
+"void TransactionCommit();"	нет	нет
+"void TransactionRollback();"	нет	нет
+"int updateCell(Mary.MCellB cell);"	CellUpdate	0
+"int updateLink(Mary.MLink link);"	LinkUpdate	0

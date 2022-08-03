@@ -1,0 +1,39 @@
+C:\Documents and Settings\test\Мои документы\Visual Studio 2008\Projects\Tapp23\Mary\bin\Debug\Mary.dll
+C:\Documents and Settings\test\Мои документы\Visual Studio 2008\Projects\Tapp23\Mary\bin\Debug\Mary.pdb
+C:\Documents and Settings\test\Мои документы\Visual Studio 2008\Projects\Tapp23\Mary\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\test\Мои документы\Visual Studio 2008\Projects\Tapp23\Mary\obj\Debug\Mary.dll
+C:\Documents and Settings\test\Мои документы\Visual Studio 2008\Projects\Tapp23\Mary\obj\Debug\Mary.pdb
+C:\Temp\Tapp23\Mary\bin\Debug\Mary.dll
+C:\Temp\Tapp23\Mary\bin\Debug\Mary.pdb
+C:\Temp\Tapp23\Mary\obj\Debug\ResolveAssemblyReference.cache
+C:\Temp\Tapp23\Mary\obj\Debug\Mary.dll
+C:\Temp\Tapp23\Mary\obj\Debug\Mary.pdb
+C:\Temp\Projects\SIM\Tapp23\Mary\bin\Debug\Mary.dll
+C:\Temp\Projects\SIM\Tapp23\Mary\bin\Debug\Mary.pdb
+C:\Temp\Projects\SIM\Tapp23\Mary\obj\Debug\ResolveAssemblyReference.cache
+C:\Temp\Projects\SIM\Tapp23\Mary\obj\Debug\Mary.dll
+C:\Temp\Projects\SIM\Tapp23\Mary\obj\Debug\Mary.pdb
+C:\Documents and Settings\1\Мои документы\Visual Studio 2008\Projects\Tapp2_25072013\Tapp230\Tapp23\Mary\bin\Debug\Mary.dll
+C:\Documents and Settings\1\Мои документы\Visual Studio 2008\Projects\Tapp2_25072013\Tapp230\Tapp23\Mary\bin\Debug\Mary.pdb
+C:\Documents and Settings\1\Мои документы\Visual Studio 2008\Projects\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\1\Мои документы\Visual Studio 2008\Projects\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\Mary.dll
+C:\Documents and Settings\1\Мои документы\Visual Studio 2008\Projects\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\Mary.pdb
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\ResolveAssemblyReference.cache
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\Mary.dll
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Tapp2_25072013\Tapp230\Tapp23\Mary\bin\Debug\Mary.dll
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Tapp2_25072013\Tapp230\Tapp23\Mary\bin\Debug\Mary.pdb
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\Mary.pdb
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Уже готовый для экспериментов\Tapp2_25072013\Tapp230\Tapp23\Mary\bin\Debug\Mary.dll
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Уже готовый для экспериментов\Tapp2_25072013\Tapp230\Tapp23\Mary\bin\Debug\Mary.pdb
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Уже готовый для экспериментов\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\ResolveAssemblyReference.cache
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Уже готовый для экспериментов\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\Mary.dll
+V:\МоиПроекты\ДвижокТапп\РаботатьЗдесь\Уже готовый для экспериментов\Tapp2_25072013\Tapp230\Tapp23\Mary\obj\Debug\Mary.pdb
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\bin\Debug\Readme-Mary.txt
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\bin\Debug\Version-Mary.txt
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\bin\Debug\Mary.dll
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\bin\Debug\Mary.pdb
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\obj\Debug\Mary.Properties.Resources.resources
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\obj\Debug\Mary.csproj.GenerateResource.Cache
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\obj\Debug\Mary.dll
+C:\Users\Администратор\Documents\GitHub\sim\РаботатьЗдесь\Тапп23-2013 переделка для Оператор\Tapp2_25072013\Mary\obj\Debug\Mary.pdb

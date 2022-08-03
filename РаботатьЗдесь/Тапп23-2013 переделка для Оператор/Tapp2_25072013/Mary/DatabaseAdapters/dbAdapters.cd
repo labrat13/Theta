@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="Добавить сюда другие классы адаптеров БД.">
+    <Position X="4.031" Y="0.51" Height="0.51" Width="1.7" />
+  </Comment>
+  <Class Name="Mary.DatabaseAdapters.MDbAdapterBase" Collapsed="true">
+    <Position X="1.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIcQgGhAKjLEJSAGoLqBgKNOIkEBFE4IoSmgNCjAuEo=</HashCode>
+      <FileName>DatabaseAdapters\MDbAdapterBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mary.DatabaseAdapters.MDbAdapterMsSql2005">
+    <Position X="0.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIYQgChACjLEJCAGoLqAgKMOIkAABEgIgQmgFCjAqAo=</HashCode>
+      <FileName>DatabaseAdapters\MDbAdapterMsSql2005.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mary.DatabaseAdapters.MDbAdapterMsJet">
+    <Position X="2.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIYQgChAKjLEJCAGoLqAgIMOIkEAFEgIgQmgFCjAqAo=</HashCode>
+      <FileName>DatabaseAdapters\MDbAdapterMsJet.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mary.DatabaseAdapters.MDbAdapterNoDb">
+    <Position X="4.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIYQgChAKjLEJCAGoLqAgIMOIkEAFEgIgQmgFCjAqEo=</HashCode>
+      <FileName>DatabaseAdapters\MDbAdapterNoDb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Mary.DatabaseAdapters.MDbAdapterTemplate" Collapsed="true">
+    <Position X="6.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIYQgChACjLEJCAGoLqAgKMOIkAABEgIgQmgFCjAqAo=</HashCode>
+      <FileName>DatabaseAdapters\MDbAdapterTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Tahoma" Size="8.25" />
+</ClassDiagram>

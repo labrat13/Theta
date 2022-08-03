@@ -1,0 +1,507 @@
+Semantic Platform Project 2.0
+The preliminary information
+ April, 16  2011
+
+
+
+1 General description
+
+This system is means for creation of a semantic network for construction, storage and processing of logic models. The network uses object-oriented methodology. The network consists of classes, objects, methods, links. By means of this network it is possible to create graph - logic models and to do operations with them. The system allows to carry out partial or full abstraction of models, thus keeping their integrity and reliability. The system also potentially allows to make classification of models, in the presence of some initial experience.
+Though now the system looks as the next realisation of the theory of semantic networks, despite it, it should be considered as some language and the programming environment. It is possible to design any type, to describe its behaviour and then to use. It is possible to develop system so that it has turned in framework, having realised typical classes of objects and operation with them then there is possible a construction of almost applicable models. 
+
+It not a ready product, proceeding their which, it is possible to get representation about properties and profitability of idea. It only the begun trial realisation of the base. Really interesting properties of system consist in superstructures which should be created in the form of a set of scripts and models.
+Thus, the project is represented as is, without guarantees and restrictions. I hope, somebody will support this unusual system. At me almost does not remain to time.
+
+
+1.1 Current condition of the project. Changes of the new version.
+
+It is the second version of a engine of the project. 3 axes of link (X Y Z) for construction of structures of classes, objects, operations are entered. (Aggregation, abstraction, etc.).
+
+Methods can be organised in hierarchical structure for maintenance of work of abstract and modular methods. Methods are independent of classes, and can be used through links with classes or through hierarchy of methods.
+
+Current realisation of system represents a code C#, allowing to create structure from classes, objects, operations.
+- A code serving structure of classes and objects, ported from the first version. Restriction on quantity of links of objects is cleaned. The code is not tested. 
+- The code serving operations, is not ready. It is created. It is planned to use calls of an executed code or interpretation of scripts. It is planned to support execution of abstract methods.  
+- The user interface is not realised. The graphic interface like the first version, and/or the command console a-la linux bash is planned.
+- The interpreter is not realised, planned.
+
+The general functionality of classes and objects is taken out in a parental class.
+Operations of links are unified, the number of axes is easy for increasing if necessary.
+Methods are used with the help KTA. КТА allow to store the information on method use, on a redirection of a call, an estimation of qualities of methods.
+
+
+1.2 system of support of intelligence (ISS). Sketches.
+
+The system is personalised and adjusted under the user. The user can complete and reconstruct system as to it conveniently.
+For the interface it is possible to use individual language (a symbol = concept) and individual elements of the interface.
+(It is necessary to look semantics of hieroglyphic languages - as they are formed, the general rules likely are identical to all?)
+Thus, interaction is realised in concepts which are broadcast in symbols for transmission to the user and back.
+The set of concepts is defined by the user, translate by the rules defined by the user.
+It is possible to use any, including individual, a way of representation of concepts.
+
+The system represents the graph from classes, objects, operations. That is, the data and actions.
+The system should be formed by certain rules, however their observance partially lays down on the user.
+Applications in system are created by formation in the general global structure of the new structures using new and existing elements of system for realisation of necessary functions. Thus the distributive of the new application represents a text file - a script on which the new site of structure is created.
+As the system is individual, each user should correct itself application structure if necessary.
+That is, scripts should be opened. It any more the program, and instructions on its creation. Though in any sense it is still separate thing. Typically for the modern software.
+
+For the user it is necessary to create the initial structure facilitating the beginning of use. Some general set which then the user will develop at own discretion. 
+Also some initial knowledge, allowing to create and estimate structure be required to the user, to distinguish typical errors. 
+
+The system will be a superstructure over computer OS. 
+Possibilities:
+- Modification by the user or self-modification, proceeding from requirements of the user.   
+- Completely the individual interface of the user.
+- Automation of typical actions of the user.
+Existing realisations demand from the user of knowledge of algorithmization and programming languages, possession of corresponding tools.
+
+Thus, a creation problem ISP: to create system which does not demand special knowledge for its use or modification.
+To start work with system should be enough general educational preparation. (From what follows that general educational preparation should provide some stable minimum as the standard. This set of knowledge is quite suitable in any activity as represents semantics of environment.)
+
+
+2 Tech Description
+
+The system is created on C# for Microsoft VisualStudio 2005 or late versions. VisualStudio it is used as the working out and debugging environment, with viewing of conditions of objects and other data.
+For storage of structure of system on a disk it is used XML. In an operating time the structure entirely is in operative memory of the computer.
+
+In system the following architecture is supposed:
+ - Assembly-engine of system in the form of class library. Gives means for system realisation. Exports the container in which all essence are created, exist and are destroyed.
+ - Assemblies of methods for performance of operations with the base data. Assemblies contain the methods defined by the applied programmer. Methods are used by a engine by means of Reflection.
+ - The application - a cover of the user from which it is possible to work in system.
+ - Utilities and other applications. 
+
+Users of the project share on system programmers, applied programmers and end users.
+System programmers manage  the project API which shares on SystemLayer and UserLayer. SystemLayer carries out base operations according to architecture of a computer platform. UserLayer provides conformity of operations and methodology, the control of the entrance data and so on. 
+Applied programmers use UserLayer for creation of methods of data processing. 
+End users design structure of the data, add and delete the data, demand from applied programmers to realise necessary methods.
+
+For base storage in an operating time operative memory is used. On a disk the base is stored in kind XML of the document a few optimised for simple viewing.
+The database file has the version and a step. The version means a file structure. The step is intended for search of last kept copy of the data.
+To keep integrity of structure of the data, operations should provide possibility of cancellation of changes at failure. If to cancel changes it is impossible, it is necessary to load last version of the data from a file. After operation end it is necessary to keep the new version of system on a disk.
+It is planned to add support of files, also copies of files in this case remain. 
+
+As the system is realised for research, for the basic entitites fields for storage of text descriptions are provided. 
+
+
+2.1 Essences
+
+The container - represents all system. Contains all the others of essence.
+Objects - represent data. 
+Classes - represent abstraction of the data. Can be connected in hierarchy of classes.
+Links of classes/objects - connect classes with classes, objects with objects in one of axes.
+Links a class-method - connect classes with methods.
+Links of methods - connect methods with methods.
+Methods - represent operation. Can be connected in hierarchy of methods.
+KTA - the complete set of types of arguments. Represent method use.
+Arguments - arguments of a method.
+
+
+2.2 Identifiers, spaces of identifiers
+
+Each class has a serial number, each object in a class has a serial number.
+The object identifier consists of number of a class and object number in a class.
+Numbers from 0 to 255 form system space. Objects and classes in this space are a part of architecture of system.
+Numbers above 255 form the user space. The first user object of the first user class will have ObjID 256:256.
+
+
+2.3 Container
+
+The container represents system, stores the list of classes/methods of system, gives operations.
+The container allows to load base from a file, to unload in a file, to make cleaning and optimisation of structure of the data, to create, remove, change a class and links of a class, object, to add or remove a method, to cause a method for object of a class and so on. 
+
+
+2.4 Classes
+
+Classes semantically are entity classes  and are used for storage of types of the data and the general structure of links with other classes. Links between classes, as well as between objects, are organised by a principle main-subordinated. The same class cannot be both the main thing and subordinates to any class. It is necessary to avoid ring links in structure of classes. In general, the structure of classes demands a great attention. Links between classes are projected on the user objects of a class, thus, the structure of objects as a whole repeats structure of classes. Each new link between classes is reflected in all user objects of these classes. Thus, if for some essence (object) a1 new property is added, it is added in the abstract form and to another entities the same class - essence a2, a3, … also receive the same property, but while in the uncertain form.
+
+The class serves also as a template - the sample for creation of new objects of a class.
+ObjID a class = 0. Links of a class with other classes are stored in a class. The class also stores type of the data, but not the data.
+The class has the object identifier - the icons, compared to this class. (In this version it is not realised.)
+The class, as well as object, has three axes of links: X (aggregation), Y (abstraction), Z (reserved).
+Accordingly, six lists of links: X +, X - Y +, Y - Z +, Z-.
+Classes can use all axes for formation of structure of classes.
+The class includes the list of objects of a class, the list of links with methods. 
+
+2.4.1 System classes
+
+System classes are created automatically at database creation.
+Class 0 - World. An initial class of base. All other structures of classes begin with it. The world is a navigation starting point on structure of classes. In system there can be some independent counts of classes, all of them should begin with a class the World. Otherwise they will be inaccessible to use and can be removed by optimizator.
+Class 1 - Unknown. It is used in links of classes and designates the unknown essence which is not giving in to definition.
+Class 2 - Undefined. It is used in links of classes and designates that the essence is not defined yet, that is, it needs to be defined.
+Class 3 - Nothing. It is used in links of classes and designates that the essence does not exist.
+
+
+2.5 Objects
+
+Objects are intended for storage of the concrete data and links between them. Objects belong to a class. 
+Each object contains lists of links with other objects. 
+All objects can have some links with objects of one class.
+
+The type of the data of object is defined by type of the data of a class. The type of the data is stored in a copy of object for convenience not to request a class.
+The choice of type of the data is limited by possibilities of an applied platform .NET Framework, both regarding work with types of the data, and regarding creation of methods for them.
+
+2.5.1 System objects
+
+In each class system objects are automatically created.
+The object 0 - designates a class in space of identifiers of objects.
+Object 1 - Unknown. It is used in links of objects and designates unknown essence.
+Object 2 - Undefined. It is used in links of objects and designates that the essence is not defined yet, that is, it needs to be defined.
+Object 3 - Nothing. It is used in links of classes and designates Entity does not exist.
+
+
+2.6 Methods
+
+The general description of methods in version 2.0. Methods are essentially changed, therefore the complex description here is resulted.
+
+The cores of essence of system:
+- The container	- Represents system. MEngine the class, contains the list of classes, the list of methods, operations.
+- The class	- Represents a entity class. The class contains the list of objects, lists of links with other classes, the list of links with methods,	 name and other data, operations.
+- The object	- Represents essence. The object contains lists of links with other objects, the data, operations.
+- The method	- Represents a method. The method carries out some operation, accepts and returns arguments. The method can be compared to one or  several classes, can be caused by a class or object of a class. 
+The method contains links with other methods, the list of links with classes, list KTA, the data, operations.
+- The argument	- Represents argument of a method. The argument has a name, type, value, other data.
+- КТА		- Represents the complete set of types of arguments for a method. It is a variant of use of a method.
+- Link class/object-class/object	- Connects two classes or two objects. One copy for link for each party. Contains fields for storage of type of links.
+- Link class-method	- Connects a method with a class and a class with a method.
+- Link method-method	- Connects a method with other method. One copy for lnk for each party.
+
+The description:
+The container contains the list of methods. All methods are stored in this list.
+The class has the list of links with methods. In version 1 all methods are rigidly connected with a class, stored in the list of methods of a class, caused only through a class.
+In version 2.0 methods are independent essence, can be organised in own structure, can be caused through the class connected with them or individually, on a name or number. The method also can be chosen and caused by means of hierarchy of methods, this variant is not studied, but it is represented perspective, therefore in architecture its support is planned.
+
+As the same method can be caused by different classes, with different types of the data, are entered КТА. КТА stores types, the metadata values  about a call of a method, it provides check of a correctness of a call of a method. КТА fixes use of a method for a causing class. In a method there is a list KTA in which all calls of a method all classes remain. It is supposed to use this list for statistics and choice optimisation in hierarchy of methods. It is planned that metadata КТА will allow to define an admissible range of values and types of arguments, to estimate suitability of a method for concrete use, etc. КТА contains the identifier of a class/object which causes a method. For reduction of the size of list КТА periodically, during the next call, optimisation - removal of duplicated records, allocation of trends, etc. is spent.
+
+The method can be abstract, not contain a code, only provide a choice of a suitable method in hierarchy of abstractions. Thus, together with hierarchy of the data, it provides operation performance at all levels of abstraction. It simplifies the control and debugging of abstract methods.
+
+Link a class-method connects classes and methods. In a method there is a list of links with classes. In a class  - the list of links with methods.
+As methods are used by classes through КТА link specifies in a class on the one hand, and on КТА a method with another. Thus, one class can be connected with several methods, and even with several KTA one method, differing types of arguments (for example, if a method abstract).
+The method can be connected with several classes, or with one - in this case it can be used through hierarchy of classes. It is forbidden to store duplicates in the list of links.
+
+The method contains the basic КТА - КТА0. This KTA is created at method creation, and defines a set and types of arguments which the method uses.
+It is supposed that КТА it will be used together with hierarchy of abstractions of methods that allows to create and use abstract methods the same as also concrete. That is, if КТа describes abstract types of the data the method can be caused for concrete types of the data. The suitable method thus should be automatically found and caused, the information on this choice/call is fixed in КТА an abstract method, the data comes back as though they were executed by an abstract method.
+The method contains a field for the script text. If the way field to a code contains a way the method causes a CLR-code. If is not present, the field of the text of a script is checked. If it not empty, the text goes to the interpreter if empty is an abstract method or an error. The abstract method does not contain a code, is used for the organisation of a call of a concrete method. The information for search contains in the KTA list of a method.
+
+It is possible to try to enter in КТА an indicator of efficiency of a method which registers by results of a method. It will be possible to choose a suitable method on the basis of efficiency, to define borders of effective work of a method, and other interesting possibilities. But it later.
+
+Link method-method connects methods in the same way, as well as similar links class-class. It is possible to determine abstraction, aggregation of methods, and accordingly to realise structure. For better flexibility, methods communicate through concept КТА, usually through KTA0.
+
+
+2.7 Link class-class, object-object
+
+Links represent relations of objects. Two objects are connected by relations top-bottom, main-subordinated. Links bilateral, that is, each of two objects has the copy of link. Link creation between objects probably only in the presence of link between classes. 
+Links, as well as objects and classes, also have conditions. If link between two classes is marked by a condition it "Restricted", link between objects of these classes cannot have other condition.  
+Links cannot connect two objects of the same class.
+Links can refer to already deleted object, on system or on nonexistent object.
+The class, as well as object, has three axes of links: X (aggregation), Y (abstraction), Z (reserved).
+Accordingly, six lists of links: X +, X - Y +, Y - Z +, Z-.
+Classes can use all axes for formation of structure of classes.
+Objects use X-links for inclusion relations between objects.
+ Y-links are used for abstraction relations. If at superclass there is an object, and it is necessary to create link with it (that is if there is an object of superclass as abstraction of objects of a current class. An atypical thing.) they link the same as and for Х axes. If link is not present, as well as in Х an axis, the current object contacts object superclass::Undefined.
+Z the axis is realised by the same rules, but not used yet. It is supposed to apply it to a binding of properties of object/class. While it is not clear as it should look.  
+Between two objects or classes there can be only one operating link. Presence of several void (deleted) links between objects is supposed.
+
+Links between objects of various classes at creation are duplicated in links of classes. For example, if the object of a class A contacts object of a class B, link between a class should be created at first A and B. This links specifies in presence and character of communication between classes A and B, and at creation of new object of a class A at it link with object of a class B too is created  but while abstract - final object is the system object of B::Undefined. It is the mechanism for automatic maintenance of structure of the data when "hanging" links draw attention and should be allowed (to specify in something, to be somehow defined). If as a result of the permission it is established that the final object of link cannot exist, final object becomes B::Nothing. If as a result of the permission it is established that the final object of link is unknown, and cannot be defined now final object becomes B::Unknown. 
+The link created between classes, extends on all its user objects.
+
+2.7.1 Types of links:
+
+- Restricted. Semantically it means that between two entities there can not be a link. If link between two classes is marked by a condition it "Restricted", link between objects of these classes cannot have a condition Normal. But can have a condition of Undefined. If in classes link  is not Restricted, link of objects can have any condition including Restricted.  
+- Normally. Between two entities there is a usual link.
+- Undefined. It is used by optimizator at structure service. 
+- Not exist. This value is used only as a return code in functions of search of links.
+
+2.7.2 Short description of rules for links:
+
+Designations: 
+ 	A - the user class.
+	M - a class the World. An index point of hierarchy of classes on all axes.
+	Y - system class Undefined
+	y - system object Undefined of the user class
+ 	а1 - One user object of the user class
+ 	а* - A little user objects of user class class
+	+ - link creation between objects or classes
+	- - link removal between objects or classes
+
+1) If A + B that а* + by, ay + b*; If classes incorporate link objects also incorporate link - to objects Undefined of a target class.
+2) If a1 + b1 that A + B; If objects incorporate link, classes also incorporate link. (Realisation - at first to connect the classes, then the necessary objects).
+3) If a1 + b* that A + B; (Realization - at first to connect the classes, then the necessary objects).
+4) If link AB has the condition Restricted, all links ab should have a condition Restricted.
+5) Links between objects of one class cannot be created.
+6) Between 2 objects there can be only one operating link.
+7) If A hasnot any link in axes X +, Y + or Z +, it should be automatically connected with a class the World. If A has link in these axes (at least one) not with a class the World, it the World should be disconnected from a class. 
+8) If A - B  all ab links to remove.
+9) If a1 - b1, a1 + by, ay + b1; object of a target class to make Undefined
+
+
+2.8 Link class-method
+
+Connect classes and methods. Link consists of the identifier of object/class and the method/kta identifier.
+The class can be connected with several methods, the method can be connected with several classes.
+Allow to cause a method connected with a class.
+
+
+2.9 Optimizator
+
+It is the service procedure which is carrying out check and optimisation of structure of base.
+Removal of unnecessary structures, expansion of bottlenecks, system development.
+
+
+
+
+(C) 2011 Seljakov Pavel Mihajlovich
+
+------------------------------------------------------------------------------------
+
+Semantic Platform Project 2.0
+Предварительная информация
+16 апреля 2011
+
+
+1 Общее описание
+
+Эта система является средством для создания семантической сети для  построения, хранения и обработки логических моделей. Сеть использует объектно-ориентированную методологию. Сеть состоит из классов, объектов, методов, связей. При помощи этой сети можно создавать графы - логические модели и делать операции с ними. Система позволяет выполнять частичную или полную абстракцию моделей, при этом сохраняя их целостность и достоверность. Система также потенциально позволяет производить классификацию моделей, при наличии некоторого начального опыта.
+Хотя сейчас система выглядит как очередная реализация теории семантических сетей, несмотря на это, ее следует рассматривать как некоторый язык и среду программирования. Можно сконструировать любой тип, описать его поведение и затем использовать.  Можно развить систему так, чтобы она превратилась в framework, реализовав типичные классы объектов и операции с ними, после чего станет возможным построение практически применимых моделей. 
+
+Это не готовый продукт, исходя их которого, можно получить представление о свойствах и рентабельности идеи. Это только начатая пробная реализация фундамента. Действительно интересные свойства системы заключаются в надстройках, которые должны быть созданы в виде набора скриптов и моделей.
+Таким образом, проект представляется как есть, без гарантий и ограничений. Я надеюсь, кто-нибудь поддержит эту необычную систему. У меня почти не осталось времени.
+
+
+1.1 Текущее состояние проекта. Изменения новой версии.
+Это вторая версия движка проекта. Введены 3 оси связи (X Y Z) для построения структур классов, объектов, операций. (Агрегация, абстракция, ...).
+
+Методы могут быть организованы в иерархическую структуру для обеспечения работы абстрактных и агрегатных методов. Методы независимы от классов, и могут использоваться через связи с классами или через иерархию методов.
+
+Текущая реализация системы представляет собой код C#, позволяющий создавать структуру из классов, объектов, операций.
+-Код, обслуживающий структуру классов и объектов, портирован из первой версии. Убрано ограничение на количество связей объектов. Код не тестирован. 
+-Код, обслуживающий операции, не готов. Создается. Планируется использовать вызовы исполняемого кода или интерпретацию скриптов. Планируется поддерживать исполнение абстрактных методов.  
+-Пользовательский интерфейс не реализован. Планируется графический интерфейс подобно первой версии, и/или командная консоль a-la linux bash.
+-Интерпретатор не реализован, планируется.
+
+Общая функциональность классов и объектов вынесена в родительский класс.
+Операции связей унифицированы, число осей легко увеличить при необходимости.
+Методы используются при помощи кта. КТА позволяют хранить информацию о использовании метода, о перенаправлении вызова, оценки качеств методов.
+
+
+1.2 система поддержки интеллекта (СПИ). Наброски.
+
+Система персонализирована и настраивается под пользователя. Пользователь может достраивать и перестраивать систему как ему удобно.
+Для интерфейса можно использовать индивидуальный язык (символ = понятие) и индивидуальные элементы интерфейса.
+(Надо посмотреть семантику иероглифических языков - как они формируются, общие правила для всех наверно одинаковы?)
+Таким образом, взаимодействие реализовано в понятиях, которые транслируются в символы для передачи пользователю и обратно.
+Набор понятий определяется пользователем, транслируется по правилам, определенным пользователем.
+Можно использовать любой, в том числе индивидуальный, способ представления понятий.
+
+Система представляет собой граф из классов, объектов, операций. То есть, данных и действий.
+Система должна формироваться по определенным правилам, однако их соблюдение частично ложится на пользователя.
+Приложения в системе создаются образованием в общей глобальной структуре новых структур, использующих новые и существующие элементы системы для реализации необходимых функций. При этом дистрибутив нового приложения представляет собой текстовый файл - скрипт, по которому создается новый участок структуры.
+Поскольку система индивидуальна, каждый пользователь должен сам корректировать структуру приложения при необходимости.
+То есть, скрипты должны быть открытыми. Это уже не программа, а инструкции по ее созданию. Хотя в каком-то смысле это все еще отдельная вещь. Типично для современного программного обеспечения.
+
+Для пользователя необходимо создать начальную структуру, облегчающую начало использования. Некоторый общий набор, который затем сам пользователь будет развивать по своему усмотрению. 
+Также пользователю потребуются некоторые начальные знания, позволяющие создавать и оценивать структуру, распознавать типичные ошибки. 
+
+Система будет надстройкой над ОС компьютера. 
+Возможности:
+- модификация пользователем или самомодификация, исходя из требований пользователя.   
+- полностью индивидуальный интерфейс пользователя.
+- автоматизация типичных действий пользователя.
+Существующие реализации требуют от пользователя знаний алгоритмизации и языков программирования, владения соответствующими инструментами.
+
+Таким образом, задача создания СПИ: создать систему, которая не требует специальных знаний для ее использования или модификации.
+Для начала работы с системой должно быть достаточно общеобразовательной подготовки. (Из чего следует, что общеобразовательная подготовка должна обеспечивать некоторый стабильный минимум как стандарт. Этот набор знаний вполне пригоден в любой деятельности, поскольку представляет семантику окружающей среды.)
+
+
+2 Техническое описание
+
+Система создана на C# для Microsoft VisualStudio 2005 или поздних версий. VisualStudio используется как среда разработки и отладки, с просмотром состояний объектов и других данных.
+Для хранения структуры системы на диске используется XML. Во время работы структура целиком находится в оперативной памяти компьютера.
+
+В системе предполагается следующая архитектура:
+ - сборка-движок системы в виде библиотеки классов. Предоставляет средства для реализации системы. Экспортирует контейнер, в котором все сущности создаются, существуют и уничтожаются.
+ - сборки методов для выполнения операций с данными базы. Сборки содержат методы, определяемые прикладным программистом. Методы используются движком при помощи Reflection.
+ - приложение – оболочка пользователя, из которой можно работать в системе.
+ - утилиты и сторонние приложения. 
+
+Пользователи проекта делятся на системных программистов, прикладных программистов и  конечных пользователей.
+Системные программисты заведуют  АПИ проекта, который делится на SystemLayer и UserLayer. SystemLayer  выполняет базовые операции в соответствии с архитектурой  компьютерной платформы. UserLayer обеспечивает соответствие операций и методологии, контроль входных данных и так далее. 
+Прикладные  программисты используют UserLayer для создания  методов обработки данных. 
+Конечные пользователи конструируют структуру данных, добавляют и удаляют данные, требуют от прикладных программистов реализовать необходимые методы.
+
+Для хранения базы во время работы используется оперативная память. На диске база хранится в виде XML документа, немного оптимизированного для простого просмотра.
+Файл базы данных имеет версию и шаг. Версия означает строение файла. Шаг предназначен для поиска последней сохраненной копии данных.
+Чтобы сохранять целостность структуры данных, операции должны предусматривать возможность отмены изменений при сбое. Если отменить изменения невозможно, следует загрузить последнюю версию данных из файла. После завершения операции нужно сохранить новую версию системы на диск.
+Планируется добавить поддержку файлов, в этом случае сохраняются также копии файлов. 
+
+Поскольку система реализуется для исследования, для основных сущностей предусмотрены поля для хранения текстовых описаний. 
+
+
+2.1 Сущности
+
+Контейнер - представляет всю систему. Содержит все остальные сущности.
+Объекты - представляют данные. 
+Классы - представляют абстракцию данных. Могут быть связаны в иерархию классов.
+Связи классов/объектов - связывают классы с классами, объекты с объектами в одной из осей.
+Связи класс-метод - связывают классы с методами.
+Связи методов - связывают методы с методами.
+Методы - представляют операцию. Могут быть связаны в иерархию методов.
+КТА - комплект типов аргументов. Представляют использование метода.
+Аргументы - аргументы метода.
+
+
+2.2 Идентификаторы, пространства идентификаторов
+
+Каждый класс имеет порядковый номер, каждый объект внутри класса имеет порядковый номер.
+Идентификатор объекта состоит из номера класса и номера объекта в классе.
+Номера от 0 до 255 образуют системное пространство. Объекты и классы в этом пространстве являются частью архитектуры системы.
+Номера выше 255 образуют пользовательское пространство. Первый пользовательский объект первого пользовательского класса будет иметь ObjID 256:256.
+
+
+2.3 Контейнер
+
+Контейнер представляет систему, хранит список классов/методов системы, предоставляет операции.
+Контейнер позволяет загрузить базу из файла, выгрузить в файл, произвести чистку и оптимизацию структуры данных, создать, удалить, изменить класс и связи класса, объекта, добавить или удалить метод, вызвать метод для объекта класса и так далее. 
+
+
+2.4 Классы
+
+Классы семантически являются классами сущностей и используются для хранения типов данных и общей структуры связей с другими классами. Связи между классами, как и между объектами, организованы по принципу главный-подчиненный. Один и тот же класс не может быть и главным и подчиненным какому-либо классу.  Следует избегать кольцевых связей в структуре классов. Вообще, структура классов требует большого внимания.  Связи между классами проецируются на пользовательские объекты класса, таким образом, структура объектов в целом повторяет структуру классов. Каждая новая связь между классами отражается на всех пользовательских объектах этих классов. Таким образом, если для некоторой сущности (объекта) a1 добавлено новое свойство, оно добавляется в абстрактной форме и к другим сущностям того же класса - сущности a2, a3, … также получают то же свойство, но пока в неопределенной форме.
+ 
+Класс служит также шаблоном - образцом для создания новых объектов класса.
+ObjID класса = 0. В классе хранятся связи класса с другими классами. Класс также хранит тип данных, но не сами данные.
+Класс имеет идентификатор объекта – иконки, сопоставленной этому классу. (В этой версии не реализовано.)
+Класс, как и объект, имеет три оси связей: X (aggregation), Y (abstraction),  Z (reserved).
+Соответственно, шесть списков связей: X+, X-, Y+, Y-, Z+, Z-.
+Классы могут использовать все оси для образования структуры классов.
+Класс включает в себя список объектов класса, список связей с методами. 
+
+2.4.1 Служебные классы
+
+Служебные/системные классы создаются автоматически при создании базы данных.
+Класс 0 – Мир/ World. Начальный класс базы. Все прочие структуры классов начинаются с него. Мир является исходной точкой навигации по структуре классов. В системе может быть несколько независимых графов классов, все они должны начинаться с класса Мир. Иначе они будут недоступны для использования и могут быть удалены оптимизатором.
+Класс 1 – Unknown. Используется в связях классов и обозначает неизвестную сущность, не поддающуюся определению.
+Класс 2 – Undefined. Используется в связях классов  и обозначает, что сущность еще не определена, то есть, ее нужно определить.
+Класс 3 – Nothing.  Используется в связях классов и обозначает, что сущность не существует.
+
+
+2.5 Объекты
+
+Объекты предназначены для хранения конкретных данных и связей между ними. Объекты принадлежат классу. 
+Каждый объект содержит списки связей с другими объектами. 
+Все объекты могут иметь несколько связей с объектами одного класса.
+
+Тип данных объекта определяется типом данных класса. В экземпляре объекта тип данных хранится для удобства, чтобы не запрашивать класс.
+Выбор типа данных ограничен возможностями применяемой платформы .NET Framework, как в части работы с типами данных, так и в части создания методов для них.
+
+2.5.1 Служебные объекты
+
+В каждом классе автоматически создаются служебные/системные объекты.
+Объект 0 – обозначает сам класс в пространстве идентификаторов объектов.
+Объект 1 – Unknown. Используется в связях объектов и обозначает неизвестную сущность.
+Объект 2 - Undefined.  Используется в связях объектов  и обозначает, что сущность еще не определена, то есть, ее нужно определить.
+Объект 3 – Nothing. Используется в связях классов и обозначает Cущность не существует.
+
+
+2.6 Методы
+
+Общее описание методов в версии 2.0. Методы существенно изменены, поэтому здесь приведено комплексное описание.
+
+Основные сущности системы:
+- Контейнер	- представляет систему. MEngine класс, содержит список классов, список методов, операции.
+- Класс		- представляет класс сущностей. Класс содержит список объектов, списки связей с другими классами, список связей с методами,
+			 имя и другие данные, операции.
+- Объект	- представляет сущность. Объект содержит списки связей с другими объектами, данные, операции.
+- Метод		- представляет метод. Метод выполняет некоторую операцию, принимает и возвращает аргументы. Метод может быть сопоставлен одному или 					нескольким классам, может вызываться классом или объектом класса. 
+			Метод содержит связи с другими методами, список связей с классами, список КТА, данные, операции.
+- Аргумент	- представляет аргумент метода. Аргумент имеет имя, тип, значение, другие данные.
+- КТА		- представляет комплект типов аргументов для метода. Это вариант использования метода.
+- связь класс/объект-класс/объект 	- связывает два класса или два объекта. По одному экземпляру связи для каждой стороны. 
+						Содержит поля для хранения типа связей.
+- связь класс-метод	- связывает метод с классом и класс с методом.
+- связь метод-метод	- связывает метод с другим методом.  По одному экземпляру связи для каждой стороны.
+
+Описание:
+Контейнер содержит список методов. Все методы хранятся в этом списке.
+Класс имеет список связей с методами. В версии 1 все методы жестко связаны с классом, хранятся в списке методов класса, вызываются только через класс.
+В версии 2.0 методы являются самостоятельной сущностью, могут быть организованы в собственную структуру, могут вызываться через связанный с ними класс или индивидуально, по имени или номеру. Метод также может быть выбран и вызван при помощи иерархии методов,  этот вариант не изучен, но представляется перспективным, поэтому в архитектуре намечена его поддержка.
+
+Поскольку один и тот же метод может вызываться разными классами, с разными типами данных, введены КТА. КТА хранит типы, значения, метаданные о вызове метода, это обеспечивает проверку корректности вызова метода.  КТА фиксирует использование метода для вызывающего класса. В методе есть список кта, в котором сохраняются все вызовы метода всеми классами. Предполагается использовать этот список для статистики и оптимизации выбора в иерархии методов. Планируется, что метаданные КТА позволят определять допустимый диапазон значений и типов аргументов, оценивать пригодность метода для конкретного использования и т.д. КТА содержит идентификатор класса/объекта, который вызывает метод. Для уменьшения размера списка КТА периодически, во время очередного вызова, проводится оптимизация - удаление дублирующихся записей, выделение трендов, и т.д.
+
+Метод может быть абстрактным, не содержать кода, только обеспечивать выбор подходящего метода в иерархии абстракций. Таким образом, вместе с иерархией данных, это обеспечивает выполнение операции на всех уровнях абстракции. Это упрощает контроль и отладку абстрактных методов.
+
+Связь класс-метод связывает классы и методы. В экземпляре метода существует список связей с классами. В экземпляре класса - список связей с методами.
+Поскольку методы используются классами через КТА, то связь указывает на класс с одной стороны, и на КТА метода с другой. Таким образом, один класс может быть связан с несколькими методами, и даже с нескольким кта одного метода, различающимися типами аргументов (например, если метод абстрактный).
+Метод может быть связан с несколькими классами, или ни с одним - в этом случае он может использоваться через иерархию классов.  Запрещается хранить в списке связей дубликаты.
+
+Метод содержит основной КТА - КТА0. Этот КТа создается при создании метода, и определяет набор и типы аргументов, которые метод использует.
+Предполагается, что КТА будет использоваться совместно с иерархией абстракций методов, что позволяет создавать и использовать абстрактные методы так же, как и конкретные. То есть, если КТа описывает абстрактные типы данных, то метод можно вызвать для конкретных типов данных. При этом автоматически должен быть найден и вызван подходящий метод, информация об этом выборе/вызове зафиксирована в КТА абстрактного метода, данные возвращаются как будто они исполнялись абстрактным методом.
+Метод содержит поле для текста скрипта. Если поле пути к коду содержит путь, то метод вызывает CLR-код. Если нет, проверяется поле текста скрипта. Если оно не пустое, текст отправляется интерпретатору, если пустое - это абстрактный метод или ошибка. Абстрактный метод не содержит кода, используется для организации вызова конкретного метода. Информация для поиска содержится в списке кта метода.
+  
+Можно попробовать ввести в КТА показатель эффективности метода, который записывается по результатам метода. Можно будет выбрать подходящий метод на основе эффективности, определить границы эффективной работы метода, и прочие интересные возможности. Но это потом.
+
+Связь метод-метод связывает методы таким же образом, как и аналогичные связи класс-класс. Можно выделить абстракци, агрегацию методов, и соответственно реализовать структуру. Для большей гибкости, методы связываются через концепцию КТА, обычно через кта0.
+  
+
+2.7 Связи КЛасс-класс, объект-объект
+
+Связи представляют отношения объектов. Два объекта связаны отношениями верхний-нижний, главный-подчиненный. Связи двусторонние, то есть, каждый из двух объектов имеет свою копию связи. Создание связи между объектами возможно только при наличии связи между классами. 
+Связи, как и объекты и классы, также  имеют состояния. Если  связь между двумя классами помечена состоянием «запрещено», то связь между объектами этих классов не может иметь иное состояние.  
+Связи не могут соединять два объекта одного и того же класса.
+Связи могут ссылаться на уже удаленный объект, на предопределенный или на несуществующий объект.
+Класс, как и объект, имеет три оси связей: X (aggregation), Y (abstraction),  Z(reserved).
+Соответственно, шесть списков связей: X+, X-, Y+, Y-, Z+, Z-.
+Классы могут использовать все оси для образования структуры классов.
+Объекты используют Х-связи для отношений включения между объектами.
+ Y- связи используются для отношений абстракции. Если у надкласса есть объект, и нужно создать связь с ним (то есть, если существует объект надкласса как абстракция объектов текущего класса. Нетипичная вещь.), то они связываются так же, как и для Х оси.Если связи нет, то как и в Х оси, текущий объект связывается с объектом надкласс::Undefined.
+Z ось реализуется по тем же правилам, но пока не используется. Предполагается применить ее для привязки свойств объекта/класса. Пока неясно как это должно выглядеть.  
+Между двумя объектами или классами может существовать только одна действующая связь. Допускается наличие нескольких недействительных (удаленных) связей между объектами.
+
+Связи между объектами различных классов при создании дублируются в связях классов. Например, если объект класса А связывается с объектом класса В, то должна быть сначала создана связь между классом А и классом В. Она указывает на наличие и характер связи между классами А и В, и при создании нового объекта класса А у него тоже создается связь с объектом класса В, но пока абстрактная -  конечным объектом является системный объект В.Undefined.   Это механизм для автоматического поддержания структуры данных, когда «висящие» связи привлекают внимание и должны быть разрешены (указывать на что-то, быть как-то определенными). Если в результате разрешения установлено, что конечный объект связи не может существовать, то конечным объектом становится B.Nothing. Если в результате разрешения  установлено, что конечный объект связи неизвестен, и не может быть определен сейчас, то конечным объектом становится B.Unknown. 
+Связь, создаваемая между классами, распространяется на все его пользовательские объекты.
+
+2.7.1 Типы связей:
+
+- Запрещено.  Семантически это означает, что между двумя сущностями не может быть связи.  Если  связь между двумя классами помечена состоянием «запрещено», то связь между объектами этих классов не может иметь состояние Нормально. Но может иметь состояние Неопределено. Если же в классах связь не Запрещено, то связь объектов может иметь любое состояние, в том числе и Запрещено.  
+- Нормально.  Между двумя сущностями существует обычная связь.
+- Неопределено. Используется оптимизатором при обслуживании структуры. 
+- Не существует. Это значение используется только как код возврата в функциях поиска связей.
+
+2.7.2 Краткое описание правил для связей:
+
+Обозначения: 
+ 	А – пользовательский класс.
+	М – класс Мир. Начальная точка иерархии классов по всем осям.
+	У – системный класс Undefined
+	у- системный объект Undefined  пользовательского класса
+ 	а1 – один пользовательский объект пользовательского класса
+ 	а* - несколько пользов. объектов пользов. класса
+	+ - создание связи между объектами или классами
+	- - удаление связи между объектами или классами
+
+1)Если А + В   то а* + ву, ау + в*; Если классы соединяются связью, то объекты также соединяются связью – с объектами Undefined целевого класса.
+2)Если а1 + в1 то А + В; Если объекты соединяются связью, то классы также соединяются связью. (Реализация – сначала связать классы, потом нужные объекты).
+3)Если а1 + в* то А + В; (Реализация - сначала связать классы, потом нужные объекты).
+4)Если связь АВ имеет состояние запрещено, то все связи ав должны иметь состояние запрещено.
+5)Связи между объектами одного класса нельзя создавать.
+6)Между 2 объектами может существовать только одна действующая связь.
+7)Если А не имеет ни одной связи в осях X+, Y+ или Z+, он автоматически должен быть связан с классом Мир. Если же А имеет связь в этих осях (хотя бы одну) не с классом Мир, он должен быть отсоединен от класса Мир. 
+8) Если А – В, то все ав связи удалить.
+9) Если а1 – в1, то а1 + ву, ау + в1;  объектом целевого класса сделать  Undefined
+
+
+2.8 Связи класс-метод
+
+Связывают классы и методы. Связь состоит из идентификатора объекта/класса и идентификатора метода/кта.
+Класс может быть связан с несколькми методами, метод может быть связан с несколькими классами.
+Позволяют вызвать связанный с класом метод.
+
+
+2.9 Оптимизатор
+
+Это служебная процедура, выполняющая проверку и оптимизацию структуры базы.
+Удаление ненужных структур, расширение узких мест, развитие системы.
+
+
+
+
+(С) 2011 Селяков Павел Михайлович
