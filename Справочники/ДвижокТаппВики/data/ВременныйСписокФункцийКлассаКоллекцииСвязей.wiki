@@ -1,0 +1,108 @@
+﻿++ Временный Список Функций Класса Коллекции Связей
+Удалить после завершения использования.
+
+  /// <summary>
+        /// Get list of links in collection
+        /// </summary>
+        public List<MLink> Items
+         /// <summary>
+        /// NT-Получить список связей по значению свойств, описанных в связи-шаблоне. 
+        /// Все поля в шаблоне, не содержащие null, используются для отбора связей.
+        /// </summary>
+        /// <param name="template">Шаблон связи. X AND Y. Если ни одно поле не указано, все связи будут включены в результат</param>
+        public MLinkCollection getLinks(MLinkTemplate template)       
+        
+        /// <summary>
+        /// NT-Проверить, что связь с такими параметрами существует в списке.
+        /// </summary>
+        public bool containsLink(MLinkTemplate template)
+         /// <summary>
+        /// NT-Проверить существование подобной связи по cellId, Axis, Active 
+        /// </summary>
+        /// <param name="link">link example</param>
+        /// <returns></returns>
+        public bool containsLink(MLink link)       
+        /// <summary>
+        /// NT-Add link to collection
+        /// </summary>
+        /// <param name="link"></param>
+        public void AddLink(MLink link)   
+        /// <summary>
+        /// Remove one link item from list
+        /// </summary>
+        /// <param name="link"></param>
+        public void S1_Remove(MLink link)        
+        /// <summary>
+        /// Remove link at specified list index
+        /// </summary>
+        /// <param name="index"></param>
+        /// <exception cref="ArgumentOutOfRangeException">index out of range 0 - count</exception>
+        public void S1_RemoveAt(int index)    
+        /// <summary>
+        /// Remove all links
+        /// </summary>
+        public void Clear()
+        /// <summary>
+        /// NT-Get all links for specified cell
+        /// </summary>
+        /// <param name="cellid">cell id</param>
+        /// <returns></returns>
+        internal MLinkCollection S1_getCellLinks(MID cellid)        
+        /// <summary>
+        /// NT-Set cell reference for specified cell
+        /// </summary>
+        /// <param name="cellid">cell id</param>
+        /// <param name="cell">cell reference or null</param>
+        /// <returns></returns>
+        internal void S1_setCellRefs(MID cellid, MCell cell)           
+         /// <summary>
+        /// NT-Получить связи из указанного списка, которых нет в текущем списке.
+        /// </summary>
+        /// <param name="colD">Список добавляемых связей</param>
+        /// <remarks>
+        /// Это почти аналог S1_Merge, только здесь копирует связи в возвращаемый список,
+        /// а там сразу в общий список, это быстрее, но нет разностного списка.
+        /// </remarks>
+        internal List<MLink> getUnicalLinks(MLinkCollection colD)       
+        /// <summary>
+        /// NT-Replace id in cell links.
+        /// При сохранении временных ячеек меняется идентификатор, его надо заменить и в связях ячейки
+        /// </summary>
+        /// <param name="oldId">Old id</param>
+        /// <param name="newId">New id</param>
+        internal void replaceCellId(MID oldId, MID newId)
+        /// <summary>
+        /// NT-Get number of temporary links in memory
+        /// </summary>
+        /// <returns></returns>
+        internal int getNumberOfTempLinks()  
+        /// <summary>
+        /// NT-Get dictionary of link axis with counters.
+        /// </summary>
+        /// <returns>Dictionary of MID.toU64 id's with counters</returns>
+        /// <remarks>
+        /// Если словарь будет маленький, его можно сделать постоянным членом коллекции
+        /// и обновлять при операциях вставки-удаления-изменения связей
+        /// </remarks>
+        internal Dictionary<UInt64, int> getLinkAxises()
+        
+ В контейнере используются:
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MCell.cs - (397, 45) : MCell.Container.Links.AddLink(link);
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MCellA.cs - (337, 52) : MLinkCollection colM = MCell.Container.Links.S1_getCellLinks(this.CellID);
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1021, 30) : this.Links.Items.AddRange(links); //тут связи добавляются в контейнер. Если здесь или дальше будет исключение, нужно откатить добавление связей.
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1105, 26) : this.Links.S1_setCellRefs(cell.CellID, null);
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1128, 38) : this.Links.S1_Remove(li); //удалить из контейнера (медленно?)
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1323, 33) : MLink li = this.Links.Items[i];
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1345, 26) : this.Links.S1_RemoveAt(i);
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1347, 39) : linksCount = this.Links.Items.Count;
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1398, 40) : stat.TemporaryLinks = this.Links.getNumberOfTempLinks();
+
+В ячейке используются:
+C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MCell.cs - (216, 26) : this.Links.replaceCellId(oldId, newId);
+C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MCell.cs - (234, 39) : foreach (MLink li in this.Links.Items)
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MCell.cs - (395, 34) : this.Links.AddLink(link);
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MCell.cs - (428, 37) : if(this.Links.containsLink(link)) 
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1133, 26) : cell.Links.Clear();
+      C:\Temp\Projects\SIM\Tapp231\Tapp23_1\MaryOld\MEngine.cs - (1174, 48) : ce.Links.S1_Remove(li);//удалить из связанной ячейки
+      colM.getUnicalLinks(colD)
+      MLinkCollection colM = MCell.Container.Links.S1_getCellLinks(this.CellID)

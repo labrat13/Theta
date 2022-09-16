@@ -1,0 +1,20 @@
+﻿++ Ячейка/Поиск связи
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NR-Получить связь между ячейками
+        /// </summary>
+        /// <param name="Axis"></param>
+        /// <param name="axisDirection"></param>
+        /// <param name="targetCell"></param>
+        /// <returns></returns>
+        internal MLinkCollection S1_intGetLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - не сделана

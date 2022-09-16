@@ -1,0 +1,480 @@
+        private void CreateInitialStructure()
+        {
+            //выбираем режим создаваемых €чеек - с Ѕƒ или без Ѕƒ
+            MCellMode cellMode = MCellMode.Normal;
+            //if (m_container.SolutionManager.UsesDatabase == false)
+            //    cellMode = MCellMode.Temporary;
+
+            #region *** —оздание €чеек ***
+
+            //1) теперь создаем начальную структуру €чеек
+            //1.1) ‘ункци€ создает €чейку указанного типа. ј если нет Ѕƒ, то сама переводит тип и создает только временные €чейки
+            //а еще хорошо бы перенести создание €чеек в это проперти Cells - так оно логично получаетс€, на взгл€д неискушенного пользовател€. 
+            //Ёто как бы категори€ функциональности получаетс€, в объекте контейнера.
+            MCell world = m_container.CellCreate(cellMode, "World", "Ќачальный класс структуры сущностей");
+            MCell sys = m_container.CellCreate(cellMode, "System", "—лужебна€ часть структуры сущностей");
+            MCell ct = m_container.CellCreate(cellMode, "CellTypes", " оллекци€ €чеек типов €чеек");
+            MCell bct = m_container.CellCreate(cellMode, "BaseCellType", "Ѕазова€ €чейка типа €чейки");
+            MCell cdt = m_container.CellCreate(cellMode, "CellDataTypes", " оллекци€ €чеек типов данных €чеек");
+            MCell bcdt = m_container.CellCreate(cellMode, "BaseCellDataType", "Ѕазова€ €чейка типа данных €чейки");
+            MCell cs = m_container.CellCreate(cellMode, "CellStates", " оллекци€ €чеек состо€ни€ €чеек");
+            MCell bcs = m_container.CellCreate(cellMode, "BaseCellState", "Ѕазова€ €чейка состо€ни€ €чейки");
+            MCell la = m_container.CellCreate(cellMode, "LinkAxises", " оллекци€ €чеек типов св€зи");
+            MCell bla = m_container.CellCreate(cellMode, "BaseLinkAxis", "Ѕазова€ €чейка типа св€зи");
+            MCell ls = m_container.CellCreate(cellMode, "LinkStates", " оллекци€ €чеек состо€ни€ св€зи");
+            MCell bls = m_container.CellCreate(cellMode, "BaseLinkState", "Ѕазова€ €чейка состо€ни€ св€зи");
+            MCell n = m_container.CellCreate(cellMode, "Nothing", "—пециальна€ €чейка Nothing. ѕредставл€ет идентификатор дл€ использовани€ в элементах, где нельз€ назначить идентификатор, но он необходим");
+
+            //вот вроде бы проста€ работа - а нет, сложна€. 
+            //“еперь надо создать св€зи €чеек. Ќо дл€ них нужны типы св€зей.
+            //ј чтобы создать типы св€зей, нужно создать €чейки типов св€зей.
+            //ј не эти болванки-заготовки, что € выше наклепал.
+            //ј дл€ этих €чеек тоже нужны св€зи, и дл€ них тоже нужны €чейки типов.
+            //¬от кака€ кручень получаетс€. »теративна€ ручна€ работа.
+            //’орошо еще, что эти типы не требуютс€ сразу при создании, их можно позже дописывать.
+
+            //методика получаетс€ така€: сначала описываем свойства €чеек и св€зей, которые надо вписать в уже созданные €чейки и св€зи.
+            //«атем создаем требуемые дл€ этого €чейки.
+            //«атем описываем требуемые св€зи между этими новыми €чейками, типы €чеек, св€зи итд.
+            //«атем создаем требуемые дл€ этого €чейки.
+            //... повтор€ем, пока не окажетс€, что создавать €чейки более не нужно.
+            //“еперь все созданные €чейки выстраиваем в один р€д и вписываем в их свойства идентификаторы соответствующих €чеек.
+            //ј потом создаем св€зи между €чейками, описыва€ их в комментари€х. 
+            //Ёти св€зи сейчас древовидные, поэтому группируем их по корню дерева.
+
+            //1.2) типы €чеек - тут € уже ув€з в классах и их отношени€х, тут надо много прорабатывать эту тему. —ейчас просто напишу что придумаетс€.
+            //тут хорошо, что типы представлены пол€ми €чейки, а не св€з€ми. »наче € бы тут завис надолго.
+            //World имеет тип —ущность-Ќачальна€—ущность
+            //System имеет тип —ущность-—лужебна€—ущность
+            //Nothing имеет тип —ущность-—лужебна€—ущность
+            //CellTypes имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.  оллекци€ чего именно - это вроде бы тоже класс, но потом разберемс€, как с ним быть.
+            //CellDataTypes  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей. 
+            //CellStates  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            //LinkAxises  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей. 
+            //LinkStates  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            //BaseCellType имеет тип ячейка“ипаячейки
+            //BaseCellDataType имеет тип ячейка“ипаƒанныхячейки
+            //CellDataTypeNoData  имеет тип ячейка“ипаƒанныхячейки
+            //BaseCellState имеет тип ячейка—осто€ни€ячейки
+            //BaseLinkAxis имеет тип ячейка“ипа—в€зи
+            //BaseLinkState имеет тип ячейка—осто€ни€—в€зи
+
+            //создаем €чейки типов €чеек
+            MCell cellCellTypeEntity = m_container.CellCreate(cellMode, "CellTypeEntity", "ячейка типа €чейки - —ущность");
+            MCell cellCellTypeEntityInitial = m_container.CellCreate(cellMode, "CellTypeEntityInitial", "ячейка типа €чейки - Ќачальна€ —ущность");
+            MCell cellCellTypeEntityService = m_container.CellCreate(cellMode, "CellTypeEntityService", "ячейка типа €чейки - —лужебна€ —ущность");
+            MCell cellCellTypeEntityCollection = m_container.CellCreate(cellMode, "CellTypeEntityCollection", "ячейка типа €чейки -  оллекци€ —ущностей");
+            MCell cellCellTypeEntityCollectionTyped = m_container.CellCreate(cellMode, "CellTypeEntityCollectionTyped", "ячейка типа €чейки -  оллекци€ однотипных —ущностей");
+            MCell cellCellTypeEntityCollectionCellTypeCell = m_container.CellCreate(cellMode, "CellTypeEntityCollectionCellTypeCell", "ячейка типа €чейки -  оллекци€ ячейка“ипаячейки");
+            MCell cellCellTypeEntityCollectionCellDataTypeCell = m_container.CellCreate(cellMode, "CellTypeEntityCollectionCellDataTypeCell", "ячейка типа €чейки -  оллекци€ ячейка“ипаƒанныхячейки");
+            MCell cellCellTypeEntityCollectionCellStateCell = m_container.CellCreate(cellMode, "CellTypeEntityCollectionCellStateCell", "ячейка типа €чейки -  оллекци€ ячейка—осто€ни€ячейки");
+            MCell cellCellTypeEntityCollectionLinkTypeCell = m_container.CellCreate(cellMode, "CellTypeEntityCollectionLinkTypeCell", "ячейка типа €чейки -  оллекци€ ячейка“ипа—в€зи");
+            MCell cellCellTypeEntityCollectionLinkStateCell = m_container.CellCreate(cellMode, "CellTypeEntityCollectionLinkStateCell", "ячейка типа €чейки -  оллекци€ ячейка—осто€ни€—в€зи");
+            MCell cellCellType_CellTypeCell = m_container.CellCreate(cellMode, "CellType_CellTypeCell", "ячейка типа €чейки - ячейка“ипаячейки");//сам себ€ описывает
+            MCell cellCellType_CellDataTypeCell = m_container.CellCreate(cellMode, "CellType_CellDataTypeCell", "ячейка типа €чейки - ячейка“ипаƒанныхячейки");
+            MCell cellCellType_CellStateCell = m_container.CellCreate(cellMode, "CellType_CellStateCell", "ячейка типа €чейки - ячейка—осто€ни€ячейки");
+            MCell cellCellType_LinkTypeCell = m_container.CellCreate(cellMode, "CellType_LinkTypeCell", "ячейка типа €чейки - ячейка“ипа—в€зи");
+            MCell cellCellType_LinkStateCell = m_container.CellCreate(cellMode, "CellType_LinkStateCell", "ячейка типа €чейки - ячейка—осто€ни€—в€зи");
+
+            //1.3) тип данных €чеек
+            //все €чейки здесь не хран€т данные, поэтому только один тип данных - без данных.
+            MCell cellCellDataTypeNodata = m_container.CellCreate(cellMode, "CellDataTypeNoData", "ячейка типа данных €чейки - ячейка не должна содержать данные");
+
+            //1.4) состо€ние €чейки
+            //все €чейки в нормальном состо€нии, поэтому только одно состо€ние - нормальное.
+            MCell cellCellStateNormal = m_container.CellCreate(cellMode, "CellStateNormal", "ячейка состо€ни€ €чейки - ячейка в обычном состо€нии");
+
+
+            //1.5) типы св€зей
+            //объектов тут пока нет вроде бы
+            //св€занность €чеек
+            //1.5.1) јгрегаци€: ¬ходит в состав или явл€етс€ частью 
+            //System входит в состав World
+            //Nothing входит в состав System
+            //CellTypes входит в состав System 
+            //CellDataTypes входит в состав System 
+            //CellStates входит в состав System 
+            //LinkAxises входит в состав System 
+            //LinkStates входит в состав System
+            //BaseCellType входит в состав CellTypes
+            //BaseCellDataType входит в состав CellDataTypes
+            //BaseCellState входит в состав CellStates
+            //BaseLinkAxis входит в состав LinkAxises
+            //BaseLinkState входит в состав LinkStates
+            //1.5.2) јбстракци€: явл€етс€ подклассом или явл€етс€ надклассом
+
+            //агрегаци€ - ¬ходит в состав или явл€етс€ частью
+            MCell cellLinkType_Aggregation = m_container.CellCreate(cellMode, "LinkType_Aggregation", "ячейка типа св€зи - јгрегаци€: ¬ходит в состав или явл€етс€ частью");
+            //абстракци€ - явл€етс€ подклассом или явл€етс€ надклассом
+            MCell cellLinkType_Abstraction = m_container.CellCreate(cellMode, "LinkType_Abstraction", "ячейка типа св€зи - јбстракци€: явл€етс€ подклассом или явл€етс€ надклассом ");
+
+            //1.6) состо€ние св€зей
+            ////все св€зи в нормальном состо€нии, поэтому только одно состо€ние - нормальное.
+            MCell cellLinkStateNormal = m_container.CellCreate(cellMode, "LinkStateNormal", "ячейка состо€ни€ св€зи - —в€зь в обычном состо€нии");
+            #endregion
+            #region *** «аполнение свойств €чеек ***
+            ////1.7) создаем общий список созданных €чеек
+            ////базова€ структура €чеек
+            //world
+            //sys
+            //ct
+            //bct
+            //cdt
+            //bcdt
+            //cs 
+            //bcs
+            //la 
+            //bla
+            //ls
+            //bls
+            //n 
+            ////€чейки типов €чеек
+            //cellCellTypeEntity 
+            //cellCellTypeEntityInitial 
+            //cellCellTypeEntityService 
+            //cellCellTypeEntityCollection 
+            //cellCellTypeEntityCollectionTyped 
+            //cellCellTypeEntityCollectionCellTypeCell 
+            //cellCellTypeEntityCollectionCellDataTypeCell 
+            //cellCellTypeEntityCollectionCellStateCell 
+            //cellCellTypeEntityCollectionLinkTypeCell 
+            //cellCellTypeEntityCollectionLinkStateCell 
+            //cellCellType_CellTypeCell 
+            //cellCellType_CellDataTypeCell 
+            //cellCellType_CellStateCell 
+            //cellCellType_LinkTypeCell 
+            //cellCellType_LinkStateCell 
+            ////€чейки типов данных €чеек
+            //cellCellDataTypeNodata 
+            ////€чейки состо€ни€ €чеек
+            //cellCellStateNormal 
+            ////€чейки типов св€зи
+            //cellLinkType_Aggregation 
+            //cellLinkType_Abstraction 
+            ////€чейки состо€ни€ св€зи
+            //cellLinkStateNormal 
+
+            //1.8) пропишем типы данных всех €чеек здесь
+            //вписываем копии идентификаторов, чтобы изменение пол€ в одном из них не повли€ло на все использующие его €чейки
+            //базова€ структура €чеек
+            world.ValueTypeId = cellCellDataTypeNodata.CellID;
+            sys.ValueTypeId = cellCellDataTypeNodata.CellID;
+            ct.ValueTypeId = cellCellDataTypeNodata.CellID;
+            bct.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cdt.ValueTypeId = cellCellDataTypeNodata.CellID;
+            bcdt.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cs.ValueTypeId = cellCellDataTypeNodata.CellID;
+            bcs.ValueTypeId = cellCellDataTypeNodata.CellID;
+            la.ValueTypeId = cellCellDataTypeNodata.CellID;
+            bla.ValueTypeId = cellCellDataTypeNodata.CellID;
+            ls.ValueTypeId = cellCellDataTypeNodata.CellID;
+            bls.ValueTypeId = cellCellDataTypeNodata.CellID;
+            n.ValueTypeId = cellCellDataTypeNodata.CellID;
+            //€чейки типов €чеек
+            cellCellTypeEntity.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityInitial.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityService.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollection.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionTyped.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionCellTypeCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionCellDataTypeCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionCellStateCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionLinkTypeCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionLinkStateCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellType_CellTypeCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellType_CellDataTypeCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellType_CellStateCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellType_LinkTypeCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellType_LinkStateCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            //€чейки типов данных €чеек
+            cellCellDataTypeNodata.ValueTypeId = cellCellDataTypeNodata.CellID;
+            //€чейки состо€ни€ €чеек
+            cellCellStateNormal.ValueTypeId = cellCellDataTypeNodata.CellID;
+            //€чейки типов св€зи
+            cellLinkType_Aggregation.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellLinkType_Abstraction.ValueTypeId = cellCellDataTypeNodata.CellID;
+            //€чейки состо€ни€ св€зи
+            cellLinkStateNormal.ValueTypeId = cellCellDataTypeNodata.CellID;
+
+            //1.9) пропишем типы €чеек здесь - они разные!
+            //базова€ структура €чеек
+            world.TypeId = cellCellTypeEntityInitial.CellID; //World имеет тип —ущность-Ќачальна€—ущность
+            sys.TypeId = cellCellTypeEntityService.CellID;//System имеет тип —ущность-—лужебна€—ущность
+            ct.TypeId = cellCellTypeEntityCollectionCellTypeCell.CellID;//CellTypes имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            bct.TypeId = cellCellType_CellTypeCell.CellID;//BaseCellType имеет тип ячейка“ипаячейки
+            cdt.TypeId = cellCellTypeEntityCollectionCellDataTypeCell.CellID;//CellDataTypes  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            bcdt.TypeId = cellCellType_CellDataTypeCell.CellID;//BaseCellDataType имеет тип ячейка“ипаƒанныхячейки
+            cs.TypeId = cellCellTypeEntityCollectionCellStateCell.CellID; //CellStates  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            bcs.TypeId = cellCellType_CellStateCell.CellID;//BaseCellState имеет тип ячейка—осто€ни€ячейки
+            la.TypeId = cellCellTypeEntityCollectionLinkTypeCell.CellID; //LinkAxises  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            bla.TypeId = cellCellType_LinkTypeCell.CellID;//BaseLinkAxis имеет тип ячейка“ипа—в€зи
+            ls.TypeId = cellCellTypeEntityCollectionLinkStateCell.CellID;//LinkStates  имеет тип  оллекци€ —ущностей -  оллекци€ ќднотипных —ущностей.
+            bls.TypeId = cellCellType_LinkStateCell.CellID;//BaseLinkState имеет тип ячейка—осто€ни€—в€зи
+            n.TypeId = cellCellTypeEntityService.CellID;//Nothing имеет тип —ущность-—лужебна€—ущность
+            //€чейки типов €чеек - имеют тип ячейка“ипаячейки
+            cellCellTypeEntity.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityInitial.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityService.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollection.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionTyped.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionCellTypeCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionCellDataTypeCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionCellStateCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionLinkTypeCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionLinkStateCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellType_CellTypeCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellType_CellDataTypeCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellType_CellStateCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellType_LinkTypeCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellType_LinkStateCell.TypeId = cellCellType_CellTypeCell.CellID;
+            //€чейки типов данных €чеек - имеет тип ячейка“ипаƒанныхячейки
+            cellCellDataTypeNodata.TypeId = cellCellType_CellDataTypeCell.CellID;
+            //€чейки состо€ни€ €чеек - имеет тип ячейка—осто€ни€ячейки
+            cellCellStateNormal.TypeId = cellCellType_CellStateCell.CellID;
+            //€чейки типов св€зи - имеет тип ячейка“ипа—в€зи
+            cellLinkType_Aggregation.TypeId = cellCellType_LinkTypeCell.CellID;
+            cellLinkType_Abstraction.TypeId = cellCellType_LinkTypeCell.CellID;
+            //€чейки состо€ни€ св€зи - имеет тип ячейка—осто€ни€—в€зи
+            cellLinkStateNormal.TypeId = cellCellType_LinkStateCell.CellID;
+
+            //1.10) пропишем состо€ние €чеек здесь - оно у всех одинаковое = cellCellStateNormal.CellID;
+            //базова€ структура €чеек
+            world.State = cellCellStateNormal.CellID;
+            sys.State = cellCellStateNormal.CellID;
+            ct.State = cellCellStateNormal.CellID;
+            bct.State = cellCellStateNormal.CellID;
+            cdt.State = cellCellStateNormal.CellID;
+            bcdt.State = cellCellStateNormal.CellID;
+            cs.State = cellCellStateNormal.CellID;
+            bcs.State = cellCellStateNormal.CellID;
+            la.State = cellCellStateNormal.CellID;
+            bla.State = cellCellStateNormal.CellID;
+            ls.State = cellCellStateNormal.CellID;
+            bls.State = cellCellStateNormal.CellID;
+            n.State = cellCellStateNormal.CellID;
+            //€чейки типов €чеек
+            cellCellTypeEntity.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityInitial.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityService.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollection.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionTyped.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionCellTypeCell.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionCellDataTypeCell.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionCellStateCell.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionLinkTypeCell.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionLinkStateCell.State = cellCellStateNormal.CellID;
+            cellCellType_CellTypeCell.State = cellCellStateNormal.CellID;
+            cellCellType_CellDataTypeCell.State = cellCellStateNormal.CellID;
+            cellCellType_CellStateCell.State = cellCellStateNormal.CellID;
+            cellCellType_LinkTypeCell.State = cellCellStateNormal.CellID;
+            cellCellType_LinkStateCell.State = cellCellStateNormal.CellID;
+            //€чейки типов данных €чеек
+            cellCellDataTypeNodata.State = cellCellStateNormal.CellID;
+            //€чейки состо€ни€ €чеек
+            cellCellStateNormal.State = cellCellStateNormal.CellID;
+            //€чейки типов св€зи
+            cellLinkType_Aggregation.State = cellCellStateNormal.CellID;
+            cellLinkType_Abstraction.State = cellCellStateNormal.CellID;
+            //€чейки состо€ни€ св€зи
+            cellLinkStateNormal.State = cellCellStateNormal.CellID;
+            #endregion
+            #region *** —оздание св€зей ***
+
+            //2) теперь надо создать св€зи между €чейками.
+            //2.1) главное дерево World
+            MLink link1 = world.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, sys);
+            MLink link2 = sys.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, n);
+            MLink link3 = sys.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, ct);
+            MLink link4 = sys.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cdt);
+            MLink link5 = sys.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cs);
+            MLink link6 = sys.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, la);
+            MLink link7 = sys.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, ls);
+
+            //2.2) дерево коллекции типов €чеек
+            //- собираем коллекцию всех классов в один р€д
+            MLink link8 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, bct);
+            MLink link9 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntity);
+            MLink link10 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityInitial);
+            MLink link11 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityService);
+            MLink link12 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollection);
+            MLink link13 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionTyped);
+            MLink link14 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionCellTypeCell);
+            MLink link15 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionCellDataTypeCell);
+            MLink link16 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionCellStateCell);
+            MLink link17 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionLinkTypeCell);
+            MLink link18 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionLinkStateCell);
+            MLink link19 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellType_CellTypeCell);
+            MLink link20 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellType_CellDataTypeCell);
+            MLink link21 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellType_CellStateCell);
+            MLink link22 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellType_LinkTypeCell);
+            MLink link23 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellType_LinkStateCell);
+            // - строим дерево классов если возможно. √лавным классом будет базова€ €чейка, хот€ она ничего не делает 
+            //-- —ущность - Ќачальна€ сущность и —лужебна€ сущность
+            MLink link24 = bct.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntity);
+            MLink link25 = cellCellTypeEntity.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityInitial);
+            MLink link26 = cellCellTypeEntity.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityService);
+            //--  оллекци€ сущностей - однотипна€ коллекци€ сущностей - коллекции €чеек типов итд
+            MLink link27 = bct.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollection);
+            MLink link28 = cellCellTypeEntityCollection.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionTyped);
+            MLink link29 = cellCellTypeEntityCollectionTyped.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionCellTypeCell);
+            MLink link30 = cellCellTypeEntityCollectionTyped.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionCellDataTypeCell);
+            MLink link31 = cellCellTypeEntityCollectionTyped.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionCellStateCell);
+            MLink link32 = cellCellTypeEntityCollectionTyped.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionLinkTypeCell);
+            MLink link33 = cellCellTypeEntityCollectionTyped.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionLinkStateCell);
+            //TODO: тут € забыл про иерархию классов типов €чеек? ƒл€ коллекций написал, а дл€ простых типов - нет.
+            //они должны же быть соединены с €чейкой bct все. »ли нет? я тут запуталс€ уже в этих отношени€х €чеек.
+
+            //2.3) дерево коллекции типов данных €чеек
+            //-собираем коллекцию всех классов в один р€д
+            MLink link34 = cdt.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, bcdt);
+            MLink link35 = cdt.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellDataTypeNodata);
+            //-строим дерево классов если возможно. √лавным классом будет базова€ €чейка, хот€ она ничего не делает 
+            MLink link36 = bcdt.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellDataTypeNodata);
+
+
+            //2.4) дерево коллекции состо€ний €чейки
+            //-собираем коллекцию всех классов в один р€д
+            MLink link37 = cs.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, bcs);
+            MLink link38 = cs.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellStateNormal);
+            //-строим дерево классов если возможно. √лавным классом будет базова€ €чейка, хот€ она ничего не делает 
+            MLink link39 = bcs.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellStateNormal);
+
+            //2.5) дерево коллекции типов св€зи
+            //-собираем коллекцию всех классов в один р€д
+            MLink link40 = la.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, bla);
+            MLink link41 = la.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellLinkType_Aggregation);
+            MLink link42 = la.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellLinkType_Abstraction);
+            //-строим дерево классов если возможно. √лавным классом будет базова€ €чейка, хот€ она ничего не делает 
+            MLink link43 = bla.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellLinkType_Aggregation);
+            MLink link44 = bla.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellLinkType_Abstraction);
+
+
+            //2.6) дерево коллекции состо€ний св€зи
+            //-собираем коллекцию всех классов в один р€д
+            MLink link45 = ls.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, bls);
+            MLink link46 = ls.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellLinkStateNormal);
+            //-строим дерево классов если возможно. √лавным классом будет базова€ €чейка, хот€ она ничего не делает 
+            MLink link47 = bls.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellLinkStateNormal);
+
+            #endregion
+            #region *** «аполнение свойств св€зей ***
+            link1.State = cellLinkStateNormal.CellID;
+            link2.State = cellLinkStateNormal.CellID;
+            link3.State = cellLinkStateNormal.CellID;
+            link4.State = cellLinkStateNormal.CellID;
+            link5.State = cellLinkStateNormal.CellID;
+            link6.State = cellLinkStateNormal.CellID;
+            link7.State = cellLinkStateNormal.CellID;
+            link8.State = cellLinkStateNormal.CellID;
+            link9.State = cellLinkStateNormal.CellID;
+            link10.State = cellLinkStateNormal.CellID;
+            link11.State = cellLinkStateNormal.CellID;
+            link12.State = cellLinkStateNormal.CellID;
+            link13.State = cellLinkStateNormal.CellID;
+            link14.State = cellLinkStateNormal.CellID;
+            link15.State = cellLinkStateNormal.CellID;
+            link16.State = cellLinkStateNormal.CellID;
+            link17.State = cellLinkStateNormal.CellID;
+            link18.State = cellLinkStateNormal.CellID;
+            link19.State = cellLinkStateNormal.CellID;
+            link20.State = cellLinkStateNormal.CellID;
+            link21.State = cellLinkStateNormal.CellID;
+            link22.State = cellLinkStateNormal.CellID;
+            link23.State = cellLinkStateNormal.CellID;
+            link24.State = cellLinkStateNormal.CellID;
+            link25.State = cellLinkStateNormal.CellID;
+            link26.State = cellLinkStateNormal.CellID;
+            link27.State = cellLinkStateNormal.CellID;
+            link28.State = cellLinkStateNormal.CellID;
+            link29.State = cellLinkStateNormal.CellID;
+            link30.State = cellLinkStateNormal.CellID;
+            link31.State = cellLinkStateNormal.CellID;
+            link32.State = cellLinkStateNormal.CellID;
+            link33.State = cellLinkStateNormal.CellID;
+            link34.State = cellLinkStateNormal.CellID;
+            link35.State = cellLinkStateNormal.CellID;
+            link36.State = cellLinkStateNormal.CellID;
+            link37.State = cellLinkStateNormal.CellID;
+            link38.State = cellLinkStateNormal.CellID;
+            link39.State = cellLinkStateNormal.CellID;
+            link40.State = cellLinkStateNormal.CellID;
+            link41.State = cellLinkStateNormal.CellID;
+            link42.State = cellLinkStateNormal.CellID;
+            link43.State = cellLinkStateNormal.CellID;
+            link44.State = cellLinkStateNormal.CellID;
+            link45.State = cellLinkStateNormal.CellID;
+            link46.State = cellLinkStateNormal.CellID;
+            link47.State = cellLinkStateNormal.CellID;
+
+            #endregion
+
+#region *** —оздание пользовательского каталога ***
+            //€чейки каталога пользователей
+            // оллекци€јккаунтовѕользователей-јккаунтѕользовател€
+            MCell cellUserAccountCollection = m_container.CellCreate(cellMode, "CellTypeEntity", "ячейка  оллекци€јккаунтовѕользователей");
+            MCell cellUserAccountRoot = m_container.CellCreate(cellMode, "CellTypeEntity", "ячейка јккаунтѕользовател€");
+            //€чейки типов €чеек
+            MCell cellCellTypeUserAccountRootCell = m_container.CellCreate(cellMode, "CellTypeUserAccountRootCell", "ячейка типа €чейки - јккаунтѕользовател€");
+            MCell cellCellTypeEntityCollectionUserAccountRootCell = m_container.CellCreate(cellMode, "CellTypeEntityCollectionUserAccountRootCell", "ячейка типа €чейки -  оллекци€јккаунтовѕользователей");
+            //свойства €чеек
+            cellUserAccountCollection.State = cellCellStateNormal.CellID;
+            cellUserAccountRoot.State = cellCellStateNormal.CellID;
+            cellCellTypeUserAccountRootCell.State = cellCellStateNormal.CellID;
+            cellCellTypeEntityCollectionUserAccountRootCell.State = cellCellStateNormal.CellID;
+            //
+            cellUserAccountCollection.TypeId = cellCellTypeEntityCollectionUserAccountRootCell.CellID;
+            cellUserAccountRoot.TypeId = cellCellTypeUserAccountRootCell.CellID; 
+            cellCellTypeUserAccountRootCell.TypeId = cellCellType_CellTypeCell.CellID;
+            cellCellTypeEntityCollectionUserAccountRootCell.TypeId = cellCellType_CellTypeCell.CellID;
+            //
+            cellUserAccountCollection.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellUserAccountRoot.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeUserAccountRootCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            cellCellTypeEntityCollectionUserAccountRootCell.ValueTypeId = cellCellDataTypeNodata.CellID;
+            //создание св€зей
+            //основные св€зи
+            MLink link100 = world.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellUserAccountCollection);
+            MLink link101 = cellUserAccountCollection.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellUserAccountRoot);
+            //св€зи €чеек типов €чеек с их коллекци€ми
+            MLink link102 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeUserAccountRootCell);
+            MLink link103 = ct.S1_createLink(cellLinkType_Aggregation.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionUserAccountRootCell);
+            //и в иерархии типов
+            MLink link104 = cellCellTypeEntityCollectionTyped.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeEntityCollectionUserAccountRootCell);
+            MLink link105 = bct.S1_createLink(cellLinkType_Abstraction.CellID, MAxisDirection.Down, cellCellTypeUserAccountRootCell);
+            //установить свойства св€зей
+            link100.State = cellLinkStateNormal.CellID;
+            link101.State = cellLinkStateNormal.CellID;
+            link102.State = cellLinkStateNormal.CellID;
+            link103.State = cellLinkStateNormal.CellID;
+            link104.State = cellLinkStateNormal.CellID;
+            link105.State = cellLinkStateNormal.CellID;
+
+
+            
+ #endregion
+
+            //” этого проекта должна быть иконка паутины - € уже запуталс€ в описании €чеек и св€зей.
+            // ак можно быстро и просто строить тут структуры данных, 
+            //если добавление первых 13 сущностей потребовало 33 €чейки и более 50 св€зей.
+            //ј добавление еще двух сущностей здесь - пользовательский аккаунт - 4 €чеек и 6 св€зей.
+            //Ёто просто какой-то кошмар.
+            //„то тут можно сделать?
+            //- эти €чейки и св€зи описывают базовую инфраструктуру солюшена - и реализацию и структуру типов. 
+            //ѕоэтому их так много получилось сейчас.
+            //≈сли в будущем и дальше будет много новых типов, то и €чеек и св€зей будет много.
+            //Ёто будет сложна€ работа, хот€ ее можно автоматизировать - написать функции создани€ классов:
+            //сразу и создавать €чейки типов €чеек и помещать их в коллекцию, и св€зывать с иерархией €чеек типов €чеек.
+            //ј если работа будет в основном с объектами, то сначала немного новых классов приплести, а потом просто объекты к ним прицепл€ть, даже без св€зей.
+
+            //Ќо все равно, € вижу, что тут нужна теори€ и навыки построени€ таких структур.
+            //≈е разработка займет врем€, конечно, но нужен опыт использовани€.
+
+            //¬ыводы:
+            //- нужен опыт использовани€, нужно создать методику создани€ и строени€ структуры сущностей, типовые решени€.
+            //- нужно способ автоматизировать операции создани€ структуры сущностей. ’от€ они завис€т от строени€ —труктуры сущностей.
+            //   Ёто уже конфигураци€ получаетс€, как в 1—.
+            //-  онцентрировать это устройство системы на работу с объектами. “ак меньше €чеек надо создавать и можно использовать уже существующие.
+            //- –азвивать —труктуру сущностей - чем больше в ней применимых классов, тем меньше их придетс€ создавать каждый раз.
+
+
+        }

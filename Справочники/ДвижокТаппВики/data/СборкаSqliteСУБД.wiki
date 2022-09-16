@@ -1,0 +1,3 @@
+﻿++ Сборка Sqlite СУБД
+
+* sqlite wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=SQLite

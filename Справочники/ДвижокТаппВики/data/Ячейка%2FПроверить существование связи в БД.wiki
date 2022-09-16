@@ -1,0 +1,18 @@
+﻿++ Ячейка/Проверить существование связи в БД
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NT-Returns true if one or more links exists in table
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
+        private bool containsLinkInTable(MLink link)

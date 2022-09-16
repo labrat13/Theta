@@ -1,0 +1,258 @@
+﻿++ Временный Список Функций Класса Ячейки
+Удалить после окончания использования
+
+класс MCell:
+
+public abstract bool isLargeCell - проперти не используется нигде кроме кода снимков, и его можно заменить на cellMode.
+
+Вообще функционал выглядит недопроектированным и недоделанным. Концепция операций вообще недоработана, много моментов пропущено. Необходимо представить цельную концепцию и перепроектировать существующий код.
+
+-функции сериализации
+
+        /// <summary>
+        /// NT-Сохраняет DelaySave или Temporary ячейку и ее связи в БД. Ячейка становится Normal типа.
+        /// Для Normal или Compact ячеек ничего не делает.
+        /// </summary>
+        public void S1_Save()
+
+        /// <summary>
+        /// Save (insert) temp links if MCellA/MCellB target cell
+        /// Save (update) const links - необязательно.
+        /// </summary>
+        private void saveLinks()
+
+        /// <summary>
+        /// помечает ячейку удаленной. Если ячейка не временная, не отложенной записи, то записывается в таблицу.
+        /// </summary>
+        public abstract void S1_Delete();
+
+        /// <summary>
+        /// выгружает ячейку из памяти, когда она больше не нужна. При выгрузке надо просмотреть список связей ячейки, сбросить все ссылки на ячейку, выгрузить из памяти также все связи ячейки с незагруженными в память ячейками.
+        /// </summary>
+        public void S1_Unload() - не содержит кода почему-то
+
+        /// <summary>
+        /// NT-Создать связь, если уже существует - исключение.
+        /// </summary>
+        /// <param name="Axis">ось связи</param>
+        /// <param name="axisDirection">направление связи</param>
+        /// <param name="targetCell">конечная ячейка</param>
+        /// <returns></returns>
+        public MLink S1_createLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - выбирает ячейку, которая будет создавать связь, затем вызывает S1_intCreateLink(Axis, axisDirection, targetCell).
+
+        /// <summary>
+        /// NR-Удалить связь между ячейками. Связь только помечается удаленной.
+        /// </summary>
+        /// <param name="Axis"></param>
+        /// <param name="axisDirection"></param>
+        /// <param name="targetCell"></param>
+        public void S1_deleteLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - не содержит кода
+
+        /// <summary>
+        /// NR-Получить связь между ячейками
+        /// </summary>
+        /// <param name="Axis"></param>
+        /// <param name="axisDirection"></param>
+        /// <param name="targetCell"></param>
+        /// <returns></returns>
+        internal MLinkCollection S1_intGetLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - не сделана
+
+        /// <summary>
+        /// NT-Create link between two cells
+        /// </summary>
+        /// <param name="Axis"></param>
+        /// <param name="axisDirection"></param>
+        /// <param name="targetCell"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Предполагается, что текущая ячейка обладает приоритетом при создании связи.
+        /// См. S1_createLink(). Если это не так, связи могут быть созданы неправильно.
+        /// TODO: Хотя есть возможность упростить свичи, пока оставим их развернутыми, для наглядности.
+        /// Надо написать по ним описание процесса создания связи, для полного представления.
+        /// </remarks>
+        private MLink S1_intCreateLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - большая функция для всех вариантов ячеек.
+
+        /// <summary>
+        /// NT-Добавить связь в таблицу и записать в связь идентификатор строки.
+        /// Связь становится постоянной и сама обновляется в таблицу при изменениях проперти.
+        /// </summary>
+        /// <param name="link">Связь</param>
+        internal void S1_InsertLinkToTableAndAssignID(MLink link)
+
+        /// <summary>
+        /// NT-Get minimal collection of links from two (linked) cells.
+        /// This function work with MCellA cells too (slow)
+        /// </summary>
+        /// <param name="cellA">CellSection</param>
+        /// <param name="cellB">CellSection</param>
+        /// <returns></returns>
+        internal static MLinkCollection getMinLinkCollection(MCell cellA, MCell cellB) - возвращает коллекцию связей той из двух ячеек, где она с минимальным числом элементов. Используется только в private bool containsLinkMinCollection(MLink li, MCell cell1, MCell cell2, bool orTable).
+
+        /// <summary>
+        /// NT-Returns true if one or more links exists in table
+        /// </summary>
+        /// <param name="link"></param>
+        /// <returns></returns>
+        private bool containsLinkInTable(MLink link)
+
+        /// <summary>
+        /// NT-Проверить наличие связи между ячейками в памяти, выбрать минимальную коллекцию для поиска.
+        /// Если разрешено, искать в таблице если в памяти слишком много связей.
+        /// </summary>
+        /// <param name="li">LinkSection with cellId, Axis, Active values</param>
+        /// <param name="cell1">CellSection</param>
+        /// <param name="cell2">CellSection</param>
+        /// <param name="orTable">Use links table if too many links in memory</param>
+        /// <returns></returns>
+        private bool containsLinkMinCollection(MLink li, MCell cell1, MCell cell2, bool orTable)
+
+        /// <summary>
+        /// NT-Проверить наличие связи между ячейками в списке связей текущей ячейки 
+        /// Если разрешено, искать в таблице если в памяти слишком много связей.
+        /// </summary>
+        /// <param name="li">LinkSection with cellId, Axis, Active values</param>
+        /// <param name="orTable">Use links table if too many links in memory</param>
+        /// <returns></returns>
+        private bool containsLinkMorT(MLink li, bool orTable) - в зависимости от числа связей, которые надо просмотреть, поиск ведется по таблице или в памяти перебором элементов списка. связи сравниваются по ид ячеек, оси, активности. В общем, активность связи не совсем определена в концепции - в каких случаях связи игнорировать, в каких обрабатывать, поэтому надо проработать концепцию и операции в этом вопросе более основательно. Функция используетсятолько в private MLink S1_intCreateLink.
+
+
+        /// <summary>
+        /// Return True if specified object is MCell or MCellA or MCellB type
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsCellType(Object obj) - используется в MArg, в местах при проверке, что переданный Object это MCell.
+Подобная функция полезна и для связи.
+
+-------------------------------------------
+класс MCellA:
+
+
+        /// <summary>
+        /// помечает ячейку удаленной. 
+        /// </summary>
+        public override void S1_Delete() - сбрасывает флаг активности ячейки.
+
+        /// <summary>
+        /// NFT-Create complete list of links for MCellA links colection
+        /// </summary>
+        /// <returns></returns>
+        internal MLinkCollection AssemblyMCellALinks()
+
+        /// <summary>
+        /// NT-Получить текстовое представление ячейки
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+
+--------------------------------------------
+класс MCellB:
+        /// <summary>
+        /// помечает ячейку удаленной. Если ячейка не временная, не отложенной записи, то записывается в таблицу.
+        /// </summary>
+        public override void S1_Delete() - записывается в таблицу автоматически из кода проперти
+
+        /// <summary>
+        /// NT-Получить текстовое представление ячейки
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() - реализована не в MCell из-за необходимости доступа к полям.
+
+        /// <summary>
+        /// Set new link collection for cell
+        /// </summary>
+        /// <param name="col"></param>
+        internal void setLinkCollection(MLinkCollection col) - устанавливает новую коллекцию связей ячейки. Это поскольку проперти позволяют только получать, но не устанавливать. Обособленная функция позволяет избежать ошибок с проперти. Используется только в internal MCell  MEngine.S1_intLoadCell(MID cellId, MCellMode cellMode)
+
+-------------------------------------------
+класс MEngine:
+
+        /// <summary>
+        /// NT-Get first valid cell in project. Return null if no cells in project.
+        /// </summary>
+        /// <returns></returns>
+        /// <remarks>Функция вспомогательная, вызывается только из навигатора, для получения начальной позиции при запуске навигатора</remarks>
+        public MCell CellGetAny() - получить  постоянную ячейку с минимальным идентификатором в проекте или просто любую ячейку. Это для навигатора, чтобы было с чего начинать навигацию. Предполагается, что первая созданная ячейка должна быть ячейка World, корневая для всей структуры, при первом запуске навигатор должен начинать обзор с какой-то ячейки, а потом уже можно ее запомнить в настройках проекта, и впоследствии брать оттуда. Можно просто получить список доступных ячеек, и выбрать начальную из этого списка. Поэтому функция ситуативная.
+
+        /// <summary>
+        /// NR-Create container cell with mode. Return cell or throw exception
+        /// </summary>
+        /// <param name="mode">Cell mode for new cell</param>
+        /// <returns></returns>
+        /// <remarks>Публичная функция, должна обрабатывать ошибки и выдавать пользователю правильные исключения. Сейчас просто набросок.  </remarks>
+        public MCell CellCreate(MCellMode mode)
+        /// <summary>
+        /// NR-Get cell by cell ID. If cell not in memory, load it from table. 
+        /// Returns null if cell not exists in project.
+        /// </summary>
+        /// <param name="cellID">cell id</param>
+        /// <returns></returns>
+        public MCell CellGet(MID cellID)
+
+        /// <summary>
+        /// NR-Get cell and mark as inactive. Cell not deleted.
+        /// </summary>
+        /// <param name="cellID">cell id</param>
+        public void CellDelete(MID cellID)
+
+        /// <summary>
+        /// NR-Unload cell from container memory.
+        /// See also MCell.Unload()
+        /// </summary>
+        /// <param name="cellID">cell id</param>
+        public void CellUnload(MID cellID)
+
+        /// <summary>
+        /// NT-Check cell name is unique
+        /// </summary>
+        /// <param name="cellName">Some name</param>
+        /// <returns>Returns True if cell with same name not exists in project, False otherwise.</returns>
+        /// <remarks>Функция не изменяет ничего.</remarks>
+        public bool CellIsUniqueName(string cellName)
+
+        /// <summary>
+        /// NT-Создать ячейку в контейнере. Возвращает ссылку на ячейку или исключение.
+        /// </summary>
+        /// <param name="mode">Тип создаваемой ячейки</param>
+        /// <returns>Возвращает ссылку на ячейку или исключение.</returns>
+        internal MCell S1_intCreateCell(MCellMode mode)
+
+        /// <summary>
+        /// NT-Получить ячейку по идентификатору или null если ячейка не найдена в контейнере и в БД.
+        /// </summary>
+        internal MCell S1_intGetCell(MID cellId)
+
+        /// <summary>
+        /// NT-Загрузить ячейку из БД в контейнер. Возвращает ссылку на ячейку или null если ячейка не загружена
+        /// </summary>
+        /// <remarks>
+        /// При исключениях необходимо откатить все изменения и вернуть null.
+        /// Если вернуть null не получается, переделать все вызывающие функции для перехвата и обработки исключений.
+        /// </remarks>
+        internal MCell S1_intLoadCell(MID cellId, MCellMode cellMode)
+
+
+        /// <summary>
+        /// NR-Найти и пометить ячейку удаленной. Ячейка загружается в память и помечается удаленной.
+        /// </summary>
+        internal void S1_intDeleteCell(MID cellId)
+
+        /// <summary>
+        /// NT-Выгрузить ячейку из памяти по идентификатору. Если ячейка не загружена, ничего не происходит. См. MCell.Unload().
+        /// </summary>
+        /// <remarks>Этот код лучше исполнять здесь из-за приватных функций контейнера, а MCell.Unload() будет его вызывать. </remarks>
+        internal void S1_intUnloadCell(MID cellId)
+
+        /// <summary>
+        /// NT-Выгрузить ячейку из памяти. См. MCell.Unload().
+        /// </summary>
+        /// <remarks>Этот код лучше исполнять здесь из-за приватных функций контейнера, а MCell.Unload() будет его вызывать. </remarks>
+        internal void S1_intUnloadCell(MCell cell)
+
+        /// <summary>
+        /// NR-Удалить все связи указанной ячейки из контейнера и связанных ячеек. Упрощенная приблизительная версия.
+        /// </summary>
+        /// <param name="curCell"></param>
+        /// <remarks>Не учитывается MCellA особенности!</remarks>
+        internal void S1_RemoveCellLinksFromContainerAndCells(MCell curCell)
+

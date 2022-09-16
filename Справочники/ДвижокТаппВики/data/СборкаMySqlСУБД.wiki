@@ -1,0 +1,6 @@
+﻿++ Сборка My Sql СУБД
+
+++++Для MySql СУБД
+* [rel://files/MySqlConnectors.html] - справочная информация по использованию КоннекторБД для MySql СУБД. 
+* ОсмотрMySqlServer
+* [rel://files/MySqlPerformance.htm] 

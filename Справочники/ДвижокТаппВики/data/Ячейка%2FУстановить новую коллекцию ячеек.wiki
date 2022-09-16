@@ -1,0 +1,17 @@
+﻿++ Ячейка/Установить новую коллекцию ячеек
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// Set new link collection for cell
+        /// </summary>
+        /// <param name="col"></param>
+        internal void setLinkCollection(MLinkCollection col) - устанавливает новую коллекцию связей ячейки. Это поскольку проперти позволяют только получать, но не устанавливать. Обособленная функция позволяет избежать ошибок с проперти. Используется только в internal MCell  MEngine.S1_intLoadCell(MID cellId, MCellMode cellMode)

@@ -1,0 +1,33 @@
+﻿++ Контейнер/Выгрузить ячейку
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NR-Unload cell from container memory.
+        /// See also MCell.Unload()
+        /// </summary>
+        /// <param name="cellID">cell id</param>
+        public void CellUnload(MID cellID)
+
+        /// <summary>
+        /// NT-Выгрузить ячейку из памяти по идентификатору. Если ячейка не загружена, ничего не происходит. См. MCell.Unload().
+        /// </summary>
+        /// <remarks>Этот код лучше исполнять здесь из-за приватных функций контейнера, а MCell.Unload() будет его вызывать. </remarks>
+        internal void S1_intUnloadCell(MID cellId)
+        
+        /// <summary>
+        /// NT-Выгрузить ячейку из памяти. См. MCell.Unload().
+        /// </summary>
+        /// <remarks>Этот код лучше исполнять здесь из-за приватных функций контейнера, а MCell.Unload() будет его вызывать. </remarks>
+        internal void S1_intUnloadCell(MCell cell)
+        
+++++Выгрузка ячеек из памяти
+* ВыгрузкаЯчеекИзКонтейнера

@@ -1,0 +1,20 @@
+﻿++ Контейнер/Проверить уникальность названия ячейки
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NT-Check cell name is unique
+        /// </summary>
+        /// <param name="cellName">Some name</param>
+        /// <returns>Returns True if cell with same name not exists in project, False otherwise.</returns>
+        /// <remarks>Функция не изменяет ничего.</remarks>
+        public bool CellIsUniqueName(string cellName)
+        

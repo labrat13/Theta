@@ -1,0 +1,24 @@
+﻿++ Контейнер/Удалить ячейку
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NR-Get cell and mark as inactive. Cell not deleted.
+        /// </summary>
+        /// <param name="cellID">cell id</param>
+        public void CellDelete(MID cellID)
+        
+        /// <summary>
+        /// NR-Найти и пометить ячейку удаленной. Ячейка загружается в память и помечается удаленной.
+        /// </summary>
+        internal void S1_intDeleteCell(MID cellId)
+
+        

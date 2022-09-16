@@ -1,0 +1,17 @@
+﻿++ Сборка Ms Sql СУБД
+
+++++Пример процесса оптимизации индекса MsSql
+Оптимизация индекса IX_LinkTable_updownID
+Фрагментация 66%
+
+ALTER INDEX [IX_LinkTable_updownID] ON [dbo].[LinkTable] 
+REBUILD;
+27секунд, 
+
+/****** Объект:  Index [IX_CellTable_name]    Дата сценария: 02/25/2013 14:25:39 ******/
+CREATE NONCLUSTERED INDEX [IX_CellTable_name] ON [dbo].[CellTable] 
+(
+	[name] ASC
+)WITH (SORT_IN_TEMPDB = OFF, DROP_EXISTING = ON, IGNORE_DUP_KEY = OFF, ONLINE = OFF) ON [PRIMARY]
+17секунд
+

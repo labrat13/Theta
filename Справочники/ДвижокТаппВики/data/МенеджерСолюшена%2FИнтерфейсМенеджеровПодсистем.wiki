@@ -1,0 +1,17 @@
+﻿++ Менеджер Солюшена/Интерфейс Менеджеров Подсистем
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+* private MEngine m_container;/// Container reference
+* public MEngine Container/// Get container 
+        {  get { return m_container; } }
+* public void Open(MProjectInfo info)/// NR-Open manager
+* public void Close()/// NR-Close manager

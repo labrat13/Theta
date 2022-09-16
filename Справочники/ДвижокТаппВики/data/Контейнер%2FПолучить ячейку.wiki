@@ -1,0 +1,25 @@
+﻿++ Контейнер/Получить ячейку
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NR-Get cell by cell ID. If cell not in memory, load it from table. 
+        /// Returns null if cell not exists in project.
+        /// </summary>
+        /// <param name="cellID">cell id</param>
+        /// <returns></returns>
+        public MCell CellGet(MID cellID)
+        
+        /// <summary>
+        /// NT-Получить ячейку по идентификатору или null если ячейка не найдена в контейнере и в БД.
+        /// </summary>
+        internal MCell S1_intGetCell(MID cellId)
+        

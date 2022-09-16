@@ -1,0 +1,14 @@
+﻿++ Представление Данных В Памяти И Бд
+[//ПЕРЕДЕЛАТЬ] - переделать на полное разделение для каждого СерверSQLБД, указать необходимое приведение типов.
++++Представления данных в памяти и в таблицах MySqlСУБД и MsSqlСУБД
+тип         .Net type   MySql              | SqlDbType      MsSql
+-------------------------------------------|-----------------------
+[MID]       UInt64      UNSIGNED BIGINT    | Int64          BigInt
+uint        UInt32      UNSIGNED INT       | Int32          Int
+int         Int32       INT                | Int32          Int
+даты        DateTime    DATETIME           | DateTime       DateTime
+имена       String      VARCHAR(xxx)       | String         NVarChar(xxx)
+текст       String      LONGTEXT           | String         NText
+байты       Byte[]      LONGBLOB           | Byte[]         VarBinary(max) - до 4гб.
+флаг        bool        INT ?              | Boolean        Bit
+enum        Int32       INT                | Int32          Int

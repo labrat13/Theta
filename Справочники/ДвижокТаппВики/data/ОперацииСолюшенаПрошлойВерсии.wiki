@@ -1,0 +1,157 @@
+﻿++ Операции Солюшена Прошлой Версии
+
+++++Операции солюшена
+Из [file:///V:/МоиПроекты/SIM/Tapp23Project/Tapp2_01092013/Tapp231/Tapp23_1/projectoperations.txt]
+операции солюшена - начнем помаленьку.
+
+3)ProjectStatistics()
+getStatistics()
+-MStatistic  класс создаем.
+-пишем в него число ячеек в памяти из MCellCollection.Count
+-если солюшен использует БД
+  -пишем в статистику чисо ячеек в таблице MDataLayer.GetNumberOfCells
+  -пишем в статистику чисо связей в таблице MDataLayer.GetNumberOfLinks 
+-пишем число ячеек в памяти из MLinkCollection.Count
+-пишем число временных ячеек MCellCollection.getNumberOfTempCells();
+-пишем число временных связей MLinkCollection.getNumberOfTempLinks();
+Заметим, что обе коллекции теперь можно реализовать одним классом и соответсвенно переименовать функции.
+-вызываем MResource.GetResourceStatistics(..) для получения числа и общего размера файлов ресурсов
+-return
+
+7)ProjectClear
+Нужно удалить для открытого солюшена из памяти и бд связи и ячейки и привести все настройки в исходное состояние
+-MLinkCollection.Clear
+-MCellCollection.Clear
+-если солюшен использует БД
+ -очищаем таблицы в бд - MDbLayer.ClearClearCellAndLinkTables();
+-переустанавливаем переменные
+ -сбрасываем кеши менеджера идентификаторов
+ -MEngine.ServiceFlag = 0
+ -MEngine.State = 0
+-обновляем статистику файла солюшена, еси она там есть
+-с MResource.ClearResources() удаляем все файлы ресурсов 
+-что-то меняем в подсистеме [Лог]а 
+
+1) static ProjectCreate(MProjectInfo)
+Создание нового солюшена. Только создание, открывать потом другой функцией.
+Если у пользователя СерверSQLБД недостаточно прав для создания БД, будут исключения.
+Параметры солюшена передаются через MProjectInfo.
+Заметим, что функция статическая, [Лог]а нет, поэтому если какие-либо функции используют [Лог], они должны быть готовы к его отсутствию.
+
+-проверяем параметры для нового солюшена - MProjectInfo.checkValues() выкидывает исключения при ошибках.
+ Заметим, что проверки должны соответствовать требованиям всех применяемых СерверSQLБД.
+-проверяем, что каталог для солюшена существует и доступен
+  если нет, выкидываем исключение. Для проверки создаем каталог тест и затем удаляем.
+-если используется БД
+ - открываем соединение и создаем БД солюшена
+      MDbLayer.CreateDatabase(pf.DatabaseServerPath, pf.UserName, pf.UserPassword, pf.DatabaseName);
+ -создаем таблицы и индексы БД
+      MDbLayer.CreateTablesIndexes(pf.DatabaseServerPath, pf.UserName, pf.UserPassword, pf.DatabaseName); 
+ -Здесь надо было записать в созданную БД начальные данные - а именно - состояние контейнераю
+  -создаем объект контейнера и инициализируем его 
+  -вписываем описание из  MProjectInfo.Description
+  -вписываем имя из  MProjectInfo
+  -видимо, здесь следует вписать и другие свойства контейнера  из  MProjectInfo
+  -создаем строку соединения и вписываем в слой бд в контейнере
+	MDbLayer.createConnectionString(pf.DatabaseServerPath, pf.DatabaseName, pf.UserPassword, pf.UserName, 30, false);
+  -таймаут БД=30
+  -открываем соединение с БД
+  -сохраняем контейнер в БД
+  -закрываем соединение
+  -уничтожаем контейнер
+-создаем ФайловаяСистемаСолюшена
+	  MProject.CreateProjectFolder(pf, rootFolder); //! Без [Лог]а, или проверять его существование
+	  эта функция создает каталог солюшена, подкаталоги, файл солюшена.
+-return
+
+2)static MEngine ProjectOpen(string projectFilePath)
+
+-создает объект контейнера
+-MEngine.Open(projectFilePath)
+ -загруает файл солюшена MProjectFile.Load(projectFilePath);
+ -проверяет версию солюшена, если неподходящая, выдает исключение
+ -сохраняет ссылку на файл солюшена в MProject
+ -если солюшен использует БД
+  -создаем строку подключения MDbLayer.createConnectionString(pf.DatabaseServerPath, pf.DatabaseName, pf.UserPassword, pf.UserName, pf.Timeout, false);
+  -подключаемся к СерверSQLБД
+  -загружаем данные контейнера MDbLayer.LoadContainer(this);
+  -инициализируем кеш менеджера идентификаторов от MDbLayer.S1_getMaxCellId();
+-открываем [Лог]   m_log.Open();
+-инициализируем менеджеры ресурсов, снимков  и методов
+ m_resMan.Init(); m_methodMan.Init();m_snapMan.Init();
+-конец
+
+4)ProjectSave()
+Сохранять солюшен можно только в устойчивых состояниях процесса.
+Если солюшен не использует БД, сохранить солюшен можно только при помощи моментального снимка.
+Сохраняются только ячейки MCellBds. Временные ячейки не сохраняются.
+Связи вероятно должны сохраняться вместе с ячейками.
+
+-если солюшен использует БД
+ -сохранить контейнер в БД
+ -сохранить все ячейки MCellBds SaveAllDelaySavedCells();
+  -если солюшен использует БД
+    -сохранить все ячейки указанного типа  - MCellCollection.SaveCells(MCellMode.DelaySave);
+-обновить статистику контейнера в файле солюшена если она там есть.   
+-return
+  
+5) ProjectOptimize
+Пока не реализован
+
+6) ProjectClose(bool withSave)
+Выглядит на скорую руку
+
+
+-MEngine.Close(withSave)
+ -если солюшен использует БД
+  -если соединение с БД открыто m_dataLayer.isConnectionOpened()
+   -если withSave=true
+    -сохранить перед закрытием MEngine.Save()
+   -закрыть соединение m_dataLayer.Close(); 
+  -MLinkCollection.Clear();
+  -MCellCollection.Clear();
+ -деинициализировать менеджеры
+    m_methodMan.Exit();
+    m_resMan.Exit();
+    m_snapMan.Exit();
+    //close log
+    m_log.Close(); 
+-конец
+
+8)    public static void ProjectDelete(string projectFilePath)
+ Удалить солюшен из СерверSQLБД и с диска
+ Если у пользователя СерверSQLБД нет прав на это, возникнут исключения.
+ 
+ -загружаем файл солюшена по переданному имени
+ -если солюшен использует БД
+  -удаляем бд с СерверSQLБД:  MDbLayer.DeleteDatabase(pfile.DatabaseServerPath, pfile.UserName, pfile.UserPassword, pfile.DatabaseName);
+ -удаляем каталоги солюшена
+   MProject.DeleteFolder(pfile.getProjectDirectory());
+ -конец
+ 
+ 0)инициализация контейнера
+ В рассматриваемом коде контейнер является главной точкой солюшена.
+ Он инициализирует все подсистемы при своем создании.
+ /// NT-Create new container object. Call Open() to open db connection and load container data.
+public MEngine()
+{
+    m_cells = new MCellCollection(); //колекция ячеек
+    m_dataLayer = new MDbLayer();	//слой бд
+    m_isactive = true;				//свойство - контейнер активен
+    m_DefaultCellMode = MCellMode.Compact; //ячейки по умолчанию
+    m_links = new MLinkCollection(); //коллекция связей
+    m_log = new MLog(this);			//инициализация [Лог]а
+    m_maxConstCellID = 0;	//кеш менеджера идентификаторов
+    m_maxTempCellID = 0;   //кеш менеджера идентификаторов
+    m_serviceflag = 0;		//свойство контейнера
+    m_state = 0;			//свойство контейнера
+    m_description = String.Empty;	//свойство контейнера
+    m_name = String.Empty;	//свойство контейнера
+    //new project managers
+    m_methodMan = new MMethod(this); //менеджер методов
+    m_prjMan = new MProject(this); //менеджер солюшена
+    m_resMan = new MResource(this); //менеджер ресурсов
+    m_snapMan = new MSnapshot(this); //менеджер снимков
+    //store engine reference for all cells
+    MCell.Container = this;  
+}

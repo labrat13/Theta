@@ -1,0 +1,50 @@
+﻿++ Контейнер/Открыть Солюшен
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+•	public void ProjectOpen(string prjfile) - /// Open existing project via project file 
+•	public void S1_Open(string connectString, int timeout, MProjectFile file) - /// Open existing container in db 
+++++Пользователь открывает солюшен
+Из [//РаботаПользователяССолюшеном]
+Пользователь находит на диске [//КаталогСолюшена], находит в ней [//ФайлСолюшена], кликает на нем.
+Срабатывает механизм ассоциаций Виндовс, приложение получает путь к [//ФайлСолюшена].
+Приложение вызывает функцию [//Контейнер/Открыть Солюшен],передавая ей путь к [//ФайлСолюшена].
+Эта операция выполняет работу по инициализации движка и при успешном завершении возвращает объект [//Контейнер]а. Теперь пользователь может выполнять другие операции с [//Солюшен]ом.
+Если возникают ошибки, операция выкидывает исключения. Исключения обрабатываются программой и предъявляются пользователю - "невозможно выполнить операцию потому, что..."
+
+        /// <summary>
+        /// NR-Open existing project
+        /// </summary>
+        /// <param name="prjFilePathname">Path for project file</param>
+        /// <returns>Returns MEngine object of opened project</returns>
+        /// <remarks>
+        /// Only one project can be opened at one time in application.
+        /// Так как статическая ссылка на текущий контейнер одна на все контейнеры в процессе/приложении.
+        /// </remarks>
+        /// <remarks></remarks>
+        /// <seealso cref=""/>
+        public static MEngine ProjectOpen(string prjFilePathname)
+        {
+            //load project info from project file
+            //Если файл проекта не удалось загрузить, то будут исключения, например о неправильном формате файла
+            MProjectInfo info = MProjectInfo.Load(prjFilePathname);
+            //тут надо проверить версию и параметры проекта.
+            info.checkValues(); //выбрасывает исключения при несоответствиях
+            //create engine
+            MEngine engine = new MEngine();//тут создается вся арматура классов, но не готова к работе
+            //открываем контейнер, после чего система либо готова, либо выдает исключения
+            engine.Open(info); //после вызова engine.EngineState должен быть Open
+            //...
+            //set project state as Opened
+            engine.EngineState = MEngineState.Open;
+            //return project
+            return engine;
+        }

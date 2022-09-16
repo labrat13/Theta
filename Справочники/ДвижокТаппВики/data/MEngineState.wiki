@@ -1,0 +1,18 @@
+﻿++ M Engine State
+[template: ШаблонЕнумаКода]
+[//В РАЗРАБОТКЕ]
++++Описание
+Енум состояний контейнера.
++++Атрибуты
+
++++Перечень значений
+* 0 - [MEngineState_Unknown]   - Unknown state
+* 1 - [MEngineState_Open]      - Engine is opened and ready to work
+* 2 - [MEngineState_Closed]    - Engine is inactive
+* 3 - [MEngineState_Broken]    - Engine is brocken
+* 4 - [MEngineState_Executing] - Engine executes some operations. Wait for Open state.
+
++++Дополнительная информация
+
++++См также
+

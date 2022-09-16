@@ -1,0 +1,572 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><title>Менеджер подключений к базам данных</title><meta name="description" content="В статье объясняется что такое менеджер подключений, описываются его предполагаемые функции и путь реализации. Кроме того предлагается простой, но красивый способ безопасного открытия и автоматического закрытия подключений."><meta name="robots" content="index,follow"><link rel="stylesheet" href="dbmanager_data/article.css" type="text/css"><script async="" src="dbmanager_data/analytics.js"></script><script type="text/javascript" src="dbmanager_data/jquery.js"></script><script type="text/javascript" src="dbmanager_data/rsdn.js"></script><script type="text/javascript" src="dbmanager_data/Forum.js" charset="utf-8"></script><link rel="canonical" href="dbmanager.htm"></head><body marginwidth="20" marginheight="20"><table celpadding="2" style="font-family:verdana;font-weight:bold;padding: 0px 5px; BORDER: #9daabd 1px 	solid; 	COLOR: #646464; BACKGROUND-COLOR: #e6e6e6;" width="100%" cellspacing="0" border="0"><tbody><tr><td nowrap="nowrap"><font style="font-weight:normal" size="1"><script src="dbmanager_data/shMenu.js" type="text/javascript" charset="utf-8"></script></font></td><td width="100%" nowrap="nowrap" align="right"><font size="2">&nbsp;<a href="http://rsdn.org/article/dotnet/dbmanager.xml?print" target="_blank" title="Версия для печати"><img src="dbmanager_data/printer2.gif" width="16" height="14" border="0" align="absmiddle"></a>&nbsp;&nbsp;<a href="http://rsdn.org/forum/db/385948" target="_self" title="Перейти к обсуждению статьи"><font size="1" color="#646464"> Сообщений </font><font color="black">1</font></a>&nbsp;&nbsp;<a href="http://rsdn.org/forum/db/385948" target="_self" title="Перейти к обсуждению статьи"><img src="dbmanager_data/showfr.gif" width="18px" height="14px" border="0" align="absmiddle"></a>&nbsp;<a href="http://rsdn.org/Forum/RateList.aspx?mid=385948"><font color="#646464"><font size="1"> Оценка </font><font color="black">110</font>
+									[<font style="font-weight: normal;"><span style="color:green;">+2</span>/<span style="color:blue;">-0</span></font>]
+								</font></a>&nbsp;&nbsp; <a target="_blank" rel="nofollow" href="http://rsdn.org/Users/Private/AddFav.aspx?mid=385948" onclick="return AddFav(this.href);" title="Добавить в избранное"><img src="dbmanager_data/fav.gif" height="14px" border="0" align="absmiddle"></a>&nbsp;&nbsp;<a href="http://rsdn.org/Forum/Private/Subscr.aspx?tid=385948" onclick="return SubMsg(this.href)" title="Подписка на сообщения" rel="nofollow"><img class="i" src="dbmanager_data/sub.gif" width="18px" height="14px" border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;<font size="1">Оценить </font><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=-3" onclick="return RateMsg(this.href);" title="+1"><img src="dbmanager_data/n11.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=1" onclick="return RateMsg(this.href);" title="Интересно"><img src="dbmanager_data/n1.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=2" onclick="return RateMsg(this.href);" title="Спасибо"><img src="dbmanager_data/n2.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=3" onclick="return RateMsg(this.href);" title="Супер"><img src="dbmanager_data/n3.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=-1" onclick="return RateMsg(this.href);" title="Удалить оценку"><img src="dbmanager_data/nx.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=-4" onclick="return RateMsg(this.href);" title="Согласен"><img src="dbmanager_data/np.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=0" onclick="return RateMsg(this.href);" title="Не согласен"><img src="dbmanager_data/nm.gif" eight="14px" width="18px" border="0" align="absmiddle"></a>&nbsp;
+					</font></td></tr></tbody></table><script type="text/javascript" src="dbmanager_data/orphus.js"></script><a href="http://orphus.ru/" id="orphus" title="Система Orphus"><img alt="Система Orphus" src="dbmanager_data/orphus.gif" width="100" height="25" border="0"></a><h1>Менеджер подключений к базам данных</h1><h5><span class="title">Автор: </span><span class="value"><a target="_blank" href="http://www.rsdn.ru/users/profile.aspx?uid=21149">Андрей Майоров</a><br><a target="_blank" href="http://www.byte-force.com/">BYTE-force</a></span><br><span class="title">Источник: </span><span class="value"><a target="_blank" href="http://www.rsdn.ru/mag/main.htm">RSDN Magazine #4-2003</a></span></h5><h6><span class="title">Опубликовано: </span><span class="value">01.02.2004</span><br><span class="title">Исправлено: </span><span class="value">13.03.2005</span><br><span class="title">Версия текста: </span><span class="value">1.0</span></h6><table width="98%"><tbody><tr><td class="contents" valign="top"><a href="#E4"><b>Введение</b></a><br><a href="#ECC"><b>Основная функция менеджера</b></a><br><a href="#EYC"><b>Перечисление подключений</b></a><br><a href="#ELD"><b>Конфигурирование менеджера</b></a><br><a href="#ELF"><b>Структура класса</b></a><br><a href="#ESH"><b>Варианты работы с базой</b></a><br><a href="#EWAAC"><b>Повторное использование подключений</b></a><br><a href="#E2BAC"><b>Режимы функционирования менеджера</b></a><br><a href="#EZCAC"><b>Многопоточность</b></a><br><a href="#ELFAC"><b>Менеджер и ASP.NET</b></a><br><a href="#E1GAC"><b>Пожалуйста, закрывайте двери!</b></a><br><a href="#EPIAC"><b>Реализация</b></a><br><a href="#E1IAC"><b>Ссылки</b></a><br></td><td class="contents" valign="top" align="center"><img src="dbmanager_data/mag0403.jpg"></td></tr></tbody></table><script language="javascript">
+			function ToggleCode(id)
+			{
+				el=document.getElementById(id);
+				img=document.getElementById("img"+id);
+				if(el.style.display=="none")
+				{
+					img.src="/images/ls2.gif";
+					el.style.display="";
+				}
+				else
+				{
+					img.src="/images/ls1.gif";
+					el.style.display="none";
+				}
+				return false;
+			}
+		</script><h2>Введение<a name="E4"></a></h2>
+<p>Не будет большим преувеличением сказать, что львиная доля 
+разрабатываемых сейчас программ использует в своей работе базы данных. 
+Большинство из них работает с одной базой, более редкие представители – с
+ двумя, тремя, четырьмя и так далее, вплоть до полной неопределенности в
+ количестве баз на этапе разработки. </p>
+<p>Примеры приложений, работающих с одной БД, знакомы каждому. С двумя 
+базами может работать, например, программа, синхронизирующая данные 
+между ними. При этом базы могут иметь разную структуру и управляться 
+разными СУБД. С заранее неизвестным количеством баз может работать, 
+например, приложение, собирающее статистику из множества источников. </p>
+<p>В рамках этой статьи нас не очень интересует, что именно приложение 
+делает с базой данных. Важен сам факт подключения для выполнения каких 
+бы то ни было операций. Рассмотрим традиционный для ADO.NET сценарий 
+работы с базой.</p>
+<p>Во-первых, мы должны знать строку подключения (connection string), 
+во-вторых, создать объект подключения соответствующего типа, затем 
+проинициализировать его этой строкой, открыть и начать использовать. По 
+завершению использования объект подключения следует уничтожить. Выглядит
+ это примерно так:</p>
+<div id="EIB"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">string</span> conString = <span class="STRING">"..."</span>;
+SqlConnection con = <span class="KEYWORD">new</span> SqlConnection();
+con.ConnectionString = conString;
+<span class="KEYWORD">using</span>( con ){
+  con.Open();
+  ...
+} <span class="COMMENT">// В этой точке подключение будет автоматически закрыто и уничтожено</span>
+</pre></td></tr></tbody></table></div>
+<p>Код прост и логичен, но в реальном приложении с ним могут возникнуть проблемы:</p>
+<ul style="LIST-STYLE:square"><li>Почти всегда разработка приложения 
+ведется не с теми строками подключения, которые будут использоваться при
+ эксплуатации. Соответственно, мы не можем жестко зашить строку 
+подключения в код, а должны как-то ввести ее во время работы приложения.
+ </li>
+<li>В ряде приложений разработчик не знает конкретного типа объекта 
+подключения и работает с базовым интерфейсом IDbConnection. Для таких 
+случаев код типа «new SqlConnection» не годится. </li>
+</ul>
+<p>В то же время разработчик обычно четко представляет, какое 
+подключение ему нужно открыть, и может логически обозначить его «база А»
+ или «база Б», что бы это ни означало в среде конечного пользователя. В 
+случае приложения с одной базой, можно подключаться и к некоторой базе 
+по умолчанию, никак ее не именуя.</p>
+<p>Очевидно, что удобным решением могло бы стать использование 
+некоторого механизма, позволяющего получать объект подключения к базе 
+данных по его логическому имени. Конечному пользователю этот механизм 
+должен предоставлять возможность быстро и просто ассоциировать 
+логическое название с реальной строкой подключения. Например, это можно 
+делать в файле конфигурации. Подобный механизм мы и назовем «менеджером 
+подключений к базам данных». </p>
+<h2>Основная функция менеджера<a name="ECC"></a></h2>
+<p>Основная функция менеджера – по заданному логическому имени вернуть 
+объект подключения нужного типа, проинициализированный нужной строкой 
+подключения.</p>
+<p>В использовании это может выглядеть так:</p>
+<div id="EJC"><table class="code" width="98%"><tbody><tr><td><pre>SqlConnection c1 = (SqlConnection)dbmgr[<span class="STRING">"beta"</span>];
+IDbConnection c2 = dbmgr.Default;
+</pre></td></tr></tbody></table></div>
+<p>Приведение типа в первой строке обусловлено тем, что наше приложение 
+может работать с базами разных типов, и, следовательно, менеджер не 
+может возвращать объект подключения какого-то определенного типа. Так 
+как любой объект подключения должен реализовывать интерфейс 
+IDbConnection, менеджеру наиболее логично давать доступ к объектам 
+именно через этот интерфейс.</p>
+<p>Очевидно, что эта функция менеджера примерно соответствует шаблону (паттерну) проектирования <a href="http://selab.korea.ac.kr/selab/courses/GoF-patterns/FactoryMethod.htm" class="link-ext" target="_blank">Factory Method</a>.</p>
+<h2>Перечисление подключений<a name="EYC"></a></h2>
+<p>Мы уже говорили о приложениях с неопределенным на этапе разработки 
+количеством подключений. В практике применения менеджера подключений это
+ может выглядеть, например, так: программа должна последовательно 
+получить информацию из каждой БД, зарегистрированной в менеджере. При 
+этом на момент написания программы мы не знаем, какие базы, и в каком 
+количестве будут нужны конечному пользователю. </p>
+<p>Очевидно, что в этом случае логические имена баз нас не очень-то 
+интересуют. Гораздо больше нам нужна возможность перебора всех баз в 
+менеджере. Например:</p>
+<div id="E6C"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">foreach</span>( IDbConnection con <span class="KEYWORD">in</span> dbmgr ) {
+  <span class="COMMENT">// Получаем информацию</span>
+  …
+}
+</pre></td></tr></tbody></table></div>
+<p>Для того чтобы эта языковая конструкция работала, да и вообще для 
+перебора всех имеющихся подключений, наш класс DbManager должен 
+реализовывать интерфейс IEnumerable.</p>
+<h2>Конфигурирование менеджера<a name="ELD"></a></h2>
+<p>Настройка менеджера заключается в установке соответствия между 
+логическим именем подключения и информацией, достаточной для создания 
+объекта подключения. Несложные размышления показывают, что достаточно 
+знать тип объекта подключения, строку подключения, а также является ли 
+данное подключение подключением по умолчанию. </p>
+<p>Как уже указывалось, проще всего эту настройку делать через 
+конфигурационный файл приложения. При этом и у разработчика есть единое 
+место для описания подключений, и конечный пользователь может быстро 
+адаптировать приложение к своим условиям. Нужно отметить, впрочем, что 
+при этом подходе конечный пользователь должен знать стандартный формат 
+строк подключения ADO.NET.</p>
+<p>Примерный код, инструктирующий менеджера произвести чтение настроечных данных, даже если он уже был сконфигурирован:</p>
+<div id="EUD"><table class="code" width="98%"><tbody><tr><td><pre>dbmgr.Configure( <span class="KEYWORD">true</span> ); <span class="COMMENT">// forceReload = true</span>
+</pre></td></tr></tbody></table></div>
+<p>При этом формат секции конфигурационного файла может быть таким:</p>
+<div id="E4D"><table class="code" width="98%"><tbody><tr><td><pre>&lt;Database&gt;
+  &lt;connection name=<span class="STRING">"alfa"</span> 
+  connectionString=<span class="STRING">"..."</span> 
+   default=<span class="STRING">"true" /&gt;
+  </span>&lt;connection name=<span class="STRING">"beta" 
+  </span>connectionString=<span class="STRING">"..." 
+   </span>type=<span class="STRING">"OleDbConnection"</span> /&gt;
+&lt;/Database&gt;
+</pre></td></tr></tbody></table></div>
+<p>Здесь декларируется, что приложение использует две базы данных. 
+Первая из них называется alfa, обслуживается объектом типа SqlConnection
+ (ибо ничего другого не указано), и является подключением по умолчанию. 
+Вторая носит логическое имя beta и обслуживается объектом типа 
+OleDbConnection. Безусловно, для обеих баз указаны и корректные строки 
+подключений. </p>
+<p>Имея простой и удобный способ описания подключений через 
+конфигурационный файл, мы, тем не менее, не должны забывать, что бывают 
+ситуации, когда все это должно быть сделано программным путем. Например,
+ так:</p>
+<div id="EQE"><table class="code" width="98%"><tbody><tr><td><pre>Configuration config = <span class="KEYWORD">new</span> Configuration();
+<span class="COMMENT">// Настраиваем объект config</span>
+…
+<span class="COMMENT">// Назначаем конфигурацию менеджеру</span>
+DbManager.Configure( config );
+</pre></td></tr></tbody></table></div>
+<p>В данном случае объект типа Configuration предоставляет нам те же возможности настройки, что и файл конфигурации.</p>
+<p>Очень тяжело представить приложение, в котором существовало бы 
+несколько отдельных наборов подключений к базам данных. Я говорю, 
+например, о ситуации, когда в двух разных местах приложения мы 
+используем два разных подключения с именем beta. Какие выводы из этого 
+следуют? </p>
+<p>Во-первых, это значит, что все экземпляры менеджера подключений, 
+используемые в приложении, должны быть сконфигурированы одинаково. 
+Соответственно, методы Configure(…) мы смело можем делать статическими.</p>
+<p>Во-вторых, напрашивается вывод, что мы вполне можем обойтись одним 
+экземпляром менеджера на все приложение. В некоторых случаях, о которых 
+мы поговорим позже, нам понадобится большее, но все же ограниченное 
+количество экземпляров. Из этого следует, что экземпляр менеджера мы 
+должны получать не при помощи оператора new, а посредством некоего 
+статического метода класса. Пример:</p>
+<div id="EBF"><table class="code" width="98%"><tbody><tr><td><pre>DbManager dbmgr = DbManager.Get();
+</pre></td></tr></tbody></table></div>
+<p>Подобный подход напоминает о <a href="http://selab.korea.ac.kr/selab/courses/GoF-patterns/singleton.htm" class="link-ext" target="_blank">паттерне проектирования Singleton</a>, но, в отличие от классической трактовки, у нас может быть не один экземпляр, а несколько. Впрочем, об этом мы еще поговорим.</p>
+<h2>Структура класса<a name="ELF"></a></h2>
+<p>Продумав сценарий использования менеджера, мы можем спроектировать структуру класса. Вот она: </p>
+<div id="EQF"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">public</span> <span class="KEYWORD">class</span> DbManager : IEnumerable
+{
+  <span class="KEYWORD">public</span> <span class="KEYWORD">static</span> DbManager Get() {...}
+
+  <span class="KEYWORD">public</span> IDbConnection <span class="KEYWORD">this</span>[<span class="KEYWORD">string</span> name] 
+  {
+    get  {...}
+  }
+
+  <span class="KEYWORD">public</span> IDbConnection Default 
+  {
+    get  {...}
+  }
+
+  <span class="KEYWORD">public</span> <span class="KEYWORD">static</span> <span class="KEYWORD">void</span> Configure( <span class="KEYWORD">bool</span> forceReload ) {...}
+
+  <span class="KEYWORD">public</span> <span class="KEYWORD">static</span> <span class="KEYWORD">void</span> Configure( Configuration config ) {...}
+
+  <span class="KEYWORD">public</span> IEnumerator GetEnumerator() {...}
+
+  <span class="COMMENT">// Непубличные методы и члены класса</span>
+  ...
+}
+</pre></td></tr></tbody></table></div>
+<p>Краткое описание методов:</p>
+<ul style="LIST-STYLE:square"><li><b>Get</b> – возвращает менеджер подключений. Если экземпляра менеджера еще нет, создается новый. </li>
+<li><b>this[&nbsp;string&nbsp;]</b> – возвращает объект подключения по 
+данному логическому имени. В том случае, если имя не указано (равно 
+null), возвращается объект подключения по умолчанию. </li>
+<li><b>Default</b> – возвращает объект подключения по умолчанию. </li>
+<li><b>Configure(&nbsp;bool&nbsp;)</b> – читает настроечную информацию 
+из конфигурационного файла. Если мы пытаемся работать с еще не 
+сконфигурированным менеджером, он должен автоматически вызвать этот 
+метод. </li>
+<li><b>Configure(&nbsp;Configuration&nbsp;)</b> – настраивает менеджер в соответствии с данным конфигурационным объектом. </li>
+<li><b>GetEnumerator</b> – позволяет пробежаться по всем подключениям менеджера циклом foreach. </li>
+</ul>
+<h2>Варианты работы с базой<a name="ESH"></a></h2>
+<p>Мы уже рассматривали кусок типового кода, работающего с базой. Более 
+полный фрагмент выглядит так: мы сначала создаем подключение (например, 
+SqlConnection), потом создаем команду (SqlCommand), добавляем к команде 
+параметры, ассоциируем ее с подключением, открываем подключение, 
+выполняем команду, закрываем подключение:</p>
+<div id="EXH"><table class="code" width="98%"><tbody><tr><td><pre>SqlConnection con = <span class="KEYWORD">new</span> SqlConnection();
+con.ConnectionString = <span class="STRING">"..."</span>;
+SqlCommand cmd = <span class="KEYWORD">new</span> SqlCommand();
+cmd.CommandText = <span class="STRING">"..."</span>;
+cmd.Connection = con;
+cmd.Parameters.Add( <span class="KEYWORD">new</span> SqlParameter( ... ) );
+<span class="KEYWORD">using</span>( con ){
+  con.Open();
+  cmd.Execute();
+  ...
+
+}
+</pre></td></tr></tbody></table></div>
+<p>Мы делаем это при каждом обращении к базе, так что возникает вопрос: а
+ не будет ли быстрее заранее создать и сохранить подключение и команду, а
+ потом только использовать их? С точки зрения элементарной логики 
+кажется очевидным, что должно быть быстрее. С другой стороны, известно, 
+что создание объектов в .NET Framework происходит очень быстро, так что 
+выигрыш вряд ли будет большим. </p>
+<p>Проведем тест. В одном прогоне мы будем каждый раз создавать 
+подключение и команду, а в другом – использовать готовые объекты. 
+Команде определим три параметра. В двух прогонах по 100 000 итераций 
+удалось выяснить следующее:</p>
+<p>Первый подход, при котором все создается заново, примерно на 5 процентов медленнее второго.</p>
+<p>В абсолютном исчислении это замедление составляет всего 0.08 
+миллисекунды на каждую итерацию, т.е. очень мало. Если учесть, что само 
+обращение к базе выполняется на несколько порядков медленнее создания 
+любого объекта, то выигрыш получается и вовсе умозрительный.</p>
+<p>Какие выводы? Во-первых, логика восторжествовала – не создавать 
+объекты оказалось быстрее, чем создавать. Во-вторых, это совершенно не 
+важно. Разница в скорости между пересозданием объектов и использованием 
+готовых настолько мала, что разработчик может смело выбирать тот или 
+иной подход, руководствуясь только своим личным пониманием прекрасного. </p>
+<p>Говоря же о практической экономии, можно сделать такую оценку: если у
+ нас есть некая динамическая web-страница, которая делает одно обращение
+ к базе, а к ней самой обращаются 10 раз в секунду, то сохранение 
+объектов поможет нам выиграть целую секунду за полчаса. </p>
+<p>Естественно, между этими двумя полярными вариантами есть большое 
+число промежуточных состояний. Например, можно каждый раз создавать 
+объект подключения, но хранить готовые команды. Этот подход, вероятно, 
+весьма органично сочетается с визуальным дизайнером компонентов из 
+Visual Studio. Набросав на компонент команды, мы получаем код для их 
+инициализации, который выполняется при создании экземпляра компонента. 
+Очевидно, что извлекать этот код из метода InitializeComponent 
+неразумно, лучше просто назначить нужной команде тот объект подключения,
+ который мы собираемся открывать в данный момент.</p>
+<h2>Повторное использование подключений<a name="EWAAC"></a></h2>
+<p>В то время как с повторным использованием командных объектов 
+(SqlCommand, OleDbCommand и т.п.) все, в общем, понятно, вопрос 
+повторного использования объекта подключения остается открытым. Нужно ли
+ это кому-нибудь, а если нужно, то зачем?</p>
+<p>Под «повторным» мы здесь понимаем такое использование, когда один и 
+тот же объект подключения используется снова и снова во всех частях 
+приложения, где нужен доступ к соответствующей базе данных. При этом мы 
+сознаем, что все стандартные для ASP.NET объекты подключения не являются
+ безопасными для многопоточного использования (non thread safe), поэтому
+ для начала будем считать, что наше приложение имеет только один поток.</p>
+<p>Какие проблемы могут возникнуть при подобном использовании объекта 
+подключения? Во-первых, каждый раз, открывая подключение к базе данных, 
+можно обнаружить, что оно уже было открыто раньше. Попытка открытия уже 
+открытого подключения вызывает ошибку. Во-вторых, открытый объект 
+DataReader блокирует свое подключение, так что до его закрытия выполнить
+ еще какую-либо команду невозможно. Это может создать проблему в методе,
+ вызванном во время чтения данных из базы. </p>
+<p>Первую проблему обойти несложно. Достаточно проверять состояние 
+подключения перед открытием, и пропускать этот шаг, если оно уже 
+открыто. Здесь важно заметить, что метод, открывший подключение, 
+обязательно должен его закрыть, так что, если проверка показала, что 
+подключение нужно открывать, это значит и то, что его нужно закрыть 
+после использования.</p>
+<p>Обойти вторую проблему в том месте, где она дала о себе знать, 
+невозможно. Действительно, данные уже читаются, подключение уже 
+заблокировано, и сделать мы с этим ничего не можем. Единственное решение
+ здесь – так проектировать блоки чтения, чтобы они даже потенциально не 
+могли никого блокировать. Например, можно сначала прочитать все данные в
+ массив, а уже потом проводить их дальнейшую обработку. </p>
+<p>Основные проблемы ясны и достаточно серьезны. Какие преимущества могут быть у данного подхода? Перевешивают ли они недостатки?</p>
+<p>Во-первых, мы можем существенно ускорить работу в тех приложениях, 
+где свежеоткрытое подключение нужно специально готовить. Например, 
+приложение может использовать application roles. Для входа в роль MS SQL
+ Server требует выполнения хранимой процедуры sp_setapprole:</p>
+<div id="EHBAC"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">EXEC</span> sp_setapprole <span class="STRING">'SalesApprole'</span>, <span class="STRING">'AsDeFXX'</span>
+</pre></td></tr></tbody></table></div>
+<p>Очевидно, что если обработка запроса состоит, к примеру, из пяти 
+обращений к базе, то гораздо быстрее будет открыть подключение и 
+выполнить эту команду один раз, нежели все пять. Сама операция открытия 
+подключения требует очень мало времени – на это есть connection pooling.
+ Лишнее же обращение к базе – это серьезный удар по быстродействию. </p>
+<p>Естественно, я говорю не о простейшем случае, когда все пять 
+обращений к базе находятся в одном методе. В конце концов, мы живем во 
+времена победившего объектно-ориентированного подхода, так что 
+«макаронный» код почти почил в бозе. Все эти обращения совершаются 
+разными компонентами, обслуживающими запрос. Как быть в этом случае? 
+Предлагается открыть подключение и выполнить эту команду в начале 
+обработки запроса, а затем передать объект подключения в дальнейшее 
+использование.</p>
+<p>Представляется, что это преимущество выглядит достаточно серьезным 
+(конечно, для определенного класса приложений). Кстати, здесь стоит 
+обратить внимание еще на одну особенность: войдя в роль и рассчитывая на
+ автоматический выход из нее по закрытию подключения, можно получить 
+неприятный сюрприз в том случае, если подключение на самом деле закрыто 
+не будет. Последующие обращения к БД, возможно, будут выполняться с 
+несоответствующими правами. С другой стороны, это может случиться только
+ в приложении с весьма специфической архитектурой.</p>
+<p>Во-вторых, можно представить себе приложение, открывающее чересчур 
+много подключений. Большущая вложенность вызовов. Может быть, даже 
+рекурсия. Все методы открывают подключения и, не закрывая, вызывают 
+другие методы. В таком (совершенно гипотетическом) приложении можно 
+столкнуться с тем, что свободные подключения закончатся, и в какой-то 
+момент времени мы не сможем открыть подключение к базе. Использование 
+одного объекта подключения могло бы нас здесь спасти. </p>
+<p>Впрочем, подобная проблема выглядит совершенно надуманной. Если она и
+ имеет где-то место, то это, скорее, ошибка в проектировании приложения,
+ и решать ее нужно другими способами. </p>
+<h2>Режимы функционирования менеджера<a name="E2BAC"></a></h2>
+<p>Вернемся к менеджеру подключений. Очевидно, что он мог бы 
+функционировать в двух режимах: либо каждый раз создавать новый объект 
+подключения, либо возвращать уже готовый экземпляр, соответствующий 
+заданному логическому имени. </p>
+<p>На практике менеджер, осуществляющий кэширование объектов подключения, должен успешно проходить вот такой тест:</p>
+<div id="ECCAC"><table class="code" width="98%"><tbody><tr><td><pre>DbManager.Mode = DbManagerMode.CacheConnections;
+DbManager dbmgr =DbManager.Get();
+IDbConnection c1 = dbmgr[<span class="STRING">"beta"</span>];
+IDbConnection c2 = dbmgr[<span class="STRING">"beta"</span>];
+Assert.IsTrue( c1 == c2 ); <span class="COMMENT">// Менеджер возвращает один и тот же экземпляр</span>
+</pre></td></tr></tbody></table></div>
+<p>А «простой» менеджер, т.е. не осуществляющий кэширование, такой:</p>
+<div id="ENCAC"><table class="code" width="98%"><tbody><tr><td><pre>DbManager.Mode = DbManagerMode.DoNotCacheConnections;
+DbManager dbmgr =DbManager.Get();
+IDbConnection c1 = dbmgr[<span class="STRING">"beta"</span>];
+IDbConnection c2 = dbmgr[<span class="STRING">"beta"</span>];
+Assert.IsTrue( c1 != c2 ); <span class="COMMENT">// Менеджер возвращает разные экземпляры</span>
+</pre></td></tr></tbody></table></div>
+<p>Подобная функциональность позволила бы разработчику легко выбирать 
+между двумя описанными выше вариантами работы с подключениями, и даже 
+без больших сложностей перейти с одного подхода на другой в уже частично
+ написанном приложении.</p>
+<h2>Многопоточность<a name="EZCAC"></a></h2>
+<p>Ранее мы рассматривали приложение, в котором есть только один поток 
+(thread). Какие сложности могут встретиться, если потоков будет 
+несколько? </p>
+<p>По сути, сложность здесь только одна – один объект подключения можно 
+одновременно использовать только в одном потоке. Если для каждого 
+обращения создается новый объект подключения, то нас эта проблема 
+совершенно не касается. Соответственно, менеджер подключений, работающий
+ в этом режиме, очень прост в реализации. Метод, возвращающий объект 
+подключения по имени, может выглядеть так:</p>
+<div id="EADAC"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">public</span> <span class="KEYWORD">override</span> IDbConnection <span class="KEYWORD">this</span>[String name] 
+{
+  get 
+  {
+    ConnectionInfo info = (ConnectionInfo)_config.Connections[name];
+    <span class="KEYWORD">if</span>( info != <span class="KEYWORD">null</span> )
+    {
+      <span class="KEYWORD">return</span> CreateConnection( info );
+    }
+    <span class="KEYWORD">return</span> <span class="KEYWORD">null</span>;
+  }
+}
+</pre></td></tr></tbody></table></div>
+<p>Несколько более сложно выглядят действия при кэшировании объектов 
+подключения. С одной стороны, нужно организовать некий словарь готовых 
+объектов, из которого выдаются объекты по запросу. С другой стороны, мы 
+должны сделать так, чтобы каждый поток работал со своим экземпляром 
+данного подключения. Пытаться реализовать такую функциональность в одном
+ объекте, обслуживающем сразу все потоки, может быть слишком сложно. 
+Поэтому предлагается сделать так, чтобы каждый экземпляр менеджера 
+обслуживал только один поток. Очевидно, что в этом случае создается 
+некоторое неопределенное количество экземпляров, не большее, чем общее 
+количество потоков в приложении. Неопределенность обусловлена тем, что 
+для потоков, в которых менеджер не требуется, создавать экземпляр не 
+нужно. </p>
+<p>Таким образом, нужно, во-первых, написать такой метод Get, который бы
+ возвращал экземпляр, приписанный к вызывающему потоку, и, во-вторых, 
+сделать словарь готовых объектов. Приблизительно так может выглядеть 
+этот фрагмент кода:</p>
+<div id="EXDAC"><table class="code" width="98%"><tbody><tr><td><pre>[ThreadStatic] <span class="KEYWORD">private</span> <span class="KEYWORD">static</span> DbManager _instance;
+<span class="KEYWORD">private</span> ListDictionary _connections = <span class="KEYWORD">new</span> ListDictionary();
+
+<span class="KEYWORD">internal</span> <span class="KEYWORD">static</span> <span class="KEYWORD">new</span> DbManager Get() 
+{
+  <span class="COMMENT">// Если экземпляр уже есть, вернуть его</span>
+  <span class="KEYWORD">if</span>( _instance != <span class="KEYWORD">null</span> ) <span class="KEYWORD">return</span> _instance;
+
+  <span class="COMMENT">// Создать новый экземпляр</span>
+  _instance = <span class="KEYWORD">new</span> CachingDbManager();
+  _instance.Init();
+  <span class="KEYWORD">return</span> _instance;
+}
+
+<span class="KEYWORD">public</span> <span class="KEYWORD">override</span> IDbConnection <span class="KEYWORD">this</span>[String name] 
+{
+  get 
+  {
+    <span class="COMMENT">// Пытаемся взять готовый объект из словаря</span>
+    IDbConnection result = (IDbConnection)_connections[name];
+    <span class="KEYWORD">if</span>( result == <span class="KEYWORD">null</span> ) 
+    {
+      <span class="COMMENT">// Ищем описание подключения в конфигурации</span>
+      ConnectionInfo info = (ConnectionInfo)_config.Connections[name];
+      <span class="KEYWORD">if</span>( info != <span class="KEYWORD">null</span> ) 
+        result = CreateConnection( info );
+    }
+    <span class="KEYWORD">return</span> result;
+  }
+}
+</pre></td></tr></tbody></table></div>
+<h2>Менеджер и ASP.NET<a name="ELFAC"></a></h2>
+<p>Как известно, приложения ASP.NET весьма активно используют 
+многопоточность. В то же время делают они это настолько неявно, что этот
+ факт легко оставить без внимания и получить неожиданные ошибки. </p>
+<p>Вспомним, в общих чертах, структуру обычного приложения ASP.NET. В 
+домене приложения (AppDomain) есть несколько экземпляров класса 
+HttpApplication. Каждый из этих экземпляров обладает набором 
+сопутствующих ему модулей (HttpModule). Набор модулей у каждого 
+приложения одинаков, да и сами приложения, по идее, не должны ничем 
+отличаться. Далее, домен приложения имеет набор рабочих потоков (working
+ threads), готовых обслуживать пользовательские запросы. Со всей 
+очевидностью, потоков существует по крайне мере столько же, сколько 
+объектов Http-приложения. </p>
+<p>При обслуживании запроса ASP.NET неким псевдослучайным образом 
+выбирает рабочий поток и объект приложения, с которым этот поток будет 
+работать. В связи с этим, определенный объект приложения в разных 
+запросах будет, скорее всего, работать с разными потоками. </p>
+<p>Предположим теперь, что в нашем приложении мы создали командный 
+объект (SqlCommand) и сохранили его для дальнейшего использования. 
+Команда связана с определенным объектом подключения, а именно, с тем 
+объектом, который был возвращен менеджером подключений в момент создания
+ и первого выполнения команды. Не будем, однако, забывать, что данный 
+объект HttpApplication при обслуживании следующего (в его хронологии) 
+запроса, скорее всего, будет работать уже с другим рабочим потоком, а 
+поэтому менеджер подключений вернет не то подключение, с которым связана
+ наша команда. Хуже того, с возвращенным подключением, вероятно, будет 
+связана аналогичная команда в другом объекте приложения. </p>
+<p>Выход из описанной ситуации достаточно прост. Необходимо сделать 
+такой модуль (HttpModule), который в начале обработки запроса будет 
+связывать менеджер подключений, приписанный к данному объекту 
+приложения, с потоком, который сейчас работает с этим приложением и со 
+всеми подчиненными ему объектами. Это устранит все проблемы такого рода и
+ позволит опять забыть про реальное положение дел с потоками в ASP.NET. </p>
+<p>Код модуля предельно прост:</p>
+<div id="E1FAC"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">public</span> <span class="KEYWORD">class</span> AspAdapter : IHttpModule
+{
+  <span class="KEYWORD">private</span> HttpApplication application;
+  <span class="KEYWORD">private</span> DbManager manager;
+
+  <span class="KEYWORD">public</span> <span class="KEYWORD">void</span> Init(System.Web.HttpApplication context) 
+  {
+    application = context;
+    manager = DbManager.Get();
+    application.BeginRequest += <span class="KEYWORD">new</span> EventHandler( OnBeginRequest );
+  }
+
+  <span class="KEYWORD">protected</span> <span class="KEYWORD">void</span> OnBeginRequest( <span class="KEYWORD">object</span> sender, EventArgs e )
+  {
+    manager.Init();
+  }
+
+  <span class="KEYWORD">public</span> <span class="KEYWORD">void</span> Dispose() 
+  {
+    application.BeginRequest -= <span class="KEYWORD">new</span> EventHandler( OnBeginRequest );
+  }
+}
+</pre></td></tr></tbody></table></div>
+<p>В последних примерах можно заметить ранее не упоминавшийся метод 
+Init. Он служит для привязки данного экземпляра менеджера к вызывающему 
+потоку.</p>
+<h2>Пожалуйста, закрывайте двери!<a name="E1GAC"></a></h2>
+<p>Общеизвестно, что при использовании пула подключений (connection 
+pool) основополагающий принцип работы с подключениями гласит: открывай 
+поздно, закрывай рано. Иными словами, открывать нужно перед самым 
+использованием, а закрывать сразу после оного. При этом нужно помнить, 
+что в блоке использования подключения к базе может произойти 
+какая-нибудь ошибка (exception), которая помешает закрыть подключение. </p>
+<p>Мы уже рассматривали обычный для ADO.NET способ работы с объектом подключения, примерно такой: </p>
+<div id="EBHAC"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">using</span>( connection ) {
+   connection.Open();
+   <span class="COMMENT">// Активнее используем подключение! Иначе, зачем открывали?!</span>
+   ...
+}
+</pre></td></tr></tbody></table></div>
+<p>Он прост и удачен, если не жалко уничтожить объект подключения в 
+конце блока, т.е. если каждый раз создается новый объект подключения. 
+Если же хочется использовать один объект, код становится гораздо менее 
+красивым:</p>
+<div id="EKHAC"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">bool</span> wasOpened = <span class="KEYWORD">false</span>;
+<span class="KEYWORD">if</span>( connection.State == ConnectionState.Closed )
+{
+  connection.Open();
+  wasOpened = <span class="KEYWORD">true</span>;
+}
+<span class="KEYWORD">try</span> {
+  <span class="COMMENT">// Используем подключение</span>
+  …
+}
+<span class="KEYWORD">finally</span>
+{
+  <span class="KEYWORD">if</span>( wasOpened ) connection.Close();
+}
+</pre></td></tr></tbody></table></div>
+<p>Помимо общей сложности, он еще и затрудняет возможность переключения 
+между двумя режимами работы менеджера подключений. Мы же не хотим, 
+перекинув флаг, еще и править все блоки работы с базой. </p>
+<p>Используем для решения тот же механизм детерминированной деструкции –
+ интерфейс IDisposable, который столь упрощает использование подключения
+ по стандартной схеме. Нам достаточно создать класс, который при 
+конструировании открывал бы подключение, если это необходимо, а при 
+уничтожении – закрывал бы, если открывал его сам. При этом мы можем 
+сделать класс достаточно умным, чтобы он понимал, в каком режиме 
+работает менеджер подключений. Если менеджер не кэширует объекты, наш 
+сервисный класс будет удалять их в конце блока using. </p>
+<p>В использовании это будет выглядеть примерно так:</p>
+<div id="EDIAC"><table class="code" width="98%"><tbody><tr><td><pre><span class="KEYWORD">using</span>( <span class="KEYWORD">new</span> DbOpen( connection )) {
+   <span class="COMMENT">// Используем подключение, раз открывали!</span>
+   …
+}
+</pre></td></tr></tbody></table></div>
+<p>Отметим также, что при конструировании экземпляра класса подключение 
+открывается автоматически. Таким образом, еще одна строка в стандартном 
+сценарии становится ненужной.</p>
+<h2>Реализация<a name="EPIAC"></a></h2>
+<p>Данный подход уже реализован и неоднократно прошел полевые испытания. Более подробно о готовом модуле можно узнать на <a href="http://www.byte-force.com/russian/products/tech/lsddatabase.html" class="link-ext" target="_blank">http://www.byte-force.com/russian/products/tech/lsddatabase.html</a>. </p>
+<h2>Ссылки<a name="E1IAC"></a></h2>
+<ol><li>E. Gamma, et al., Design Pattern: Elements of Reusable Object-Oriented Software, Addison-Wesley, 1995 </li>
+</ol>
+<table class="note" width="98%"><tbody><tr><td><strong>ПРИМЕЧАНИЕ</strong><br><p>От редакции</p>
+<p>Многие участники редакционной коллегии, имеющие опыт работы с базами 
+данных, неоднозначно расценивает данную статью. С одной стороны, идея 
+инкапсуляции работы с подключениями, позволяющая получать подключения по
+ логическим именам, хороша. Она упрощает код, тем самым снижая 
+вероятность появления ошибок. С другой стороны, создание самодельного 
+пула, а также реализация закрытия соединения и многопоточной работы, 
+является успешным решением собственноручно созданной проблемы. Более 
+того, так как кэш может возвращать один и тот же экземпляр подключения 
+при разных вызовах, в программе может возникнуть ошибка из-за случайного
+ (неявного) использования одного подключения в разных алгоритмах. То 
+есть велика вероятность того, что программист в двух алгоритмах 
+попытается создать две независимых транзакции, но поскольку соединение 
+физически одно, это ему не удастся. Как, собственно, заметил сам автор, 
+выигрыша в скорости такое решение не дает, и смысл кэширования просто 
+непонятен.</p>
+<p>Таким образом, мы рекомендуем использовать на практике идею 
+инкапсуляции работы с подключениями, но не кэширование подключений. 
+Однако изучение этой части статьи интересно, так как в ней используются 
+методы оптимизации, вполне применимые в других случаях.</p>
+</td></tr></tbody></table>
+<p></p>
+<div align="right"><font style="font-family:arial;font-size:9pt;color:#8088a0"><i><hr width="100%" size="1" color="#8088a0"><div align="justify"><font size="2">
+                     Эта статья опубликована в журнале 
+                     RSDN Magazine
+                                         
+                        #4-2003. Информацию о журнале можно найти <a href="http://rsdn.org/mag/main.htm">здесь</a></font></div></i></font></div>	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-1276305-1', 'auto');
+	ga('send', 'pageview');
+	</script>
+<table celpadding="2" style="font-family:verdana;font-weight:bold;padding: 0px 5px; BORDER: #9daabd 1px 	solid; 	COLOR: #646464; BACKGROUND-COLOR: #e6e6e6;" width="100%" cellspacing="0" border="0"><tbody><tr><td nowrap="nowrap"><font style="font-weight:normal" size="1"><script src="dbmanager_data/shMenu.js" type="text/javascript" charset="utf-8"></script></font></td><td width="100%" nowrap="nowrap" align="right"><font size="2">&nbsp;<a href="http://rsdn.org/article/dotnet/dbmanager.xml?print" target="_blank" title="Версия для печати"><img src="dbmanager_data/printer2.gif" width="16" height="14" border="0" align="absmiddle"></a>&nbsp;&nbsp;<a href="http://rsdn.org/forum/db/385948" target="_self" title="Перейти к обсуждению статьи"><font size="1" color="#646464"> Сообщений </font><font color="black">1</font></a>&nbsp;&nbsp;<a href="http://rsdn.org/forum/db/385948" target="_self" title="Перейти к обсуждению статьи"><img src="dbmanager_data/showfr.gif" width="18px" height="14px" border="0" align="absmiddle"></a>&nbsp;<a href="http://rsdn.org/Forum/RateList.aspx?mid=385948"><font color="#646464"><font size="1"> Оценка </font><font color="black">110</font>
+									[<font style="font-weight: normal;"><span style="color:green;">+2</span>/<span style="color:blue;">-0</span></font>]
+								</font></a>&nbsp;&nbsp; <a target="_blank" rel="nofollow" href="http://rsdn.org/Users/Private/AddFav.aspx?mid=385948" onclick="return AddFav(this.href);" title="Добавить в избранное"><img src="dbmanager_data/fav.gif" height="14px" border="0" align="absmiddle"></a>&nbsp;&nbsp;<a href="http://rsdn.org/Forum/Private/Subscr.aspx?tid=385948" onclick="return SubMsg(this.href)" title="Подписка на сообщения" rel="nofollow"><img class="i" src="dbmanager_data/sub.gif" width="18px" height="14px" border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;<font size="1">Оценить </font><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=-3" onclick="return RateMsg(this.href);" title="+1"><img src="dbmanager_data/n11.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=1" onclick="return RateMsg(this.href);" title="Интересно"><img src="dbmanager_data/n1.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=2" onclick="return RateMsg(this.href);" title="Спасибо"><img src="dbmanager_data/n2.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=3" onclick="return RateMsg(this.href);" title="Супер"><img src="dbmanager_data/n3.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=-1" onclick="return RateMsg(this.href);" title="Удалить оценку"><img src="dbmanager_data/nx.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=-4" onclick="return RateMsg(this.href);" title="Согласен"><img src="dbmanager_data/np.gif" width="18px" height="14px" border="0" align="absmiddle"></a><a target="_blank" rel="nofollow" href="http://rsdn.org/forum/Private/Rate.aspx?mid=385948&amp;rate=0" onclick="return RateMsg(this.href);" title="Не согласен"><img src="dbmanager_data/nm.gif" eight="14px" width="18px" border="0" align="absmiddle"></a>&nbsp;
+					</font></td></tr></tbody></table></body></html>

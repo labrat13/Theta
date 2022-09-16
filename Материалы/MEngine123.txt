@@ -1,0 +1,169 @@
+1 Tapp230 - тут много функций, которые надо бы вынести в специальные классы.
+------------------------------------------
+
+// Fields
+private int m_containerId;/// Container id number
+private String m_description;/// текстовое описание, null по умолчанию.
+private bool m_isactive;/// flag is element active or deleted //default true
+private int m_serviceflag;/// Поле для значения, используемого в сервисных операциях (поиск в графе,  обслуживание и так далее) //default 0
+private int m_state;/// Вынесен из подклассов как общее свойство. //default 0Непонятно зачем здесь нужен и как будет использоваться, но является частью общего для всех элементов интерфейса
+//private int m_maxCellId; //заменен на m_maxConstCellID и m_maxTempCellID/// максимальный идентификатор ячейки в системе. Кэширует значение для быстрого получения идентификатора для новой ячейки. Инициализируется 0, что означает необходимость поиска нового значения.
+private MCellCollection m_cells;/// коллекция ячеек
+private MLinkCollection m_links;/// коллекция связей
+private MDbLayer m_dataLayer;/// слой абстракции БД
+//private string m_directory;/// рабочий каталог системы. Подкаталоги имеют фиксированные имена.
+private MLog m_log;/// Log
+private string m_name;/// имя контейнера для пользователя
+private int m_maxConstCellID;/// Максимальный идентификатор постоянной ячейки
+private int m_maxTempCellID;/// Максимальный идентификатор временной ячейки
+private MCellMode m_DefaultCellMode; /// Тип создаваемой ячейки, если явно не указан.
+private MProject m_prjMan;/// Project filesystem manager
+private MResource m_resMan;/// Resource manager
+private MSnapshot m_snapMan;/// Snapshot manager
+private MMethod m_methodMan;/// Methods manager
+
+//constructor
+public MEngine()/// NT-Create new container object. Call Open() to open db connection and load container data.
+
+// Properties
+public override string Description/// Element description string
+public override bool isActive/// Element is active 
+public override int ServiceFlag/// Value for servicing
+public override MID State/// Element state id
+public int ContainerID/// Container ID number
+public String Name/// имя контейнера для пользователя
+public MCellCollection Cells/// коллекция ячеек
+public MLinkCollection Links/// коллекция связей
+public MLog Log/// Log
+public MDbLayer DataLayer/// слой абстракции БД
+public MCellMode DefaultCellMode/// Default cell type, can be Compact, Normal or DelaySave only.
+public MSnapshot SnapshotManager/// Snapshot manager
+public MResource ResourceManager/// Resource manager
+public MMethod MethodManager/// Methods manager
+public MProject ProjectManager/// Project filesystem manager
+
+//methods
+public override string ToString()/// Get container description text
+internal MStatistic getStatistics()/// NT-Get current container and resource statistics
+public void Open(string projectFilePath)/// NT-Open existing project
+public void Save()/// Save container and project state
+public void SaveAllDelaySavedCells()/// NR-Save all delay-save cells in container
+public void SaveAllTemporaryCells()/// NR-Save all temporary cells in container
+public void Close(bool withSave)/// Close container and all engine stuff    
+    
+// Serialization function implements from MObject
+public override void toBinary(System.IO.BinaryWriter writer)
+public override void fromBinary(System.IO.BinaryReader reader)/// NT-Deserialize container from binary stream
+public override byte[] toBinaryArray()
+public override string toTextString(bool withHex)
+public override void toText(System.IO.TextWriter writer, bool withHex)
+public override void fromText(System.IO.TextReader reader)
+
+// New project functions - 210213 - уточнение прототипов функций
+public static void ProjectCreate(string projectName, string projectDescription, string rootFolder, string sqlServerPath, string databaseName, string userLogin, string userPassword, int timeout)/// NFT-Create new project
+public static MEngine ProjectOpen(string projectFilePath)/// NT-Open existing project
+public MStatistic ProjectStatistics()/// NT-Get project statistics info
+public void ProjectSave()/// NT-Saving project
+public void ProjectOptimize()/// NR-Optimize project
+public void ProjectClose(bool withSave)/// NT-Close project
+public void ProjectClear()/// NT-Clear project. Remove cells and links from memory and database tables. Container name, description and other values not changed.
+public static void ProjectDelete(string projectFilePath)/// NT-Delete project from filesystem and database server
+
+// Snapshot functions
+public void SnapshotFullLoad(string snapshotFilePathName)/// NT-Load full snapshot to container. All previous cells and links must be deleted. 
+ public void SnapshotFullCreate()/// NT-Create new snapshot file for current project 
+
+// ID internal functions
+private int S1_intGetMaxCellConstID()/// Get max ID of existing constant cells (from cells table)
+private int S1_intGetMaxCellTempID() /// Get max ID of existing temporary cells (from cells collection in memory)
+private void S1_ChangeIdCashOnCreateCell(int cellid)/// Изменяет значение соответствующего кеша для временной или постоянной ячейки
+private void S1_ChangeIdCashOnRemoveTempCell(int cellid)/// Изменяет значение соответствующего кеша для временной ячейки.
+internal MID getNewCellId(bool forTempCell)/// Returns id for new cell without update cash values
+/// Cash values must be updated after succesful cell creation
+internal void changeIdCashOnCreateCell(MID newId)/// Set new cash value for cell id's
+internal void changeIdCashOnRemoveTempCell(MID oldId)/// Set new cash value for cell id's
+
+//Cell functions
+public MCell CellGetAny()/// NT-Get first valid cell in project. Return null if no cells in project.
+public MCell CellCreate(MCellMode mode)/// NR-Create container cell with mode. Return cell or throw exception
+public MCell CellGet(MID cellID)/// NR-Get cell by cell ID. If cell not in memory, load it from table. 
+/// Returns null if cell not exists in project.
+public void CellDelete(MID cellID)/// NR-Get cell and mark as inactive. Cell not deleted.
+public void CellUnload(MID cellID)/// NR-Unload cell from container memory.
+/// See also MCell.Unload()
+public bool CellIsUniqueName(string cellName)/// NT-Check cell name is unique
+
+// internal functions
+internal MCell S1_intCreateCell(MCellMode mode)/// NT-Создать ячейку в контейнере. Возвращает ссылку на ячейку или исключение.
+internal MCell S1_intGetCell(MID cellId)/// NT-Получить ячейку по идентификатору или null если ячейка не найдена в контейнере и в БД.
+internal MCell S1_intLoadCell(MID cellId, MCellMode cellMode)/// NT-Загрузить ячейку из БД в контейнер. Возвращает ссылку на ячейку или null если ячейка не загружена
+internal void S1_intDeleteCell(MID cellId)/// NR-Найти и пометить ячейку удаленной. Ячейка загружается в память и помечается удаленной.
+internal void S1_intUnloadCell(MID cellId)/// NT-Выгрузить ячейку из памяти по идентификатору. Если ячейка не загружена, ничего не происходит. См. MCell.Unload().
+internal void S1_intUnloadCell(MCell cell)/// NT-Выгрузить ячейку из памяти. См. MCell.Unload().
+//public MCellCollection GetCellsInTable(MCellTemplate tmp, bool useLargeCells)// NT-Get cells meet specified template. Ячейки не добавляются в список в контейнере, это независимый список.
+//public MCellCollection GetCells(MCellTemplate tmp, bool useLargeCells)// NT-Get cells meet specified template. Ячейки не добавляются в список в контейнере, это независимый список.
+
+// LinkSection functions
+//internal bool containsLink(MCell srcCell, MCell dstCell, uint Axis, MAxisDirection axisDir)// Is active link exists in table or memory?
+internal void S1_RemoveCellLinksFromContainerAndCells(MCell curCell)/// NR-Удалить все связи указанной ячейки из контейнера и связанных ячеек. Упрощенная приблизительная версия.
+
+
+2 Tapp231 - функции те же, но размер файла на 2кб больше.
+------------------------------------
+
+3 Tapp23Desctop - есть некоторые нововведения
+------------------------------------
+// Fields 
+
+        private static MEngine m_currContainer;/// Reference to current container object 
+        private MProjectInfo m_prjFile;/// Project file info
+        private MEngineState m_engineState;/// Engine current state for user
+        private Int32 m_containerId;/// Id of container object
+        private MCellIdManager m_cellIdMan;/// Cell Id manager
+        private MLinkIdManager m_linkIdMan;/// Link Id manager
+        private MCellCollection m_cellCollection;/// Cell collection
+        private MLinkCollection m_linkCollection;/// Link collection
+        private MDbLayer m_dbLayer;/// Reference to database adapter 
+        private MLog m_logManager;/// Log manager
+        private MProject m_prjManager;/// Project manager object
+        private MSnapshot m_snapshotManager; /// Snapshot manager
+        private MResource m_resourceManager;/// Resource manager
+        private MNetwork m_netManager;/// Network manager
+        private MMethod m_methodManager;/// Method manager object
+//constructor
+        public MEngine()/// Конструктор
+// Properties ***
+        public static MEngine CurrentContainer/// Static reference to current container object
+        public MEngineState EngineState/// Current engine state for user operations
+        public MProjectInfo ProjectFile/// Project file info
+        public Int32 ContainerIdNumber/// Container identifier for fast access, cashed
+        public MCellIdManager CellIdManager/// Получить менеджер идентификаторов ячеек
+        public MLinkIdManager LinkIdManager/// Получить менеджер идентификаторов связей
+        public MCellMode DefaultCellMode/// Режим ячеек, создаваемых автоматически.
+        public MDbLayer DatabaseLayer/// Получить адаптер БД
+        public MLog LogManager/// Получить менеджер лога.
+        public MProject ProjectManager/// Получить менеджер проекта.
+        public MResource ResourceManager/// Получить менеджер ресурсов.
+        public MSnapshot SnapshotManager/// Get snapshot manager
+        public MNetwork NetworkManager/// Get network manager
+        public MMethod MethodManager/// Get method manager
+        public MCellCollection CellCollection/// Получить коллекцию ячеек
+        public MLinkCollection LinkCollection/// Get link collection
+
+// ImElement Members
+        public MID ElementId/// Идентификатор элемента.
+        public string ElementName/// Строка имени элемента. Для связй не поддерживается.
+        public string ElementDescription /// Строка описания элемента
+        public bool ElementIsActive/// Флаг активности элемента
+        public int ElementServiceValue/// Сервисное значение, используемое в сервисных операциях (поиск в графе,  обслуживание и так далее) //default 0
+        public MID ElementState/// Состояние ячейки, связи, контейнера.
+
+//ImSerializable Members
+        public void toBinary(System.IO.BinaryWriter writer)/// Serialize object data to binary stream
+        public void fromBinary(System.IO.BinaryReader reader)/// Deserialize object data from binary stream
+        public void toText(System.IO.TextWriter writer, bool withHex)/// Serialize object data to text stream
+        public void fromText(System.IO.TextReader reader)/// Deserialize object data from text stream
+//methods
+        internal void Open(MProjectInfo info) /// Initialize container and all subsystems
+        internal void Close(bool withSave)/// Close container
+        public override string ToString()/// NR-Get string representation of object.

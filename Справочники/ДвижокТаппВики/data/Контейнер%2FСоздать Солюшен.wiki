@@ -1,0 +1,51 @@
+﻿++ Контейнер/Создать Солюшен
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+При создании Солюшена [//ИдентификаторСолюшена] назначается один раз на весь его жизненный цикл. См [//ТемаСпособыСозданияСолюшена].
+
+
++++Разработка, обсуждение и материалы
+•	public static void ProjectCreate(MProjectFile pfile, string rootDir)/// NR-Create project accordingly to project file information 
+++++Пользователь создает солюшен
+Из [//РаботаПользователяССолюшеном]
+Пользователь открывает [//Навигатор], выбирает команду создать новый [//Солюшен].
+Приложение с помощью диалога или мастера создания солюшена запрашивает свойства солюшена, затем проверяет их правильность (См [//ФайлСолюшена]). 
+Приложение вызывает статическую функцию [//Контейнер/Создать Солюшен]. Эта операция создает инфраструктуру нового солюшена - [//КаталогСолюшена], структуру каталогов и файлов, [//БазаДанныхСолюшена] и таблицы в ней.
+Если возникают ошибки, операция выкидывает исключения. Исключения обрабатываются программой и предъявляются пользователю - "невозможно выполнить операцию потому, что..."
+При успешном завершении у пользователя есть на диске и [//СерверSQLБД] новый пустой солюшен.
+
+        /// <summary>
+        /// NR-Create new project
+        /// </summary>
+        /// <param name="prjInfo">Info for new project</param>
+        /// <param name="rootFolder">Parent directory for project directory</param>
+        public static void ProjectCreate(MProjectInfo prjInfo, string rootFolder)
+        {
+            //1) Проверить параметры проекта
+            prjInfo.checkValues(); //выбрасывает исключения при ошибках
+            //2) Проверить, что каталог для проекта существует и доступен на запись. Если это не так, выдать исключение.
+            DirectoryInfo di = new DirectoryInfo(rootFolder);
+            if (di.Exists == false) throw new Exception("Root folder does not exists");
+            //create test subfolder and then delete it
+            DirectoryInfo disub = di.CreateSubdirectory("test");//Здесь будет исключениеUnautorizedAccessException,  если нет прав на создание папки
+            disub.Delete();
+            //3) Сейчас данные проекта проверены и записаны в объект файла проекта. Каталог для проекта доступен для создания файловой системы проекта.
+            //if (prjInfo.IsDBused()) - в проекте без БД функции такие же, но не выдают исключений, так как ничего не делают.
+            //6) Создать таблицы и индексы в БД. 
+            //TODO: обработку ошибок сделать, когда будут готовы операции БД.
+            //создаем объект класса, соответствующего типу БД в проекте.
+            MDbLayer dblayer = MDbLayer.DbConstructor(null, prjInfo.DatabaseType); 
+            dblayer.CreateDatabase(prjInfo.DatabaseType, prjInfo.DatabaseServerPath, prjInfo.DatabaseName, prjInfo.DatabasePortNumber, prjInfo.UserName, prjInfo.UserPassword, prjInfo.UseIntegratedSecurity);
+            dblayer.CreateTablesIndexes(prjInfo.DatabaseType, prjInfo.DatabaseServerPath, prjInfo.DatabaseName, prjInfo.DatabasePortNumber, prjInfo.UserName, prjInfo.UserPassword, prjInfo.UseIntegratedSecurity);
+            //8) создать файловую систему проекта
+            MProject.CreateProjectFolder(prjInfo, rootFolder); //! Без лога, или проверять его существование
+            //Если здесь будет исключение - например, недостаточно места на диске - то надо удалить БД и перезапустить исключение.
+            //Если при удалении БД будет исключение - надо его передать вызывающему коду. Тогда пользователь должен вручную удалить и каталог проекта и его БД.
+            return;
+        }

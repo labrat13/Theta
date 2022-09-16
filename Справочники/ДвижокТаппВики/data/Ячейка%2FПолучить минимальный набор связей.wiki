@@ -1,0 +1,20 @@
+﻿++ Ячейка/Получить минимальный набор связей
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NT-Get minimal collection of links from two (linked) cells.
+        /// This function work with MCellA cells too (slow)
+        /// </summary>
+        /// <param name="cellA">CellSection</param>
+        /// <param name="cellB">CellSection</param>
+        /// <returns></returns>
+        internal static MLinkCollection getMinLinkCollection(MCell cellA, MCell cellB) - возвращает коллекцию связей той из двух ячеек, где она с минимальным числом элементов. Используется только в private bool containsLinkMinCollection(MLink li, MCell cell1, MCell cell2, bool orTable).

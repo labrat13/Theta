@@ -1,0 +1,34 @@
+﻿++ Менеджер Солюшена/Создать структуру каталогов Солюшена
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//ФайловаяСистемаСолюшена]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NT-Создать структуру каталогов для нового проекта
+        /// </summary>
+        /// <param name="prjInfo">Информация о проекте</param>
+        /// <param name="rootFolder">Родительский каталог, в котором нужно создать каталог проекта</param>
+        internal static void CreateProjectFolder(MProjectInfo prjInfo, string rootFolder)
+        {
+            //create main directory
+            string maindir = Path.Combine(rootFolder, prjInfo.getProjectName16());
+            Directory.CreateDirectory(maindir);
+            //save project file
+            string fname = prjInfo.getProjectName16() + "." + m_ProjectFileExtension;
+            prjInfo.ProjectFilePath = Path.Combine(rootFolder, fname);
+            prjInfo.Save();
+            //create subdirectories
+            Directory.CreateDirectory(Path.Combine(maindir, MProject.m_LogFolderName));
+            Directory.CreateDirectory(Path.Combine(maindir, MProject.m_MethodFolderName));
+            Directory.CreateDirectory(Path.Combine(maindir, MProject.m_ResourceFolderName));
+            Directory.CreateDirectory(Path.Combine(maindir, MProject.m_SnapshotFolderName));
+            //...
+            return;
+        }

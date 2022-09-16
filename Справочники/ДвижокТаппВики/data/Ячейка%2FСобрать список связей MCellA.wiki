@@ -1,0 +1,17 @@
+﻿++ Ячейка/Собрать список связей M Cell A
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NFT-Create complete list of links for MCellA links colection
+        /// </summary>
+        /// <returns></returns>
+        internal MLinkCollection AssemblyMCellALinks()

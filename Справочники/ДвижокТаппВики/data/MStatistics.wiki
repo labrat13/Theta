@@ -1,0 +1,35 @@
+﻿++ MStatistics
+[//ДОПОЛНИТЬ]
+[template: ШаблонКлассаКода]
+
++++Описание класса
+* Представляет СтатистикаСолюшена.
+* Класс сейчас не содержит конструктора и функций. Только набор полей и проперти.
++++Наследование, Интерфейсы и Атрибуты
+
++++Переменные
+        protected int m_cellsmem;/// Number of const and temp cells in memory
+        protected int m_cellsconst;/// Number of const cells in database
+        protected int m_cellstemp;/// Number of temp cells in memory
+        protected int m_cellsext;/// Number of used external cells  in any other containers
+        protected int m_linksmem;/// Number of const and temp links in memory
+        protected int m_linksconst;/// Number of const links in database
+        protected int m_linkstemp;/// Number of temp links in memory
+        protected int m_linksext;/// Number of links to any external cells
+        protected int m_resourcefiles;/// Number of resource files in project
+        protected long m_resourcesize;/// Size of resource files in bytes
++++Проперти
+* Проперти для доступа к переменным, по читслу переменных.
+
++++Конструкторы
+* public MStatistics() - конструктор
++++Функции
+
+++++Собственные методы
+* нет
+
++++Дополнительная информация
+
++++См также
+
++++Разработка, обсуждение и материалы

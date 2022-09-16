@@ -1,0 +1,117 @@
+Интерфейс DbLayer разных версий для сравнения
+
+1Тапп230
+----------------------------
+//fields
+private string m_ConnString;/// Connection string
+private SqlConnection m_connection;/// DB connection obj
+private int m_Timeout;/// Timeout value for DB command, in seconds
+
+//properties
+public string ConnectionString/// Get or Set connection string
+public int Timeout/// Get Set timeout value for all  new execute command
+public bool isConnectionOpened/// Is connection opened?
+
+//constructor
+public MDbLayer(string ConectionString, bool Open)/// create and open connection
+public MDbLayer()/// Normal constructor
+~MDbLayer()/// Close and dispose connection
+
+//methods
+public void Open()/// Open connection if is closed
+public void Close()/// Close connection if not closed
+internal static string createConnectionString(string DatabaseServerPath, string DatabaseName, string UserPassword, string UserName, int Timeout, bool IntegratedSecurity) /// Create connection string
+
+// Engine table functions
+internal void LoadContainer(MEngine cont)/// Load first existing container from database. Throw exception if container not found 
+internal void SaveContainer(MEngine container) /// Save container in database. Create new record if any not exists
+private int updateEngineTable(MEngine cont)/// Update container record
+private void insertEngineTable(MEngine cont)/// Insert row in EngineTable
+
+
+//CellSection table functions
+internal bool isCellExists(MID cellid)/// NT-Проверить, что ячейка с таким идентификатором существует
+internal MCell selectCell(MID cellId, bool largeCell)/// NT-Get cell by id
+internal int S1_getMaxCellId()/// NT-Get max of cell id's in table, return 0 if no cells
+internal int getMinCellId()/// NFT-Get min of cell id's in table,  return 0 if no cells
+internal List<MCell> getBandOfCellById(int rowFrom, int rowTo)/// NFT-Get band of cells
+internal int insertCell(MCellB cell)/// insert cell record in table
+internal int updateCell(MCellB cell)/// Update cell record
+internal void SaveCell(MCellB cell)/// Save cell data - update or insert row
+internal MCellCollection getCellsByTemplate(MCellTemplate tmp, bool largeCells)/// NT-Find cells meet specified template. Returned cells is not a part of container and not have links!!! 
+internal bool CellContainsName(string cellName)/// NT-Return True if cell table contains cell with specified name 
+
+
+	//get cell functions
+	internal string getCellDescription(int cellid)/// NT-Get cell description
+	internal string getCellName(int cellid)
+	internal bool getCellActive(int cellid)
+	internal int getCellSFlag(int cellid)
+	internal MID getCellState(int cellid)
+	internal MID getCellTypeId(int cellid)
+	internal DateTime getCellCreaTime(int cellid)
+	internal DateTime getCellModiTime(int cellid)
+	internal bool getCellRonly(int cellid)
+	internal byte[] getCellValue(int cellid)
+	internal MID getCellValueTypeId(int cellid)
+	private SqlDataReader getCellColumnDataReader(string columnName, int cellid)/// Create data reader for specified column, as part of column access algoritm
+
+	//set cell functions
+	internal void setCellDescription(int cellid, string val)
+	internal void setCellName(int cellid, string val)
+	internal void setCellActive(int cellid, bool val)
+	internal void setCellSFlag(int cellid, int val)
+	internal void setCellState(int cellid, MID val)
+	internal void setCellTypeId(int cellid, MID val)
+	internal void setCellCreaTime(int cellid, DateTime val)
+	internal void setCellRonly(int cellid, bool val)
+	internal void setCellValue(int cellid, byte[] val)
+	internal void setCellValueTypeId(int cellid, MID val)
+	internal void setCellModiTime(int cellid, DateTime val)/// NT-this function throw exception because moditime used twice
+	private int setCellColumnData(string columnName, SqlParameter param, int cellid)/// Update column in cell record
+
+//LinkSection table functions
+public MLinkCollection getLinks(MLinkTemplate tmp)/// NT-Получить список связей, в соответствии с шаблоном поиска
+private MLinkCollection readLinkResultSet(SqlDataReader rdr) /// NT-Read all rows from sql result set, close reader.
+public MLinkCollection getCellLinks(int cellid, MAxisDirection axisDir)/// NT-Get cell links filtered by axis direction
+internal int insertLink(MLink link)/// NT-insert LinkSection record into LinkTable
+public int insertLinkGetId(MLink link)/// NT-Insert link to table and change and return link primary key, that serve as linkId.
+internal int deleteLink(int linkId)/// NT-Delete link by link table id
+public int getLinkID(MID dnCellId, MID upCellId, MID axis)/// NR-get link id primary key for first founded link. Return 0 if link not exists
+public int getLinkID(MLink link)/// NR-get link id primary key for first founded link. Return 0 if link not exists
+internal int getLastIdentityLinksTable()/// NT-Return last LinkTable identity (primary key value)
+internal int updateLink(MLink link)/// Update link. Return num of affected rows
+internal int getMinLinkId()/// NT-Get min of link primary key in table. Return 0 if no links.
+internal int getMaxLinkId()/// NT-Get max of link primary key in table. Return 0 if no links.
+internal MLinkCollection getBandOfLinkById(int rowFrom, int rowTo)/// NT-Get band of links
+
+//Database management functions
+internal static void CreateDatabaseTables(string srvpath, string userName, string userPsw, string newDbName)/// NT-Create database with tables with indexes
+internal static void CreateDatabase(string serverPath, string userName, string userPassword, string dbName)/// NT-Create database. User must be member of dbcreator role.
+internal static void DeleteDatabase(string srvpath, string userName, string userPsw, string dbName)/// NFT-Delete database from SQL server
+internal static void CreateTablesIndexes(string serverPath, string userName, string userPassword, string dbName)///NT-Create tables and indexes in existing database
+private static void CreateTablesIndexes(SqlConnection con) /// NT-Create Tables and Indexes. For static or object operations
+private void DeleteTablesCellLink()/// Delete CellTable LinkTable from database
+internal void ClearCellAndLinkTables()/// NT-Remove all from celltable and linktable
+
+internal int getNumberOfCells()/// NR-Return number of rows in cell table
+internal int getNumberOfLinks()/// NR-Return number of rows in link table
+
+
+2 Тапп231 - нет изменений
+
+3 Тапп23 - начатое экспериментальное.
+--------------------------------
+//fields
+private MEngine m_container;/// Ссылка на контейнер
+//constructors
+public MDbLayer(MEngine engine)/// Конструктор
+public void Open(MProjectInfo info)/// NR-Open manager
+public void Close()/// NR-Close manager
+public override string ToString()/// NT-Get string representation of object.
+internal static MDbLayer DbConstructor(MEngine engine, MDatabaseType databaseType)/// NT-Создать объект класса БД в зависимости от типа БД в проекте
+internal void CreateDatabase(MDatabaseType dbtype, string serverPath, string dbName, int dbPort, string userName, string userPassword, bool useIntegratedSecurity)/// NR-Создать БД проекта.
+internal void CreateTablesIndexes(MDatabaseType dbtype, string serverPath, string dbName, int dbPort, string userName, string userPassword, bool useIntegratedSecurity)/// NR-Create tables and indexes on existing database
+internal void DeleteDatabase(MDatabaseType dbtype, string serverPath, string dbName, int dbPort, string userName, string userPassword, bool useIntegratedSecurity)/// NR-Удалить существующую БД вместе со всем содержимым.
+
+

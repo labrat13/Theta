@@ -1,0 +1,31 @@
+﻿++ Ячейка/Проверить существование связи
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NT-Проверить наличие связи между ячейками в памяти, выбрать минимальную коллекцию для поиска.
+        /// Если разрешено, искать в таблице если в памяти слишком много связей.
+        /// </summary>
+        /// <param name="li">LinkSection with cellId, Axis, Active values</param>
+        /// <param name="cell1">CellSection</param>
+        /// <param name="cell2">CellSection</param>
+        /// <param name="orTable">Use links table if too many links in memory</param>
+        /// <returns></returns>
+        private bool containsLinkMinCollection(MLink li, MCell cell1, MCell cell2, bool orTable)
+
+        /// <summary>
+        /// NT-Проверить наличие связи между ячейками в списке связей текущей ячейки 
+        /// Если разрешено, искать в таблице если в памяти слишком много связей.
+        /// </summary>
+        /// <param name="li">LinkSection with cellId, Axis, Active values</param>
+        /// <param name="orTable">Use links table if too many links in memory</param>
+        /// <returns></returns>
+        private bool containsLinkMorT(MLink li, bool orTable) - в зависимости от числа связей, которые надо просмотреть, поиск ведется по таблице или в памяти перебором элементов списка. связи сравниваются по ид ячеек, оси, активности. В общем, активность связи не совсем определена в концепции - в каких случаях связи игнорировать, в каких обрабатывать, поэтому надо проработать концепцию и операции в этом вопросе более основательно. Функция используетсятолько в private MLink S1_intCreateLink.

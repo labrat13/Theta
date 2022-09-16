@@ -1,0 +1,45 @@
+1 Tapp 230  
+--------------------------------------  
+//fields
+        private Dictionary<int, MCell> m_items;
+//constructor
+         public MCellCollection()/// NT-Constructor
+//properties
+public Dictionary<int, MCell>.ValueCollection Items///  NT-Get cell collection in dictionary
+public int Count/// Get count of cells in collection
+//methods
+public bool S1_containsName(string name)        /// NT-ѕровер€ет, что список содержит €чейку с указанным именем. 
+/// јналогично можно запросить список €чеек по имени. 
+/// “олько тут быстрее, поскольку не надо формировать список возвращаемых €чеек.
+/// Ќужна дл€ имен, которым положено быть уникальными (имена типов, например).
+public bool S1_containsCell(MID cellid)/// NT-ѕровер€ет, что список содержит €чейку с указанным идентификатором. ƒл€ проверки наличи€ €чейки в списке перед загрузкой из Ѕƒ.
+public MCell S1_getCell(MID cellid)/// NT-получить €чейку по идентификатору, null if not exists
+public MCellCollection S1_getCells(MCellTemplate template)/// NT-ѕолучить список €чеек по значению свойств, описанных в €чейке-шаблоне. ¬се пол€ в шаблоне, не содержащие null, используютс€ дл€ отбора €чеек. 
+public void S1_AddCell(MCell cell)/// NT-ƒобавить €чейку в словарь, обновить maxCellId
+public void S1_RemoveCell(MCell cell)/// NT-”далить €чейку из словар€
+public void S1_RemoveCell(MID cellid)/// NT-”далить €чейку из словар€
+public void S1_Clear()/// NT-удалить все €чейки
+internal int S1_getMaxTempCellID()/// Get max ID of temporary cells in collection
+internal int getNumberOfTempCells()/// NT-get number of temp cells in dictionary
+internal void SaveCells(MCellMode cellMode)/// Save all cells with specified cell type
+internal MCell getFirstCell()/// Return first cell in collection or null if no cells
+
+
+2 Tapp231 - same as Tapp230
+--------------------------------------
+
+3 Tapp23Desktop - в зачатке, отличаетс€ 64-битными »ƒ
+--------------------------------------
+//Fields
+private Dictionary<UInt64, MCell> m_items;/// —ловарь €чеек
+
+//constructor
+public MCellCollection() ///  онструктор
+{
+    m_items = new Dictionary<ulong, MCell>();
+}
+
+//properties 
+public Dictionary<UInt64, MCell>.ValueCollection Items///  NT-ѕолучить список €чеек в коллекции только дл€ чтени€
+public int Count/// Get count of cells in collection
+

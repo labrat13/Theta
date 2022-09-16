@@ -1,0 +1,870 @@
+body {
+	color: rgb(0, 0, 0); font-family: Helvetica, Arial, sans-serif; font-size: 14px;
+}
+div.book p {
+	font-family: Helvetica, Arial, sans-serif; font-size: 14px; display: block; max-width: 720px;
+}
+div.section p {
+	font-family: Helvetica, Arial, sans-serif; font-size: 14px; display: block; max-width: 720px;
+}
+div.chapter p {
+	font-family: Helvetica, Arial, sans-serif; font-size: 14px; display: block; max-width: 720px;
+}
+div.appendix p {
+	font-family: Helvetica, Arial, sans-serif; font-size: 14px; display: block; max-width: 720px;
+}
+div.preface p {
+	font-family: Helvetica, Arial, sans-serif; font-size: 14px; display: block; max-width: 720px;
+}
+div.book a:link {
+	color: rgb(0, 117, 159); text-decoration: underline;
+}
+div.chapter a:link {
+	color: rgb(0, 117, 159); text-decoration: underline;
+}
+div.section a:link {
+	color: rgb(0, 117, 159); text-decoration: underline;
+}
+div.appendix a:link {
+	color: rgb(0, 117, 159); text-decoration: underline;
+}
+div.preface a:link {
+	color: rgb(0, 117, 159); text-decoration: underline;
+}
+div.book a:visited {
+	color: rgb(1, 90, 132); text-decoration: underline;
+}
+div.chapter a:visited {
+	color: rgb(1, 90, 132); text-decoration: underline;
+}
+div.section a:visited {
+	color: rgb(1, 90, 132); text-decoration: underline;
+}
+div.appendix a:visited {
+	color: rgb(1, 90, 132); text-decoration: underline;
+}
+div.preface a:visited {
+	color: rgb(1, 90, 132); text-decoration: underline;
+}
+div.toc a.tocdetail {
+	text-decoration: none;
+}
+div.part h1 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter h1 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.section h1 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.appendix h1 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.preface h1 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter h2 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.section h2 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.appendix h2 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.preface h2 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter h3 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.section h3 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.appendix h3 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.preface h3 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter h4 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.section h4 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.appendix h4 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.preface h4 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter h5 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.section h5 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.appendix h5 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.preface h5 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter h6 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.section h6 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.appendix h6 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.preface h6 {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.chapter p.title {
+	font-family: Helvetica, Arial, sans-serif;
+}
+div.part h1 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter h1 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.section h1 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter h2 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.section h2 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter h3 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.section h3 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter h4 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.section h4 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter h5 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.section h5 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter h6 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.section h6 strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+span.section a span strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+span.chapter a span strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.chapter p.title strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-style: oblique; font-weight: normal; background-color: white;
+}
+div.part h1 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter h1 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section h1 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter h2 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section h2 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter h3 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section h3 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter h4 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section h4 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter h5 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section h5 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter h6 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section h6 code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+span.section a span code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+span.chapter a span code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter p.title code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.chapter code {
+	color: rgb(14, 64, 117); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: normal; background-color: white;
+}
+div.section code {
+	color: rgb(14, 64, 117); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: normal; background-color: white;
+}
+div.book a code {
+	text-decoration: underline;
+}
+div.chapter a code {
+	text-decoration: underline;
+}
+div.section a code {
+	text-decoration: underline;
+}
+div.chapter pre {
+	color: rgb(161, 82, 15); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; background-color: white;
+}
+div.section pre {
+	color: rgb(161, 82, 15); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; background-color: white;
+}
+div.chapter sup {
+	font-size: smaller; vertical-align: super;
+}
+div.section sup {
+	font-size: smaller; vertical-align: super;
+}
+table.topic-guide td sup {
+	font-size: smaller; vertical-align: super;
+}
+.type {
+	font-family: "Courier New", Courier, fixed, monospace; font-size: 95%;
+}
+div.variablelist p.title b {
+	color: rgb(2, 103, 137); font-size: 200%;
+}
+div.index div.index div.indexdiv h3 {
+	color: rgb(2, 103, 137); font-size: 200%;
+}
+div a.firstterm:link {
+	text-decoration: none;
+}
+div a.firstterm:visited {
+	text-decoration: none;
+}
+div a.firstterm:hover {
+	text-decoration: underline;
+}
+div a.firstterm:active {
+	text-decoration: underline;
+}
+em.glossterm {
+	color: black; font-style: normal; text-decoration: none; border-bottom-color: green; border-bottom-width: 1px; border-bottom-style: dotted;
+}
+em.firstterm {
+	color: black; font-style: normal; text-decoration: none; border-bottom-color: green; border-bottom-width: 1px; border-bottom-style: dotted;
+}
+div.figure p.title b {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: bold;
+}
+div.part h1 {
+	line-height: 100%; font-family: Helvetica, Arial, sans-serif; font-size: 250%; font-weight: bold;
+}
+div.chapter h1 {
+	line-height: 100%; font-family: Helvetica, Arial, sans-serif; font-size: 250%; font-weight: bold;
+}
+div.book div.titlepage h1.title {
+	line-height: 100%; font-family: Helvetica, Arial, sans-serif; font-size: 250%; font-weight: bold;
+}
+div.col66 div.book div.titlepage h1.title {
+	font-family: Helvetica, Arial, sans-serif; font-size: 150%; font-weight: bold;
+}
+div.book div.titlepage h2 {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-size: 200%; font-weight: normal; background-color: white;
+}
+div.chapter div.titlepage h2 {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-size: 200%; font-weight: normal; background-color: white;
+}
+div.appendix div.titlepage h2 {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-size: 200%; font-weight: normal; background-color: white;
+}
+div.preface div.titlepage h2 {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-size: 200%; font-weight: normal; background-color: white;
+}
+div.section div.titlepage h2 {
+	color: black; font-size: 180%; font-weight: bold; background-color: white;
+}
+div.section div.titlepage h3 {
+	color: black; font-size: 160%; font-weight: bold; background-color: white;
+}
+div.section div.titlepage h4 {
+	color: black; font-size: 140%; font-weight: bold; background-color: white;
+}
+div.section div.titlepage h5 {
+	color: black; font-size: 120%; font-weight: bold; background-color: white;
+}
+div.section div.titlepage h6 {
+	color: black; font-weight: normal; background-color: white;
+}
+.errorcode {
+	color: rgb(123, 61, 35); font-family: "Courier New", Courier, fixed, monospace; font-weight: normal; background-color: white;
+}
+.errorname {
+	color: rgb(123, 61, 35); font-family: "Courier New", Courier, fixed, monospace; font-weight: bold; background-color: white;
+}
+.errortext {
+	color: rgb(123, 61, 35); font-family: "Courier New", Courier, fixed, monospace; font-weight: normal; background-color: white;
+}
+.errortype {
+	color: rgb(123, 61, 35); font-family: "Courier New", Courier, fixed, monospace; font-style: italic; background-color: white;
+}
+div.warning div.admon-title {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.warning h3 {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.note div.admon-title {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.note h3 {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.important div.admon-title {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.important h3 {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.caution div.admon-title {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.caution h3 {
+	font-family: Helvetica, Arial, sans-serif; font-size: 90%; font-weight: bold;
+}
+div.note {
+	padding-left: 5px; margin-right: 1in; border-left-color: black; border-left-width: 5px; border-left-style: solid;
+}
+div.warning {
+	padding-left: 5px; margin-right: 1in; border-left-color: red; border-left-width: 5px; border-left-style: solid;
+}
+div.caution {
+	padding-left: 5px; margin-right: 1in; border-left-color: yellow; border-left-width: 5px; border-left-style: solid;
+}
+div.important {
+	padding-left: 5px; margin-right: 1in; border-left-color: maroon; border-left-width: 5px; border-left-style: solid;
+}
+p.mnmas b {
+	color: green; display: block; background-color: white;
+}
+p.mnmas {
+	border-width: 1px 1px 1px 5px; border-style: solid; border-color: green; border-image: none; color: green; padding-left: 5px; background-color: white;
+}
+p.mnmas-kb b {
+	color: rgb(102, 51, 204); display: block; background-color: white;
+}
+p.mnmas-kb {
+	border-width: 1px 1px 1px 5px; border-style: solid; border-color: green; border-image: none; color: rgb(102, 51, 204); padding-left: 5px; background-color: white;
+}
+p.mccge-warning b {
+	padding-right: 0.5em;
+}
+p.mccge-warning {
+	border-width: 1px 1px 1px 5px; border-style: solid; border-color: blue; border-image: none; color: blue; padding-left: 5px; background-color: white;
+}
+p.depnote b {
+	color: red; display: block; background-color: white;
+}
+p.depnote {
+	border-width: 1px 1px 1px 5px; border-style: solid; border-color: red; border-image: none; color: red; padding-left: 5px; background-color: white;
+}
+div.preface pre.programlisting {
+	background: rgb(238, 238, 238); padding: 2px; color: black; line-height: 20px; font-size: 13px; display: block; max-width: 720px;
+}
+div.chapter pre.programlisting {
+	background: rgb(238, 238, 238); padding: 2px; color: black; line-height: 20px; font-size: 13px; display: block; max-width: 720px;
+}
+div.appendix pre.programlisting {
+	background: rgb(238, 238, 238); padding: 2px; color: black; line-height: 20px; font-size: 13px; display: block; max-width: 720px;
+}
+div.section pre.programlisting {
+	background: rgb(238, 238, 238); padding: 2px; color: black; line-height: 20px; font-size: 13px; display: block; max-width: 720px;
+}
+.guibutton {
+	background: rgb(255, 255, 255); padding: 1px; border: 1px double rgb(0, 0, 0); border-image: none; color: black; line-height: 1.2em; font-family: Helvetica, Arial, sans-serif; display: inline; white-space: nowrap;
+}
+.guilabel {
+	background: rgb(221, 221, 221); padding: 1px; color: black; line-height: 1.2em; font-family: Helvetica, Arial, sans-serif; font-weight: bold; display: inline; white-space: nowrap;
+}
+.guimenu {
+	background: rgb(221, 221, 221); padding: 1px 1px 1px 4px; color: black; line-height: 1.2em; font-family: Helvetica, Arial, sans-serif; font-weight: bold; border-left-color: rgb(85, 85, 85); border-left-width: 4px; border-left-style: solid; display: inline; white-space: nowrap;
+}
+strong.keycap {
+	background: rgb(238, 238, 238); padding: 1px; border: 1px solid rgb(0, 0, 0); border-image: none; color: black; line-height: 1.2em; font-variant: small-caps; display: inline;
+}
+#subfld h1 {
+	font-size: 90%; font-weight: bold;
+}
+span.section a span strong.command {
+	color: rgb(153, 0, 0); font-size: 110%; font-style: oblique; font-weight: normal; background-color: white;
+}
+strong.command {
+	color: rgb(153, 0, 0); font-size: 110%; font-style: oblique; font-weight: normal; background-color: white;
+}
+dt span code {
+	font-weight: bold;
+}
+code {
+	font-size: 95%;
+}
+p strong code {
+	font-size: 95%; font-weight: normal;
+}
+pre strong code {
+	font-size: 100%; font-weight: normal;
+}
+em {
+	font-size: 100%; font-style: italic;
+}
+em code {
+	font-size: 110%;
+}
+code em code {
+	font-size: 100%;
+}
+span.type {
+	font-family: "Courier New", Courier, fixed, monospace;
+}
+span.bold strong {
+	font-style: italic; font-weight: bold;
+}
+span.emphasis em {
+	font-style: italic; font-weight: normal;
+}
+span.section span strong.command {
+	font-family: "Courier New", Courier, fixed, monospace; font-size: 110%; font-weight: bold;
+}
+span.section code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: bold; background-color: white;
+}
+div.section code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: bold; background-color: white;
+}
+div.chapter code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: bold; background-color: white;
+}
+div.section code.classname {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: bold; background-color: white;
+}
+div.example code.literal {
+	color: rgb(2, 103, 137); font-family: "Courier New", Courier, fixed, monospace; font-size: 95%; font-weight: bold; background-color: white;
+}
+.example-break {
+	display: none;
+}
+td code.literal {
+	font-size: 100%;
+}
+p.deprecated span.bold strong {
+	color: red; font-style: normal; font-weight: bold; background-color: white;
+}
+div.section div.titlepage h1 code {
+	font-size: 100%;
+}
+div.section div.titlepage h2 code {
+	font-size: 100%;
+}
+div.section div.titlepage h3 code {
+	font-size: 100%;
+}
+div.section div.titlepage h4 code {
+	font-size: 100%;
+}
+div.section div.titlepage h5 code {
+	font-size: 100%;
+}
+div.section div.titlepage h1 code {
+	font-size: 100%;
+}
+strong.command {
+	color: rgb(153, 0, 0); font-family: "Courier New", Courier, fixed, monospace; font-size: 100%; font-weight: normal;
+}
+em.replaceable code {
+	padding: 1px; color: inherit; font-weight: bold; background-color: inherit;
+}
+pre.programlisting em.replaceable code {
+	padding: 1px; color: inherit; font-weight: bold; background-color: inherit;
+}
+strong.userinput code {
+	padding: 1px; color: inherit; font-weight: bold; background-color: inherit;
+}
+pre.programlisting strong.userinput code {
+	padding: 1px; color: inherit; font-weight: bold; background-color: inherit;
+}
+p code.filename {
+	color: rgb(153, 0, 0); background-color: white;
+}
+span.emphasis em {
+	color: rgb(0, 51, 51); background-color: white;
+}
+span.bold strong {
+	color: rgb(0, 51, 51); background-color: white;
+}
+span.section span strong.command {
+	color: rgb(2, 103, 137); background-color: white;
+}
+h3.title code.literal {
+	color: black; background-color: white;
+}
+div.section table {
+	border: currentColor; border-image: none; max-width: 660px;
+}
+div.chapter table {
+	border: currentColor; border-image: none; max-width: 660px;
+}
+div.informaltable table {
+	border: currentColor; border-image: none; max-width: 660px;
+}
+table tr {
+	vertical-align: top;
+}
+td {
+	padding: 0px 5px; border: 0.1em outset gray; border-image: none; font-family: Helvetica, Arial, sans-serif; font-size: 95%;
+}
+th {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-style: normal; font-weight: bold; background-color: white;
+}
+div.informaltable td strong {
+	color: black; font-family: Helvetica, Arial, sans-serif; font-style: normal; font-weight: bold; background-color: white;
+}
+div.col66 p {
+	min-width: 600px; max-width: 660px;
+}
+div.col66 pre.programlisting {
+	min-width: 600px; max-width: 660px;
+}
+div.col66 table {
+	min-width: 600px; max-width: 660px;
+}
+div.col66 div.informaltable table {
+	min-width: 600px; max-width: 660px;
+}
+div.section span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.section .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.appendix span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.appendix .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.chapter span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.chapter .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.glossary span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.glossary .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.index span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.index .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.book span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.book .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.section div.itemizedlist ul li p span.quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.section div.itemizedlist ul li p .quote {
+	margin: 0px; padding: 0px; border: 0px currentColor; border-image: none; width: 100%; font-family: inherit; font-size: inherit; font-style: inherit; font-weight: inherit;
+}
+div.itemizedlist ul li {
+	line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li {
+	list-style: square; line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.itemizedlist ul li {
+	list-style: square; line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li div.itemizedlist ul li {
+	list-style: circle; line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li div.itemizedlist ul li {
+	list-style: circle; line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.itemizedlist ul li div.itemizedlist ul li {
+	list-style: circle; line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li div.itemizedlist ul li {
+	list-style: circle; line-height: 120%; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li div.itemizedlist ul li div.itemizedlist ul li {
+	line-height: 120%; font-size: 100%; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li div.orderedlist ol li div.itemizedlist ul li {
+	line-height: 120%; font-size: 100%; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li div.itemizedlist ul li div.itemizedlist ul li {
+	line-height: 120%; font-size: 100%; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li div.orderedlist ol li div.itemizedlist ul li div.orderedlist ol li div.itemizedlist ul li div.orderedlist ol li div.itemizedlist ul li {
+	line-height: 120%; font-size: 100%; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li div.itemizedlist ul li div.itemizedlist ul li {
+	line-height: 120%; font-size: 100%; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li div.orderedlist ol li div.itemizedlist ul li {
+	line-height: 120%; font-size: 100%; vertical-align: middle;
+}
+div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li {
+	list-style: lower-alpha; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li {
+	list-style: lower-alpha; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li div.orderedlist ol li {
+	list-style: lower-roman; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li div.orderedlist ol li {
+	list-style: lower-roman; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.itemizedlist ul li div.orderedlist ol li {
+	list-style: lower-roman; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li div.orderedlist ol li {
+	list-style: lower-roman; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li div.itemizedlist ul li div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.itemizedlist ul li div.orderedlist ol li div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li div.itemizedlist ul li div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.itemizedlist ul li div.orderedlist ol li div.orderedlist ol li div.orderedlist ol li div.orderedlist ol li div.itemizedlist ul li div.orderedlist ol li div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li div.itemizedlist ul li div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+div.orderedlist ol li div.orderedlist ol li div.orderedlist ol li div.orderedlist ol li {
+	list-style: decimal; line-height: 120%; font-family: Helvetica, Arial, sans-serif; font-size: 14px; vertical-align: middle;
+}
+ul#sectionnav {
+	margin-left: 6px;
+}
+ul#sectionnav li {
+	margin-bottom: 4px; margin-left: 4px;
+}
+ul#sectionnav li.self {
+	margin-bottom: 2px; margin-left: 4px;
+}
+ul#sectionnav li.self ul.children {
+	margin-left: 6px;
+}
+ul#sectionnav li.self ul.children li {
+	height: auto; line-height: inherit; margin-bottom: 0px;
+}
+p.es {
+	color: rgb(204, 102, 0); font-style: normal; font-weight: bold; background-color: white;
+}
+p.cs {
+	color: rgb(255, 102, 0); font-style: normal; font-weight: bold; background-color: white;
+}
+h2.docs-list-title {
+	font-family: Helvetica, Arial, sans-serif; text-decoration: underline;
+}
+span.docs-list-title {
+	font-size: 50%;
+}
+table.docs-document-list {
+	border: currentColor; border-image: none; font-family: Helvetica, Arial, sans-serif; font-size: 12px;
+}
+table.docs-document-list tr.title {
+	text-align: center; font-weight: bold; vertical-align: bottom;
+}
+table.docs-document-list tr.even {
+	border: 0px currentColor; border-image: none; color: black; vertical-align: bottom; background-color: rgb(239, 239, 239);
+}
+table.docs-document-list tr.odd {
+	border: 0px currentColor; border-image: none; color: black; vertical-align: bottom; background-color: white;
+}
+table.docs-document-list td {
+	padding: 0px 5px; border: currentColor; border-image: none;
+}
+table.docs-document-list td.title {
+	border: 0px currentColor; border-image: none; text-align: left; vertical-align: bottom;
+}
+table.docs-document-list td.link {
+	border: 0px currentColor; border-image: none; width: 70px; text-align: center;
+}
+div.oracle-none th {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: bold; vertical-align: bottom; background-color: white;
+}
+div.oracle-grprows th {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: bold; vertical-align: bottom; background-color: white;
+}
+div.oracle-seprows th {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: bold; vertical-align: bottom; background-color: white;
+}
+div.oracle-all th {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: bold; vertical-align: bottom; background-color: white;
+}
+div.oracle-none td {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: normal; vertical-align: top; background-color: white;
+}
+div.oracle-grprows td {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: normal; vertical-align: top; background-color: white;
+}
+div.oracle-seprows td {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: normal; vertical-align: top; background-color: white;
+}
+div.oracle-all td {
+	padding: 4px 8px; border: 0px solid white; border-image: none; text-align: left; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 100%; font-style: normal; font-weight: normal; vertical-align: top; background-color: white;
+}
+div.oracle-none p {
+	margin: 4px 0px;
+}
+div.oracle-grprows p {
+	margin: 4px 0px;
+}
+div.oracle-seprows p {
+	margin: 4px 0px;
+}
+div.oracle-all p {
+	margin: 4px 0px;
+}
+div.oracle-none p.title {
+	margin: 8px 0px;
+}
+div.oracle-grprows p.title {
+	margin: 8px 0px;
+}
+div.oracle-seprows p.title {
+	margin: 8px 0px;
+}
+div.oracle-all p.title {
+	margin: 8px 0px;
+}
+div.oracle-none table {
+	border: 0px solid white; border-image: none; border-collapse: collapse; border-spacing: 0;
+}
+div.oracle-grprows table {
+	border-width: 1px; border-style: solid; border-color: black white; border-collapse: collapse; border-spacing: 0;
+}
+div.oracle-grprows tr {
+	border: 0px solid white; border-image: none;
+}
+div.oracle-grprows th {
+	border-bottom-color: black; border-bottom-width: 1px; border-right-style: hidden; border-bottom-style: solid; border-left-style: hidden;
+}
+div.oracle-grprows td {
+	border-right-style: hidden; border-left-style: hidden;
+}
+div.oracle-seprows table {
+	border-width: 1px; border-style: solid; border-color: black white; border-collapse: collapse; border-spacing: 0;
+}
+div.oracle-seprows tr {
+	border-bottom-color: black; border-bottom-width: 1px; border-right-style: hidden; border-bottom-style: solid; border-left-style: hidden;
+}
+div.oracle-seprows th {
+	border-bottom-color: black; border-bottom-width: 1px; border-right-style: hidden; border-bottom-style: solid; border-left-style: hidden;
+}
+div.oracle-seprows td {
+	border-bottom-color: black; border-bottom-width: 1px; border-right-style: hidden; border-bottom-style: solid; border-left-style: hidden;
+}
+div.oracle-all table {
+	border: 1px solid black; border-image: none; border-collapse: collapse; border-spacing: 0;
+}
+div.oracle-all th {
+	border: 1px solid black; border-image: none;
+}
+div.oracle-all td {
+	border: 1px solid black; border-image: none;
+}
+div.footnote p {
+	height: 100%; line-height: 125%; font-size: 95%; margin-top: 5px; margin-bottom: 0px;
+}
+td span.bold strong sup {
+	font-weight: normal; margin-left: 3px;
+}
+td sup {
+	font-weight: normal; margin-left: 3px;
+}
+table.topic-guide tbody tr td {
+	text-align: center; line-height: 180%; font-size: 80%;
+}
+div.copyright-footer {
+	margin: 5px; padding: 10px; text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 80%;
+}
+div.status-header {
+	margin: 5px; padding: 10px; text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 80%;
+}
+.alert {
+	color: red; font-weight: bold;
+}
+span.term {
+	font-weight: bold;
+}
+.added {
+	background-color: yellow;
+}
+.deleted {
+	background-color: pink;
+}
+.changed {
+	background-color: green;
+}
+div.table-contents th {
+	margin: 0px; padding: 3px; border: 0.1em solid grey; border-image: none;
+}
+div.informaltable th {
+	margin: 0px; padding: 3px; border: 0.1em solid grey; border-image: none;
+}
+div.article h2.title {
+	font-size: 250%;
+}
+div.article p.title {
+	font-size: 120%;
+}
+div.article h2.subtitle {
+	font-size: 110%;
+}
+div.article p {
+	font-size: 100%;
+}

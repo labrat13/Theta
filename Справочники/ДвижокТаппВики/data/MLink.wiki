@@ -1,0 +1,62 @@
+﻿++ MLink
+[//В РАЗРАБОТКЕ]
+[template: ШаблонКлассаКода]
+
++++Описание класса
+
++++Наследование, Интерфейсы и Атрибуты
+
++++Переменные
+
++++Проперти
+++++ImElement проперти
+
++++Конструкторы
+* public () - конструктор
++++Функции
+++++ImSerializable методы
+
+++++Собственные методы
+* public string ToString()] - Получить строковое представление объекта
+
++++Дополнительная информация
+
++++См также
+wiki:///V:/МоиПроекты/SIM/Работать%20здесь/NewConcept/NewConcept.wiki?page=MLink
+wiki:///V:/МоиПроекты/ДвижокТапп/Справочники/ДвижокТаппВики/ДвижокТаппВики.wiki?page=КонцепцияТаппВерсииБар%2FMLink
++++Разработка, обсуждение и материалы
++++Детальное описание класса связи 
+Это описание класса MLink из прошлой версии Тапп23
+++++Поля связи
+string Description  - Текстовое описание, null по умолчанию. Текстовое описание для связи роскошь, но возможно оно потребуется пользователю зачем-нибудь...
+bool isActive — Флаг, связь активна или нет (помечен удаленным). Для мягкого удаления.
+Для экономии памяти можно использовать тип byte, но из-за выравнивания в структуре он все равно будет 4 байта занимать. По умолчанию = True.
+Int ServiceFlag — Поле для значения, используемого в сервисных операциях (поиск в графе,  обслуживание и так далее) По умолчанию = 0.
+MID StateId – состояние связи (идентификатор ячейки, обозначающей состояние связи).
+Это дополнительный параметр связи, не участвующий в основной концепции, а обозначающий какую-то вариацию смысла. Пока непонятно. Он может предоставлять МетодОбработчикЯчейки обработчики операций и так переопределять поведение.
+MID upCellId – Идентификатор верхней ячейки.
+MID downCellId – Идентификатор нижней ячейки.
+MСell UpCell  - ссылка на верхнюю ячейку, по умолчанию = null.
+MСell DownCell  - ссылка на нижнюю ячейку, по умолчанию = null.
+MID Axis – тип оси (идентификатор ячейки, обозначающей ось), По умолчанию = 0.
+int TableId – идентификатор строки в таблице связей. По умолчанию = 0.  (Если = 0, связь не  существует в таблице, только в памяти. При записи связи в таблицу это поле заполняется первичным ключом записи в таблице).
+todo.концепция.сс: Идентификатор таблицы связей БД - это заплатка из старой версии, ее надо переработать.
+
+++++Методы
+* public MAxisDirection getAxisDirection(uint cellid) - Возвращает направление связи для текущей ячейки. Если текущей ячейки нет в этой связи, или она в обеих концах, возвращается MaxisDirection.Any
+* public void setCellsByDirection(MAxisDirection dir, MCell curCell, MCell targCell) Set cell references and id's by axis direction. Throw exception if specified direction is invalid.
+* public void setCellsByDirection(MAxisDirection dir, MCell curCell, uint targCellId) - Set cell references and id's by axis direction. Throw exception if specified direction is invalid.
+* public override string ToString() - Represent link for debug view
+•	public bool isLinkHaveTempCell() - возвращает true если хотя бы одна из ячеек связи является временной. Возвращает false если обе ячейки постоянные. Если ячейки в связи нет (=null), она не проверяется. 
+•	public static MAxisDirection inverseAxisDirection(MAxisDirection axisDirection) - возвращает обратное направление относительно существующего. Поскольку направление связи представляет енум MAxisDirection, он не может иметь функций. Функция помещена сюда. 
+•	internal bool isEqual(MLink li) - проверяет равенство двух экземпляров связей по id, cellid's, axis, active, state 
+•	internal bool isEqualLink(MLink li) - проверяет равенство двух экземпляров связей по cellid's, axis, active 
+•	сериализация toBinary, fromBinary, toText, fromText, toBinaryArray, toTextString
+* public bool isLinkNotTemporary - Is link exists in database - is link have linkid?
+* internal void intReplaceID(MID oldId, MID newId) - Replace cell id's in link
+* internal MCell getLinkedCell(MCell cel) - NR-Return ref of cell linked with specified cell
+* public MID getLinkedCellId(MID cellId) - NR-Return id of cell linked with specified cell. Return null if specified cell linked itself or not exists in link
+* internal void setCellRefsIfExists(MID cellid, MCell cell) - NT-Set cell reference for link if cell exists in link
+* internal bool isLinkHaveCell(MID cellid) - Return true if link contains cellid, false otherwise
+
+* todo.концепция.сс: Извлечь из КодДвижка сюда заголовки методов класса связи и их назначение, для общего представления.  

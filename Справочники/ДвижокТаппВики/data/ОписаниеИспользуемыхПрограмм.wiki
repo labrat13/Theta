@@ -1,0 +1,29 @@
+﻿++ Описание Используемых Программ
+[ДОПОЛНИТЬ]
+
++++Программы для работы над проектом
+* Студия VS2008 + MSDN
+* Сервер БД:
+    * wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=MySql Community 5.6
+    * wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=SQLite 
+    * Microsoft Sql Server 2005
+* Коннектор для БД
+    * wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=MySqlConnectorNet5.2.6
+    * в ОС есть коннекторы для БД Access и Microsoft Sql Server.
+* Браузер БД
+    * wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=SqliteStudio1.0
+    * в студии есть скромный браузер для БД Access и Microsoft Sql Server.
+    * Microsoft Office Access для БД Access.    
+* wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=TogetherControlCenter -  Средство диаграмм UML с импортом и экспортом кода
+* wiki:///V:/МоиПроекты/myWiki/MyWiki/MyWiki.wiki?page=WikidPad2.2rc08  - вики редактор
+* Notepad++ - Текстовый редактор с подсветкой кода итд.
+* ??? Двоичный вивер-редактор - для двоичных файлов ресурсов-дампов
+* DocProject - встраиваемый в студию генератор справочной документации по коду проекта.
+* 7-Zip - архиватор
+* Органайзер-планировщик для напоминаний, привязанных ко времени. О бекапах и осмотрах проекта.
+* Google Desktop и плагины - для поиска по текстам на компьютере. 
+
+++++Задачи
+* todo.сетап: Надо описать инструкции по использованию применяемых в проекте программ.
+*  
+ 

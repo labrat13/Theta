@@ -1,0 +1,19 @@
+﻿++ Ячейка/Удалить связь
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NR-Удалить связь между ячейками. Связь только помечается удаленной.
+        /// </summary>
+        /// <param name="Axis"></param>
+        /// <param name="axisDirection"></param>
+        /// <param name="targetCell"></param>
+        public void S1_deleteLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - не содержит кода

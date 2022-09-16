@@ -1,0 +1,37 @@
+1 Tapp230
+------------------------------------------
+//fields
+private List<MLink> m_items;
+
+//constructor
+public MLinkCollection() /// Constructor
+
+//properties
+public List<MLink> Items/// Get list of links in collection
+
+//methods
+public MLinkCollection getLinks(MLinkTemplate template)/// NT-ѕолучить список св€зей по значению свойств, описанных в св€зи-шаблоне. 
+/// ¬се пол€ в шаблоне, не содержащие null, используютс€ дл€ отбора св€зей.
+public bool containsLink(MLinkTemplate template)/// NT-ѕроверить, что св€зь с такими параметрами существует в списке.
+public bool containsLink(MLink link)/// NT-ѕроверить существование подобной св€зи по cellId, Axis, Active 
+public void AddLink(MLink link)/// NT-Add link to collection
+public void S1_Remove(MLink link)/// Remove one link item from list
+public void S1_RemoveAt(int index)/// Remove link at specified list index
+public void Clear()/// Remove all links
+internal MLinkCollection S1_getCellLinks(MID cellid)/// NT-Get all links for specified cell
+internal void S1_setCellRefs(MID cellid, MCell cell)/// NT-Set cell reference for specified cell
+internal List<MLink> getUnicalLinks(MLinkCollection colD)/// NT-ѕолучить св€зи из указанного списка, которых нет в текущем списке.
+internal void replaceCellId(MID oldId, MID newId)/// NT-Replace id in cell links.
+/// ѕри сохранении временных €чеек мен€етс€ идентификатор, его надо заменить и в св€з€х €чейки
+internal int getNumberOfTempLinks() /// NT-Get number of temporary links in memory
+internal Dictionary<UInt64, int> getLinkAxises()/// NT-Get dictionary of link axis with counters.
+
+2 Tapp231 - нет изменений
+------------------------------------
+
+3 Tapp23Desctop - методов нет, добавлено проперти
+------------------------------------
+//properties
+public int Count /// Get count of links in collection
+
+ 

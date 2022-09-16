@@ -1,0 +1,27 @@
+﻿++ MSerialRecordType
+[template: ШаблонЕнумаКода]
+[//В РАЗРАБОТКЕ]
++++Описание
+Енум ТипЗаписиСнимка в сериализованном СнимокСтруктуры.
++++Атрибуты
+
++++Перечень значений
+* 0 - Unknown - Unknown record type
+* 1 - Header - File header record
+* 2 - Container - Container  record
+* 3 - MemoryCellSection - CellSection record for cells in memory
+* 4 - TableCellSection - CellSection record for cells in table
+* 5 - RefCellSection - Referenced cells section record. In partial snapshot ths section contains referenced cells. For full snapshot, this section contains external cells.
+* 6 - MemoryLinkSection - LinkSection record
+* 7 - TableLinkSection - LinkSection record
+* 8 - Cell - Cell record
+* 9 - Link - Link record
+* 10 - Footer - File end record
+* 11 - LinkSection -  Combined link section for memory and table link
+
+
++++Дополнительная информация
+
++++См также
+
++++Разработка, обсуждение и материалы

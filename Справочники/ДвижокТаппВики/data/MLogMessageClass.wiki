@@ -1,0 +1,21 @@
+﻿++ M Log Message Class
+[template: ШаблонЕнумаКода]
+[//В РАЗРАБОТКЕ]
++++Описание
+Набор битовых флагов, указывающих класс сообщения, для работы фильтров.
+Тип данных UInt32.
+
++++Атрибуты
+* [FlagsAttribute] - енум является набором битовых флагов. 
++++Перечень значений
+* 0             - [MLogMessageClass_Nothing]       - No messages allowed
+* 0xFFFFFFFF    - [MLogMessageClass_All]           - All kind of messages allowed
+* 1             - [MLogMessageClass_UserMessage]   - Сообщения пользователя
+* 2             - [MLogMessageClass_Session]       - Сообщения о СеансДвижка проекта (открытии, закрытии проекта, итп) 
++++Дополнительная информация
+
++++См также
+
++++Разработка, обсуждение и материалы
+++++Классы сообщений
+

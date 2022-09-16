@@ -1,0 +1,27 @@
+﻿++ Контейнер/Создать ячейку указанного класса
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NR-Create container cell with mode. Return cell or throw exception
+        /// </summary>
+        /// <param name="mode">Cell mode for new cell</param>
+        /// <returns></returns>
+        /// <remarks>Публичная функция, должна обрабатывать ошибки и выдавать пользователю правильные исключения. Сейчас просто набросок.  </remarks>
+        public MCell CellCreate(MCellMode mode)
+        
+        /// <summary>
+        /// NT-Создать ячейку в контейнере. Возвращает ссылку на ячейку или исключение.
+        /// </summary>
+        /// <param name="mode">Тип создаваемой ячейки</param>
+        /// <returns>Возвращает ссылку на ячейку или исключение.</returns>
+        internal MCell S1_intCreateCell(MCellMode mode)
+•	public MCell CellCreate(MCellMode mode) - NR-Create container cell with mode. Return cell or throw exception 

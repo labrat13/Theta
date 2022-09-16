@@ -1,0 +1,37 @@
+﻿++ Контейнер/Удалить Солюшен
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+•	public static void ProjectDelete(MProjectFile pfile)/// NFT-Delete project from filesystem and database server 
+++++Пользователь удаляет солюшен
+Из [//РаботаПользователяССолюшеном]
+Пользователь закрыл [//Солюшен] и не имеет ссылку на его объект.
+Пользователь намерен удалить [//Солюшен].
+Он командует приложению удалить [//Солюшен]. Приложение вызывает [//Контейнер/Удалить Солюшен]. Эта операция производит удаление солюшена. Операция может занять много времени.
+Если возникают ошибки, операция выкидывает исключения. Исключения обрабатываются программой и предъявляются пользователю - "невозможно выполнить операцию потому, что..."
+
+        /// <summary>
+        /// NR-Delete closed project from filesystem and database server
+        /// </summary>
+        /// <param name="prjInfo">MProjectInfo object loaded from project file</param>
+        public static void ProjectDelete(MProjectInfo prjInfo)
+        {
+            //проверить, что сейчас нет какого-либо открытого проекта, чтобы пользователь не мог удалить открытый проект.
+            if (MEngine.CurrentContainer != null)
+                throw new Exception("Попытка удалить проект при открытом проекте");
+            //delete database from server
+            //create appropriate database object 
+            MDbLayer dblayer = MDbLayer.DbConstructor(null, prjInfo.DatabaseType); 
+            dblayer.DeleteDatabase(prjInfo.DatabaseType, prjInfo.DatabaseServerPath, prjInfo.DatabaseName, prjInfo.DatabasePortNumber, prjInfo.UserName, prjInfo.UserPassword, prjInfo.UseIntegratedSecurity);
+            //delete project directory with all files
+            MProject.DeleteFolder(prjInfo.getProjectDirectory());
+            return;
+        }

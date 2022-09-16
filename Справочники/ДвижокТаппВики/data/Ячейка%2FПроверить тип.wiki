@@ -1,0 +1,19 @@
+﻿++ Ячейка/Проверить тип
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// Return True if specified object is MCell or MCellA or MCellB type
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static bool IsCellType(Object obj) - используется в MArg, в местах при проверке, что переданный Object это MCell.
+Подобная функция полезна и для связи.

@@ -1,0 +1,44 @@
+﻿++ Контейнер/Закрыть Солюшен
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+•	public void ProjectClose(bool withSave) - /// Close container and all engine stuff
+++++Пользователь закрывает солюшен
+Из [//РаботаПользователяССолюшеном]
+Пользователь уже открыл [//Солюшен] и имеет ссылку на представляющий его объект [//Контейнер]а.
+Пользователь провел какие-то манипуляции в солюшене и теперь намерен завершить работу с солюшеном. Он командует приложению закрыть [//Солюшен]. Приложение вызывает [//Контейнер/Закрыть Солюшен]. Эта операция производит завершение работы движка. 
+Если возникают ошибки, операция выкидывает исключения. Исключения обрабатываются программой и предъявляются пользователю - "невозможно выполнить операцию потому, что..."
+
+        /// <summary>
+        /// NT-Close opened project
+        /// </summary>
+        /// <param name="withSave"></param>
+        /// <remarks></remarks>
+        /// <seealso cref=""/>
+        public void ProjectClose(bool withSave)
+        {
+            //проверять состояние контейнера перед выполнением операции
+            if (m_container.EngineState == MEngineState.Closed)
+                throw new Exception("Project already closed");
+            //Если движок выполняет операцию, нельзя закрыть контейнер
+            //Это наверно не пригодится...
+            if (m_container.EngineState == MEngineState.Executing)
+                throw new Exception("Project cannot be closed while execution");
+            
+            //close container
+            m_container.Close(withSave);
+            //...
+            
+            //установить состояние контейнера после выполнения операции
+            //already set in MEngine.Close
+            m_container.EngineState = MEngineState.Closed;
+            return;
+        }

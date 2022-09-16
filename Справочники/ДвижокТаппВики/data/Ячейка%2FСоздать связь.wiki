@@ -1,0 +1,36 @@
+﻿++ Ячейка/Создать связь
+[template: ШаблонСвойства]
+[//В РАЗРАБОТКЕ]
+
+См. [//]
+Тип: 
+
+ 
++++Дополнительная информация
+
+
++++Разработка, обсуждение и материалы
+        /// <summary>
+        /// NT-Создать связь, если уже существует - исключение.
+        /// </summary>
+        /// <param name="Axis">ось связи</param>
+        /// <param name="axisDirection">направление связи</param>
+        /// <param name="targetCell">конечная ячейка</param>
+        /// <returns></returns>
+        public MLink S1_createLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - выбирает ячейку, которая будет создавать связь, затем вызывает S1_intCreateLink(Axis, axisDirection, targetCell).
+        
+        /// <summary>
+        /// NT-Create link between two cells
+        /// </summary>
+        /// <param name="Axis"></param>
+        /// <param name="axisDirection"></param>
+        /// <param name="targetCell"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Предполагается, что текущая ячейка обладает приоритетом при создании связи.
+        /// См. S1_createLink(). Если это не так, связи могут быть созданы неправильно.
+        /// TODO: Хотя есть возможность упростить свичи, пока оставим их развернутыми, для наглядности.
+        /// Надо написать по ним описание процесса создания связи, для полного представления.
+        /// </remarks>
+        private MLink S1_intCreateLink(MID Axis, MAxisDirection axisDirection, MCell targetCell) - большая функция для всех вариантов ячеек.
+        
